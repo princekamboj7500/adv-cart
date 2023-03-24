@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cart</title>
+
+    <style>
+      :root {
+        --font-family: "Nunito", sans-serif;
+        --black: #000;
+        --white: #fff;
+        --grey: #9a9a9a;
+        --dark-grey: #333;
+        --darker-grey: #e9e9e9;
+        --light-grey: #e3e3e3;
+        --lighten-grey: #fafafa;
+        --red: #d53600;
+        --blue: #00456c;
+      }
+    </style>
+    <link rel="stylesheet" href="/api/preview/css/style.css" />
+  </head>
+  <body>
+    <div class="cart">
+      <div class="header">
+        <div class="title">Your Cart</div>
+        <div class="message">
+          Experiencing cart issues?
+          <a href="#" onclick="cleanCart(event)">
+            Click here to clean your cart...
+          </a>
+        </div>
+        <div class="tiers">
+          <div class="gifts">
+            <div class="gift-item" id="freeShipping">
+              <div class="icon">
+                <svg
+                  width="11"
+                  height="9"
+                  viewBox="0 0 9 8"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M2.82415 6.15237L0.726419 4.05464L0.012085 4.76395L2.82415 7.57601L8.86078 1.53938L8.15147 0.830078L2.82415 6.15237Z"
+                    fill="#8494A0"
+                  ></path>
+                </svg>
+              </div>
+              <strong>Free shipping</strong>
+            </div>
+            <div class="gift-item" id="gift1">
+              <div class="icon">
+                <svg
+                  width="14"
+                  height="12"
+                  viewBox="0 0 15 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12.7808 3.71012H10.9961C10.9961 1.73797 9.39873 0.140625 7.42658 0.140625C5.45444 0.140625 3.85709 1.73797 3.85709 3.71012H2.07234C1.09073 3.71012 0.287598 4.51325 0.287598 5.49486V16.2033C0.287598 17.185 1.09073 17.9881 2.07234 17.9881H12.7808C13.7624 17.9881 14.5656 17.185 14.5656 16.2033V5.49486C14.5656 4.51325 13.7624 3.71012 12.7808 3.71012ZM7.42658 1.92537C8.40819 1.92537 9.21133 2.72851 9.21133 3.71012H5.64184C5.64184 2.72851 6.44497 1.92537 7.42658 1.92537ZM12.7808 16.2033H2.07234V5.49486H3.85709V7.27961C3.85709 7.77042 4.25866 8.17198 4.74946 8.17198C5.24027 8.17198 5.64184 7.77042 5.64184 7.27961V5.49486H9.21133V7.27961C9.21133 7.77042 9.6129 8.17198 10.1037 8.17198C10.5945 8.17198 10.9961 7.77042 10.9961 7.27961V5.49486H12.7808V16.2033Z"
+                    fill="#8494A0"
+                  ></path>
+                </svg>
+              </div>
+              <strong>Mystery Gift</strong>
+            </div>
+            <div class="gift-item" id="gift2">
+              <div class="icon">
+                <svg
+                  width="14"
+                  height="12"
+                  viewBox="0 0 15 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12.7808 3.71012H10.9961C10.9961 1.73797 9.39873 0.140625 7.42658 0.140625C5.45444 0.140625 3.85709 1.73797 3.85709 3.71012H2.07234C1.09073 3.71012 0.287598 4.51325 0.287598 5.49486V16.2033C0.287598 17.185 1.09073 17.9881 2.07234 17.9881H12.7808C13.7624 17.9881 14.5656 17.185 14.5656 16.2033V5.49486C14.5656 4.51325 13.7624 3.71012 12.7808 3.71012ZM7.42658 1.92537C8.40819 1.92537 9.21133 2.72851 9.21133 3.71012H5.64184C5.64184 2.72851 6.44497 1.92537 7.42658 1.92537ZM12.7808 16.2033H2.07234V5.49486H3.85709V7.27961C3.85709 7.77042 4.25866 8.17198 4.74946 8.17198C5.24027 8.17198 5.64184 7.77042 5.64184 7.27961V5.49486H9.21133V7.27961C9.21133 7.77042 9.6129 8.17198 10.1037 8.17198C10.5945 8.17198 10.9961 7.77042 10.9961 7.27961V5.49486H12.7808V16.2033Z"
+                    fill="#8494A0"
+                  ></path>
+                </svg>
+              </div>
+              <strong>Mystery Gift</strong>
+            </div>
+          </div>
+          <div class="progress-bar">
+            <div class="bar" id="progressBar" style="width: 0%"></div>
+          </div>
+          <div class="progress-hint" id="progressHint"></div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="cart-items" id="cartItems"></div>
+
+        <div class="upsell">
+          <div class="title">INSTANT 20% DISCOUNT</div>
+          <div class="subtitle">
+            20% OFF When You Add These Items to Your Order Now!
+          </div>
+
+          <div class="item cart-item">
+            <div class="image"><img src="/api/preview/images/cart-item.png" alt="" /></div>
+            <div class="title-qty">
+              <div>
+                <strong>The Magic Teeth Whitening Strips®</strong>
+              </div>
+              <div class="price">$79.99</div>
+            </div>
+            <div class="clear-price">
+              <div class="add-btn">
+                <button onclick="addItem()">Add</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="item cart-item">
+            <div class="image">
+              <img src="/api/preview/images/cart-item-2.jpeg" alt="" />
+            </div>
+            <div class="title-qty">
+              <div>
+                <strong>The Whitening Toothpaste</strong>
+              </div>
+              <div class="price">
+                <span class="discount">$49.99</span>&nbsp;<s>$79.99</s>
+              </div>
+            </div>
+            <div class="clear-price">
+              <div class="add-btn hidden">
+                <button onclick="addItem()">Add</button>
+              </div>
+              <div class="option-btn">
+                <button onclick="showOptions(this)">Size</button>
+              </div>
+            </div>
+            <div class="options-select hidden">
+              <select name="" id="">
+                <option value="">2-Pack</option>
+                <option value="">4-Pack</option>
+                <option value="">12-Pack</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="item cart-item">
+            <div class="image"><img src="/api/preview/images/cart-item.png" alt="" /></div>
+            <div class="title-qty">
+              <div>
+                <strong>Refillable heads for LED Electric Toothbrush</strong>
+              </div>
+              <div class="price">$79.99</div>
+            </div>
+            <div class="clear-price">
+              <div class="add-btn hidden">
+                <button onclick="addItem()">Add</button>
+              </div>
+              <div class="option-btn">
+                <button onclick="showOptions(this)">Color</button>
+              </div>
+            </div>
+            <div class="options-select hidden">
+              <select name="" id="">
+                <option value="">Red</option>
+                <option value="">Black</option>
+                <option value="">White</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="upsell2">
+          <div class="title">You may also like</div>
+
+          <div class="upsell2-container">
+            <div class="item upsell2-item">
+              <div class="image">
+                <img src="/api/preview/images/cart-item.png" alt="" />
+              </div>
+              <div class="title-qty">
+                <div>
+                  <strong>The Magic Teeth Whitening Strips®</strong>
+                </div>
+                <div class="price">$79.99</div>
+              </div>
+              <div class="clear-price">
+                <div class="add-btn">
+                  <button onclick="addItem()">Add</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="item upsell2-item">
+              <div class="image">
+                <img src="/api/preview/images/cart-item-2.jpeg" alt="" />
+              </div>
+              <div class="title-qty">
+                <div>
+                  <strong>The Whitening Toothpaste</strong>
+                </div>
+                <div class="price">
+                  <span class="discount">$49.99</span>&nbsp;<s>$79.99</s>
+                </div>
+              </div>
+              <div class="clear-price">
+                <div class="add-btn hidden">
+                  <button onclick="addItem()">Add</button>
+                </div>
+                <div class="option-btn">
+                  <button onclick="showOptions(this)">Size</button>
+                </div>
+              </div>
+              <div class="options-select hidden">
+                <select name="" id="">
+                  <option value="">2-Pack</option>
+                  <option value="">4-Pack</option>
+                  <option value="">12-Pack</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="item upsell2-item">
+              <div class="image">
+                <img src="/api/preview/images/cart-item.png" alt="" />
+              </div>
+              <div class="title-qty">
+                <div>
+                  <strong>Refillable heads for LED Electric Toothbrush</strong>
+                </div>
+                <div class="price">$79.99</div>
+              </div>
+              <div class="clear-price">
+                <div class="add-btn hidden">
+                  <button onclick="addItem()">Add</button>
+                </div>
+                <div class="option-btn">
+                  <button onclick="showOptions(this)">Color</button>
+                </div>
+              </div>
+              <div class="options-select hidden">
+                <select name="" id="">
+                  <option value="">Red</option>
+                  <option value="">Black</option>
+                  <option value="">White</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="message">
+          20% OFF When You Add These Items to Your Order Now!
+        </div>
+      </div>
+
+      <div class="footer">
+        <div class="subtotal">
+          <div id="subtotalItems" class="subtotal-items"></div>
+          <div id="subtotalPrice"></div>
+        </div>
+        <div id="afterpayTop" class="afterpay"></div>
+        <div class="checkout">
+          <button class="btn-secondary" id="viewCartButton">View Cart</button>
+          <button class="btn-primary">Checkout</button>
+        </div>
+        <div id="afterpayBottom" class="afterpay"></div>
+      </div>
+    </div>
+	<script>
+	  window.addEventListener('message', function(event) {
+		console.log(event.data); // Message received from parent
+	  });
+	</script>
+    <script src="/api/preview/script.js"></script>
+  </body>
+</html>

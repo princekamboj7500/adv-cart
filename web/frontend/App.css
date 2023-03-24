@@ -1,0 +1,48 @@
+.Polaris-Frame .Polaris-TopBar {
+  background: #082639;
+}
+.Polaris-Frame .Polaris-TopBar-UserMenu__Details > p{
+  color: #fff;
+}
+.Polaris-Frame .Polaris-Text--subdued{
+  color: #ffffffe0;
+}
+.Polaris-Frame  nav.Polaris-Navigation {
+  background: #082639;
+}
+.Polaris-Frame .Polaris-Navigation__Icon svg{
+  fill: #D5EBFF !important;
+}
+.Polaris-Frame .Polaris-Navigation__Item{
+  color: #D5EBFF;
+}
+.Polaris-Frame .Polaris-Navigation__ListItem:not(:first-child) .Polaris-Navigation__Item{
+  border-top:unset;
+  margin-top: 5px;
+}
+.Polaris-Frame .Polaris-Navigation__Item:hover .Polaris-Navigation__Text{
+  color: #ECFF00;
+}
+.Polaris-Frame .Polaris-Navigation__ItemWrapper{
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+.Polaris-Frame .Polaris-TopBar__LogoContainer {
+  padding-left: 20px;
+}
+.Polaris-Frame .Polaris-TopBar-Menu__Activator[aria-expanded='true'], .Polaris-Frame .Polaris-TopBar-Menu__Activator:hover{
+  background-color: #133954;
+}
+.Polaris-Navigation__Item--selected, .Polaris-Navigation__Item:hover{
+  background-color: #133954 !important;
+}
+.Polaris-Layout__Section.Polaris-Layout__Section--secondary {
+  flex: 1 1 30rem;
+}
+.Polaris-Navigation__Section .Polaris-Navigation__SecondaryNavigation .Polaris-Navigation__Item{
+  color: #D5EBFF;
+}
+.Polaris-Navigation__Section .Polaris-Navigation__SecondaryNavigation .Polaris-Navigation__Item--selected, .Polaris-Navigation__Section .Polaris-Navigation__ItemWrapper .Polaris-Navigation__Item--selected,  .Polaris-Navigation__Section .Polaris-Navigation__SecondaryNavigation .Polaris-Navigation__Item:hover {
+  color: #ECFF00;
+}
+.Polaris-Navigation__Section .Polaris-Navigation__Item--selected::before{display: none;}
