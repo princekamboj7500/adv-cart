@@ -68,7 +68,7 @@ app.get(
             newStore.email = storeDetails.email;
             newStore.currencyCode = storeDetails.currencyCode;
             newStore.myshopifyDomain = storeDetails.myshopifyDomain;
-            newStore.save();
+            newStore.save(); 
           }
           return true;
       }).catch((err)=>{
