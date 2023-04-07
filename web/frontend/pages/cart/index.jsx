@@ -11,6 +11,7 @@ import {
     TextField,
     FormLayout,
     Tabs,
+    Tag,
     Tooltip,
     RadioButton,
     ResourceList,
@@ -20,7 +21,9 @@ import {
     Collapsible,
     Autocomplete,
     Toast,
+    ColorPicker,
     SkeletonBodyText,
+    DisplayText,
     Loading
 } from '@shopify/polaris';
 import {
@@ -61,6 +64,11 @@ function Cart() {
         "buy_more_status": false,
         "buy_more": {
             "display_type": "button",
+            "button_color":{
+                hue: 120,
+                brightness: 1,
+                saturation: 1,
+            },
             "discount_lang": "Buy {{quantity}} save {{discount}}",
             "discount_success": "Buy More Save More",
             "discount_type": "fixed_amount",
@@ -92,7 +100,12 @@ function Cart() {
             "checkout_label": "<i class=\"rebuy-button-icon prefix fas fa-lock\"></i> Checkout <i class=\"\"></i>",
             "checking_out_label": "<i class=\"rebuy-button-icon prefix fas fa-circle-notch fa-spin\"></i> Checking Out...",
             "checkout_routing": "automatic",
-            "custom_checkout_url": ""
+            "custom_checkout_url": "",
+            "checking_out_color":{
+                hue: 25,
+                brightness: 1,
+                saturation: 1,
+            }
         },
         "cart_btn_status": true,
         "cart_btn_settings":{
@@ -147,6 +160,7 @@ function Cart() {
             [field]: e,
         }));
     };
+    
     const [loader, setLoader] = useState(false);
     const [toastloader, setToastloader] = useState(false);
 
@@ -238,6 +252,7 @@ function Cart() {
             setings['tiered_progress_bar_tabs'].push({
                 id: 'tire-' + setings['tiered_progress_bar_tabs'].length,
                 content: 'Add New Bar',
+                country:'IN',
                 panelID: 'tire-content-' + setings['tiered_progress_bar_tabs'].length,
                 layout_type: 'in_line',
                 tier: []
@@ -429,7 +444,9 @@ function Cart() {
                                 <p>&nbsp;</p>
                                 <hr></hr>
                                 <div style={{ marginTop: '15px' }}>
+                               
                                     <Stack>
+                                    
                                         <RadioButton
                                             label="Free Shipping"
                                             checked={tierItems[idx].type === 'free_shipping'}
@@ -437,6 +454,7 @@ function Cart() {
                                             name={"type_" + idx}
                                             onChange={handleTierRadioChange(idx, "type", "free_shipping")}
                                         />
+                                    
                                         <RadioButton
                                             label="Product"
                                             checked={tierItems[idx].type === 'product'}
@@ -502,7 +520,10 @@ function Cart() {
             <Card.Section title={setings['tiered_progress_bar_tabs'][selected].content}>
                 <FormLayout>
                     <TextField label="Title" onChange={tabFields('content')} value={setings['tiered_progress_bar_tabs'][selected]['content']} autoComplete="off" />
+                    <TextField label="Country code (First two letters)" onChange={tabFields('country')} value={setings['tiered_progress_bar_tabs'][selected]['country']} autoComplete="off" />
+                    <Tag>{setings['tiered_progress_bar_tabs'][selected]['country']}</Tag>
                     <Stack >
+                    
                         <RadioButton
                             label="In-Line with Shipping Bar"
                             checked={setings['tiered_progress_bar_tabs'][selected]["layout_type"] === 'in_line'}
@@ -536,6 +557,7 @@ function Cart() {
             ...setings,
             ['buy_more']: setings['buy_more'],
         }));
+       
     }
 
     function buyMoreProductMarkup() {
@@ -591,7 +613,7 @@ function Cart() {
             ['buy_more']: setings['buy_more'],
         }));
     }
-
+    
     const discountTiersMarkup = (setings['buy_more']["discount_tiers"].length ? setings['buy_more']["discount_tiers"].map((item, index) => (
         <Stack key={index}>
             <TextField
@@ -629,6 +651,13 @@ function Cart() {
             autoComplete="off"
             value={setings.buy_more.discount_lang}
         />
+         <DisplayText  size="small">Button color</DisplayText >
+        <ColorPicker 
+            label="Button Color"
+            onChange={handleBuyMoreFields("button_color")} 
+            color={setings.buy_more.button_color}
+        />
+
         <TextField
             label="Discount Success"
             onChange={handleBuyMoreFields("discount_success")}
@@ -887,6 +916,11 @@ function Cart() {
                         ]}
                         onChange={handleCheckoutFields("checkout_routing")}
                         value={setings.checkout_btn_settings.checkout_routing}
+                    />
+                    <DisplayText  size="small">Checkout Button color</DisplayText >
+                    <ColorPicker 
+                        onChange={handleCheckoutFields("checking_out_color")} 
+                        color={setings.checkout_btn_settings.checking_out_color}
                     />
                     {setings.checkout_btn_settings.checkout_routing == "custom" ? <TextField
                         label="Custom Checkout URL"

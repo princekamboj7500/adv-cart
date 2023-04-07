@@ -1,5 +1,6 @@
-    <div class="upsell--cart">
+    <div class="upsell--cart upsell__cart-close">
       <div class="upsell__cart-header">
+      <span class="crossw" onclick="window.__upsellCart.drawerClose()">X</span>
         <div class="upsell__cart-title">Your Cart</div>
         <div class="upsell__cart-message">
           Experiencing cart issues?
@@ -9,67 +10,25 @@
         </div>
         <div class="upsell__cart-tiers">
           <div class="upsell__cart-gifts">
-            <div class="upsell__cart-gift-item" id="freeShipping">
-              <div class="upsell__cart-icon">
-                <svg
-                  width="11"
-                  height="9"
-                  viewBox="0 0 9 8"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M2.82415 6.15237L0.726419 4.05464L0.012085 4.76395L2.82415 7.57601L8.86078 1.53938L8.15147 0.830078L2.82415 6.15237Z"
-                    fill="#8494A0"
-                  ></path>
-                </svg>
-              </div>
-              <strong>Free shipping</strong>
-            </div>
-            <div class="upsell__cart-gift-item" id="gift1">
-              <div class="upsell__cart-icon">
-                <svg
-                  width="14"
-                  height="12"
-                  viewBox="0 0 15 18"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12.7808 3.71012H10.9961C10.9961 1.73797 9.39873 0.140625 7.42658 0.140625C5.45444 0.140625 3.85709 1.73797 3.85709 3.71012H2.07234C1.09073 3.71012 0.287598 4.51325 0.287598 5.49486V16.2033C0.287598 17.185 1.09073 17.9881 2.07234 17.9881H12.7808C13.7624 17.9881 14.5656 17.185 14.5656 16.2033V5.49486C14.5656 4.51325 13.7624 3.71012 12.7808 3.71012ZM7.42658 1.92537C8.40819 1.92537 9.21133 2.72851 9.21133 3.71012H5.64184C5.64184 2.72851 6.44497 1.92537 7.42658 1.92537ZM12.7808 16.2033H2.07234V5.49486H3.85709V7.27961C3.85709 7.77042 4.25866 8.17198 4.74946 8.17198C5.24027 8.17198 5.64184 7.77042 5.64184 7.27961V5.49486H9.21133V7.27961C9.21133 7.77042 9.6129 8.17198 10.1037 8.17198C10.5945 8.17198 10.9961 7.77042 10.9961 7.27961V5.49486H12.7808V16.2033Z"
-                    fill="#8494A0"
-                  ></path>
-                </svg>
-              </div>
-              <strong>Mystery Gift</strong>
-            </div>
-            <div class="upsell__cart-gift-item" id="gift2">
-              <div class="upsell__cart-icon">
-                <svg
-                  width="14"
-                  height="12"
-                  viewBox="0 0 15 18"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12.7808 3.71012H10.9961C10.9961 1.73797 9.39873 0.140625 7.42658 0.140625C5.45444 0.140625 3.85709 1.73797 3.85709 3.71012H2.07234C1.09073 3.71012 0.287598 4.51325 0.287598 5.49486V16.2033C0.287598 17.185 1.09073 17.9881 2.07234 17.9881H12.7808C13.7624 17.9881 14.5656 17.185 14.5656 16.2033V5.49486C14.5656 4.51325 13.7624 3.71012 12.7808 3.71012ZM7.42658 1.92537C8.40819 1.92537 9.21133 2.72851 9.21133 3.71012H5.64184C5.64184 2.72851 6.44497 1.92537 7.42658 1.92537ZM12.7808 16.2033H2.07234V5.49486H3.85709V7.27961C3.85709 7.77042 4.25866 8.17198 4.74946 8.17198C5.24027 8.17198 5.64184 7.77042 5.64184 7.27961V5.49486H9.21133V7.27961C9.21133 7.77042 9.6129 8.17198 10.1037 8.17198C10.5945 8.17198 10.9961 7.77042 10.9961 7.27961V5.49486H12.7808V16.2033Z"
-                    fill="#8494A0"
-                  ></path>
-                </svg>
-              </div>
-              <strong>Mystery Gift</strong>
-            </div>
+           
           </div>
           <div class="upsell__cart-progress-bar">
             <div class="upsell__cart-bar" id="progressBar" style="width: 0%"></div>
           </div>
           <div class="upsell__cart-progress-hint" id="progressHint"></div>
+          <div id="freegifts">
+            <p>Free Gifts</p>
+            <div class="allrewars"></diV>
+          </div>
         </div>
       </div>
 
       <div class="upsell__cart-content">
         <div class="upsell__cart-cart-items" id="cartItems"></div>
+        <div id="giftlayout">
+         <p>Free Gifts</p>
+         <div class="allrewars"></diV>
+        </div>
         <div class="upsell__cart-upsell">
             <div class="upsell__cart-title">INSTANT 20% DISCOUNT</div>
         </div>
@@ -84,7 +43,7 @@
             </div>
             <div class="upsell__cart-clear-price"> 
                 <div class="upsell__cart-add-btn">
-                <button onclick="window.__upsellCart.addItem()">Add</button>
+                <button class="addrecomd" onclick="window.__upsellCart.addItem()">Add</button>
                 </div>
             </div>
         </div>
@@ -103,10 +62,10 @@
             </div>
             <div class="upsell__cart-clear-price">
                 <div class="upsell__cart-add-btn hidden">
-                <button onclick="window.__upsellCart.addItem()">Add</button>
+                <button class="addrecomd" onclick="window.__upsellCart.addItem()">Add</button>
                 </div>
                 <div class="upsell__cart-option-btn">
-                <button onclick="window.__upsellCart.showOptions(this)">Size</button>
+                <button class="addrecomd" onclick="window.__upsellCart.showOptions(this)">Size</button>
                 </div>
             </div>
             <div class="upsell__cart-options-select hidden">
@@ -135,7 +94,7 @@
                 <button onclick="window.__upsellCart.addItem()">Add</button>
               </div>
               <div class="upsell__cart-option-btn">
-                <button onclick="window.__upsellCart.showOptions(this)">Size</button>
+                <button class="addrecomd" onclick="window.__upsellCart.showOptions(this)">Size</button>
               </div>
             </div>
             <div class="upsell__cart-options-select hidden">
@@ -150,86 +109,23 @@
         <div class="upsell__cart-upsell2">
           <div class="upsell__cart-title">You may also like</div>
 
-          <div class="upsell__cart-upsell2-container">
-            <div class="item upsell__cart-upsell2-item">
-              <div class="upsell__cart-image">
-                <img src="{{ 'cart-item.png' | asset_img_url }}" alt="" width="auto" height="auto" loading="lazy" />
-              </div>
-              <div class="upsell__cart-title-qty">
-                <div>
-                  <strong>The Magic Teeth Whitening Strips®</strong>
-                </div>
-                <div class="upsell__cart-price">$79.99</div>
-              </div>
-              <div class="upsell__cart-clear-price">
-                <div class="upsell__cart-add-btn">
-                  <button onclick="window.__upsellCart.addItem()">Add</button>
-                </div>
-              </div>
-            </div>
+          <div class="upsell__cart-upsell2-container" id="upsell__cart-upsell2-container">
 
-            <div class="item upsell__cart-upsell2-item">
-              <div class="upsell__cart-image">
-                <img src="{{ 'cart-item-2.jpeg' | asset_img_url }}" alt="" width="auto" height="auto" loading="lazy" />
-              </div>
-              <div class="upsell__cart-title-qty">
-                <div>
-                  <strong>The Whitening Toothpaste</strong>
-                </div>
-                <div class="upsell__cart-price">
-                  <span class="upsell__cart-discount">$49.99</span>&nbsp;<s>$79.99</s>
-                </div>
-              </div>
-              <div class="upsell__cart-clear-price">
-                <div class="upsell__cart-add-btn hidden">
-                  <button onclick="window.__upsellCart.addItem()">Add</button>
-                </div>
-                <div class="upsell__cart-option-btn">
-                  <button onclick="window.__upsellCart.showOptions(this)">Size</button>
-                </div>
-              </div>
-              <div class="upsell__cart-options-select hidden">
-                <select name="" id="">
-                  <option value="">2-Pack</option>
-                  <option value="">4-Pack</option>
-                  <option value="">12-Pack</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="item upsell__cart-upsell2-item">
-              <div class="upsell__cart-image">
-                <img src="{{ 'cart-item.png' | asset_img_url }}" alt="" width="auto" height="auto" loading="lazy" />
-              </div>
-              <div class="upsell__cart-title-qty">
-                <div>
-                  <strong>Refillable heads for LED Electric Toothbrush</strong>
-                </div>
-                <div class="upsell__cart-price">$79.99</div>
-              </div>
-              <div class="upsell__cart-clear-price">
-                <div class="add-btn hidden">
-                  <button onclick="window.__upsellCart.addItem()">Add</button>
-                </div>
-                <div class="upsell__cart-option-btn">
-                  <button onclick="window.__upsellCart.showOptions(this)">Color</button>
-                </div>
-              </div>
-              <div class="upsell__cart-options-select hidden">
-                <select name="" id="">
-                  <option value="">Red</option>
-                  <option value="">Black</option>
-                  <option value="">White</option>
-                </select>
-              </div>
-            </div>
           </div>
+            <button class="crausalbtn" onclick="prevSlide(this)" id="prev" class="btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/> </svg></button>
+            <button class="crausalbtn" onclick="nextSlide(this)" id="next" class="btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/> </svg></button>
         </div>
-
-        <div class="upsell__cart-message">
+        <div id="newwidget"></div>
+        
+        <div class="upsell__cart-message" id="upsell_announcement">
           20% OFF When You Add These Items to Your Order Now!
         </div>
-
+        <div id="viewcart">
+        
+        </div>
+        <div id="continueshop">
+        
+        </div>
       </div>
 
       <div class="upsell__cart-footer">
@@ -240,7 +136,7 @@
         <div id="afterpayTop" class="afterpay"></div>
         <div class="upsell__cart-checkout">
           <button class="btn-secondary" id="viewCartButton">View Cart</button>
-          <button class="btn-primary">Checkout</button>
+          <button class="btn-primary" id="chkoutbtn"></button>
         </div>
         <div id="afterpayBottom" class="afterpay"></div>
       </div>
@@ -256,12 +152,28 @@
     --light-grey: #e3e3e3;
     --lighten-grey: #fafafa;
     --red: #d53600;
-    --blue: #00456c;
+    --blue: #00456c; 
+}
+button.btn-primary {
+  width: 100%;
+  height: 42px;
+  line-height: 36px;
+  color: var(--white);
+  border-radius: 6px;
+  border: none;
+  margin: 7px 0 0;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
 }
 </style>
 <script>
-window.UpsellCart = {{ app.metafields.settings.cart }}
-</script>
+
+window.noimg = "{{ 'no-image.png' | asset_img_url }}";
+window.UpsellCart = {{ app.metafields.settings.cart }};
+window.UpsellWidget = {{ app.metafields.settings.widget }};
+
+</script> 
 {% schema %}
   {
     "name": "Upsell Cart",

@@ -50,6 +50,7 @@ storeController.cart = async function(store){
         "buy_more_status": false,
         "buy_more": {
             "display_type": "button",
+            "button_color":"#00456C",
             "discount_lang": "Buy {{quantity}} save {{discount}}",
             "discount_success": "Buy More Save More",
             "discount_type": "fixed_amount",
@@ -81,7 +82,8 @@ storeController.cart = async function(store){
             "checkout_label": "<i class=\"rebuy-button-icon prefix fas fa-lock\"></i> Checkout <i class=\"\"></i>",
             "checking_out_label": "<i class=\"rebuy-button-icon prefix fas fa-circle-notch fa-spin\"></i> Checking Out...",
             "checkout_routing": "automatic",
-            "custom_checkout_url": ""
+            "custom_checkout_url": "",
+            "checking_out_color":"#D53600"
         },
         "cart_btn_status": true,
         "cart_btn_settings":{

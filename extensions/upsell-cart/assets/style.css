@@ -5,11 +5,20 @@
   opacity: 1;
 }
 
-/* body {
-  font-family: var(--font-family);
-  font-size: 15px;
-  background: var(--dark-grey);
-} */
+#upsell_mslide {
+  display: flex;
+  width: 100%;
+  position: absolute;
+}
+div#upsell_announcement {
+  position: relative;
+  height: 40px;
+}
+ #upsell_mslide .slide {
+  min-width: 100%;
+  position: relative;
+} 
+
 
 .upsell--cart a:focus,
 .upsell--cart input:focus,
@@ -69,6 +78,7 @@
 .upsell__cart-header {
   border-bottom: 1px solid var(--light-grey);
   padding: 15px 15px 5px;
+  position: relative;
 }
 
 .upsell__cart-message {
@@ -110,11 +120,6 @@
   justify-content: center;
   align-items: center;
 }
-
-.upsell__cart-gift-item .upsell__cart-icon.active {
-  background: var(--blue);
-}
-
 .upsell__cart-gift-item .upsell__cart-icon.active svg path {
   fill: #fff;
 }
@@ -127,10 +132,10 @@
 }
 
 .upsell__cart-progress-bar .upsell__cart-bar {
-  background: var(--blue);
   height: 100%;
   border-radius: 10px;
   transition: width 500ms ease-in;
+  display: block;
 }
 
 .upsell__cart-progress-hint {
@@ -270,8 +275,9 @@
   position: absolute;
   bottom: 0;
   border-top: 1px solid var(--light-grey);
-  padding: 15px;
+  padding: 15px 0px;
   border-radius: 0 0 15px 15px;
+  padding-left:15px;
 }
 
 .upsell__cart-subtotal {
@@ -295,20 +301,6 @@
   display: flex;
   justify-content: space-between;
   gap: 10px;
-}
-
-button.btn-primary {
-  width: 100%;
-  height: 42px;
-  line-height: 36px;
-  color: var(--white);
-  background: var(--red);
-  border: 2px solid var(--red);
-  border-radius: 6px;
-  margin: 7px 0 0;
-  font-size: 17px;
-  font-weight: 700;
-  cursor: pointer;
 }
 
 button.btn-secondary {
@@ -347,7 +339,6 @@ button.btn-secondary {
 
 .upsell__cart-upsell2 {
   background: var(--darker-grey);
-  overflow-x: scroll;
 }
 
 .upsell__cart-upsell2 .upsell__cart-title {
@@ -358,8 +349,18 @@ button.btn-secondary {
   overflow: auto;
   white-space: nowrap;
   padding: 7px;
+  position: relative;
 }
-
+button#next {
+  position: absolute;
+  top: 50%;
+  right: 5px;
+}
+button#prev {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+}
 .upsell__cart-upsell2-item {
   width: 140px;
   background: var(--white);
@@ -367,20 +368,38 @@ button.btn-secondary {
   padding: 15px;
   display: inline-block;
   vertical-align: top;
+  -webkit-transition: 0.6s ease;
+  transition: 0.6s ease;
+  
 }
-
+/* .upsell__cart-upsell2-item.active {
+  -webkit-transform: translate(0, 0);
+  transform: translate(0, 0);
+}
+.upsell__cart-upsell2-item.active~.upsell__cart-upsell2-item {
+  -webkit-transform: translate(140px, 0);
+  transform: translate(140px, 0);
+} */
+.upsell__cart-upsell2-container.crousl::-webkit-scrollbar {
+  display: none;
+}
 .upsell__cart-upsell2-item img {
   max-width: 100%;
   height: auto;
 }
-
+.upsell__cart-upsell2 .crausalbtn.crousl {
+  display: block;
+  cursor: pointer;
+}
 .upsell__cart-upsell2-item .upsell__cart-title-qty strong {
   display: block;
   white-space: normal;
   height: 20px;
   overflow: hidden;
 }
-
+.upsell__cart-upsell2 {
+  position: relative;
+}
 .upsell__cart-upsell2-item .upsell__cart-price {
   color: var(--dark-grey);
   font-size: 13px;
@@ -396,7 +415,6 @@ button.btn-secondary {
 }
 
 .upsell__cart-upsell2-item button {
-  background: var(--blue);
   color: var(--white);
   border: none;
   padding: 5px 15px;
@@ -419,4 +437,139 @@ button.btn-secondary {
   cursor: pointer;
   border-radius: 5px;
   margin: 5px 0 0;
+}
+span.crossw {
+  position: absolute;
+  float: right;
+  width: 100%;
+  text-align: right;
+  overflow: hidden;
+  right: 0;
+  margin-right: 25px;
+  font-size: 20px;
+  top: 3px;
+  font-weight: 600;
+  cursor: pointer;
+}
+marquee#upsell_mslide span {
+  margin-left: 70px;
+}
+.animate{
+  -webkit-transition: 0.25s ease;
+  transition: 0.3s ease;
+  -webkit-transform: translate(-140px, 0);
+  transform: translate(-140px, 0);
+}
+.animaterev{
+  -webkit-transition: 0.25s ease;
+  transition: 0.3s ease;
+  -webkit-transform: translate(140px, 0);
+  transform: translate(140px, 0);
+}
+.upsell__cart-image img {
+  height: 100px;
+  width:100%;
+}
+div#viewcart a {
+  height: 42px;
+  line-height: 36px;
+  color: var(--white);
+  border-radius: 6px;
+  border: none;
+  text-align: center;
+  margin: 0 auto;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  display: block;
+  width: calc(100% - 30px);
+}
+div#continueshop a {
+  height: 42px;
+  line-height: 36px;
+  color: var(--white);
+  border-radius: 6px;
+  border: none;
+  text-align: center;
+  margin: 0 auto;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  display: block;
+  width: calc(100% - 30px);
+}
+#chkoutbtn a{
+  color:#fff;
+  text-decoration: none;
+}
+.notediv {
+  display: grid;
+  width: calc(100% - 30px);
+  margin: 0 auto;
+}
+.upsell__cart-upsell2 .crausalbtn {
+  display: none;
+}
+div#newwidget {
+  background: var(--darker-grey);
+}
+div#fitms {
+  position: relative;
+  white-space: nowrap;
+  padding: 7px;
+}
+#recentvue{
+  position: relative;
+  white-space: nowrap;
+  padding: 7px;
+}
+.crausalbtn {
+  cursor: pointer;
+}
+div#recent_view {
+  position: relative;
+}
+div#featured_itm {
+  position: relative;
+}
+.disount_input {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 0px;
+  padding: 0px 16px;
+}
+.disount_input input.addrecomd {
+  color: #fff;
+  border: none;
+  width: 100px;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 5px;
+}
+div#afterpayBottom p {
+  margin: 0;
+}
+div#freegifts p {
+  margin: 0;
+  text-align: center;
+}
+div#giftlayout p {
+  margin: 0;
+  text-align: center;
+}
+.allrewars img {
+  height: 70px;
+  width: 70px;
+  background: rgb(238, 238, 238);
+}
+.allrewars >div {
+  display: grid;
+}
+div#freegifts {
+  display: none;
+}
+div#giftlayout {
+  display: none;
 }

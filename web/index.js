@@ -68,7 +68,7 @@ app.get(
             newStore.email = storeDetails.email;
             newStore.currencyCode = storeDetails.currencyCode;
             newStore.myshopifyDomain = storeDetails.myshopifyDomain;
-            newStore.save(); 
+            newStore.save();
           }
           return true;
       }).catch((err)=>{
@@ -166,6 +166,10 @@ app.post("/api/widgets/:id", async (_req, res) => {
   var body = _req.body;
   if(session){ 
     var widget = await storeController.updateWidget(session.shop, id, body);
+    var app = await storeController.getApp(session);
+    // res.status(200).send(app);
+    var allwidgets = await storeController.widgets(session.shop);
+    app = await storeController.widgetSavemeta(session, app, allwidgets);
     res.status(200).send(widget);
   }else{
     res.status(404).json({error:true});
@@ -177,7 +181,12 @@ app.post("/api/widgets", async (_req, res) => {
   if(session){
     _req.body['store'] = session.shop;
     await storeController.widgetSave(session, _req.body);
-    res.status(200).send(_req.body);
+
+    var app = await storeController.getApp(session);
+    // res.status(200).send(app);
+    var allwidgets = await storeController.widgets(session.shop);
+    app = await storeController.widgetSavemeta(session, app, allwidgets);
+    res.status(200).send(app);
   }else{
     res.status(404).send({});
   }
