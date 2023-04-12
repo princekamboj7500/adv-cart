@@ -54,7 +54,7 @@ export default function upsell() {
     function renderItem(item) {
         const {id, url, name, location} = item;
         const media = <Avatar customer size="medium" name={name} />;
-    
+        
         return (
           <ResourceItem
             id={id}

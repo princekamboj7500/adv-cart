@@ -76,18 +76,38 @@ select:focus {
   text-decoration: none;
   color: var(--blue);
 }
-
-.gifts {
-  display: flex;
-  justify-content: space-around;
+.upsell__cart-gift-item {
+  padding: 5px 0 0;
+  text-align: center;
+  font-size: 14px;
 }
-
 .gift-item {
   padding: 5px 0 0;
   text-align: center;
   font-size: 14px;
 }
-
+.content::-webkit-scrollbar {
+  display: none;
+}
+.slide {
+  min-width: 100%;
+  position: relative;
+}
+div#upsell_mslide {
+  display: flex;
+  width: 100%;
+}
+.upsell__cart-gift-item .upsell__cart-icon {
+  background: #e3e3e3;
+  width: 20px;
+  height: 20px;
+  padding: 2px 3px 4px;
+  margin: 0 auto;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .gift-item .icon {
   background: var(--light-grey);
   width: 16px;
@@ -96,11 +116,10 @@ select:focus {
   margin: 0 auto;
   border-radius: 15px;
 }
-
-.gift-item .icon.active {
-  background: var(--blue);
+.upsell__cart-gifts {
+  display: flex;
+  justify-content: space-around;
 }
-
 .gift-item .icon.active svg path {
   fill: #fff;
 }
@@ -113,7 +132,6 @@ select:focus {
 }
 
 .progress-bar .bar {
-  background: var(--blue);
   height: 100%;
   border-radius: 10px;
   transition: width 500ms ease-in;
@@ -333,7 +351,6 @@ button.btn-secondary {
 
 .upsell2 {
   background: var(--darker-grey);
-  overflow-x: scroll;
 }
 
 .upsell2 .title {
