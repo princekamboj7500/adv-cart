@@ -195,4 +195,37 @@ storeController.saveMeta = async function(session, appId, data){
   return await client.query(META_QUERY);
 }
 
+storeController.widgetSavemeta = async function(session, appId, data){
+  const client = new shopify.api.clients.Graphql({ session });
+  const META_QUERY = {
+    data: {
+      "query": `mutation CreateAppDataMetafield($metafieldsSetInput: [MetafieldsSetInput!]!) {
+        metafieldsSet(metafields: $metafieldsSetInput) {
+          metafields {
+            id
+            namespace
+            key
+          }
+          userErrors {
+            field
+            message
+          }
+        }
+      }`,
+      "variables": {
+        "metafieldsSetInput": [
+          {
+            "namespace": "settings",
+            "key": "widget",
+            "type": "json",
+            "value": JSON.stringify(data),
+            "ownerId": appId
+          }
+        ]
+      },
+    },
+  };
+  return await client.query(META_QUERY);
+}
+
  export default storeController; 
