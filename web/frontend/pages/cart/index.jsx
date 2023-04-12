@@ -129,7 +129,7 @@ function Cart() {
     // const handleToggle = useCallback(() => setActive((active) => !active), []);
 
     const [contentRef, setContentRef] = useState(null)
-
+    
     const previewiframe = (<iframe
         id='previewiframe'
         ref={setContentRef}
@@ -153,12 +153,13 @@ function Cart() {
         }));
         contentRef.contentWindow.postMessage(setings, "*");
     };
-
+    
     const handleField = (field) => (e) => {
         setSettings(setings => ({
             ...setings,
             [field]: e,
         }));
+        contentRef.contentWindow.postMessage(setings, "*");
     };
     
     const [loader, setLoader] = useState(false);
@@ -177,7 +178,7 @@ function Cart() {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer "+auth 
             }
-        }).then(()=>setLoader(false),setToastloader(true)).catch(()=>setLoader(false));
+        }).then(()=>setLoader(false),setToastloader((toastloader) => !toastloader), []).catch(()=>setLoader(false));
     }
 
     const loadCart = async function(){
@@ -205,6 +206,7 @@ function Cart() {
             ...setings,
             ['announcement_bar_items']: setings['announcement_bar_items'],
         }));
+        contentRef.contentWindow.postMessage(setings, "*");
     };
 
     const editMessageAction = (index) => (e) => {
@@ -213,6 +215,7 @@ function Cart() {
             ...setings,
             ['announcement_bar_items']: setings['announcement_bar_items'],
         }));
+        contentRef.contentWindow.postMessage(setings, "*");
     }
 
     const deleteMessageAction = (index) => (e) => {
@@ -262,12 +265,11 @@ function Cart() {
             ...setings,
             ['tiered_progress_bar_tabs']: setings['tiered_progress_bar_tabs'],
         }));
+        contentRef.contentWindow.postMessage(setings, "*");
     };
 
     const TireDeleteTab = () => {
-        console.log(selected);
         setings['tiered_progress_bar_tabs'].splice(selected, 1);
-        console.log(setings['tiered_progress_bar_tabs']);
         setSettings(setings => ({
             ...setings,
             ['tiered_progress_bar_tabs']: setings['tiered_progress_bar_tabs'],
@@ -281,6 +283,7 @@ function Cart() {
             ...setings,
             ['tiered_progress_bar_tabs']: setings['tiered_progress_bar_tabs'],
         }));
+        contentRef.contentWindow.postMessage(setings, "*");
     }
 
 
@@ -290,6 +293,7 @@ function Cart() {
             ...setings,
             ['tiered_progress_bar_tabs']: setings['tiered_progress_bar_tabs'],
         }));
+        contentRef.contentWindow.postMessage(setings, "*");
     }
 
     const handleTierRadioChange = (index, key, v) => (e, value) => {
@@ -299,7 +303,7 @@ function Cart() {
             ...setings,
             ['tiered_progress_bar_tabs']: setings['tiered_progress_bar_tabs'],
         }));
-        console.log(setings['tiered_progress_bar_tabs']);
+        contentRef.contentWindow.postMessage(setings, "*");
     }
 
     const handleTierMinPrice = (index) => (e) => {
@@ -309,7 +313,7 @@ function Cart() {
             ...setings,
             ['tiered_progress_bar_tabs']: setings['tiered_progress_bar_tabs'],
         }));
-        console.log(setings['tiered_progress_bar_tabs']);
+        
     }
 
     const handleTierToggle = (indx) => (e) => {
@@ -358,6 +362,7 @@ function Cart() {
             }, 300);
         },
         [deselectedOptions, loading],
+
     );
 
     const updateSelection = useCallback(
@@ -408,6 +413,7 @@ function Cart() {
             ['tiered_progress_bar_tabs']: setings['tiered_progress_bar_tabs'],
         }));
         setSelectedTierItems([]);
+        contentRef.contentWindow.postMessage(setings, "*");
     }
 
     const tierMarkup = () => {
@@ -513,6 +519,7 @@ function Cart() {
             ...setings,
             ['tiered_progress_bar_tabs']: setings['tiered_progress_bar_tabs'],
         }));
+        contentRef.contentWindow.postMessage(setings, "*");
     }
 
     const tieredProgressBarsMarkup = (setings['tiered_progress_bar_tabs'].length ? <Card secondaryFooterActions={[{ content: 'Delete', destructive: true, onAction: TireDeleteTab }]}>
@@ -557,7 +564,7 @@ function Cart() {
             ...setings,
             ['buy_more']: setings['buy_more'],
         }));
-       
+       contentRef.contentWindow.postMessage(setings, "*");
     }
 
     function buyMoreProductMarkup() {
@@ -595,6 +602,7 @@ function Cart() {
             ...setings,
             ['buy_more']: setings['buy_more'],
         }));
+        contentRef.contentWindow.postMessage(setings, "*");
     }
 
     const discountTierfield = (index, field) => (e) => {
@@ -603,6 +611,7 @@ function Cart() {
             ...setings,
             ['buy_more']: setings['buy_more'],
         }));
+        contentRef.contentWindow.postMessage(setings, "*");
     }
 
     const deleteNewDiscountTier = (index) => (e) => {
@@ -612,6 +621,7 @@ function Cart() {
             ...setings,
             ['buy_more']: setings['buy_more'],
         }));
+        contentRef.contentWindow.postMessage(setings, "*");
     }
     
     const discountTiersMarkup = (setings['buy_more']["discount_tiers"].length ? setings['buy_more']["discount_tiers"].map((item, index) => (
@@ -684,6 +694,7 @@ function Cart() {
             ...setings,
             ['language']: setings['language'],
         }));
+        contentRef.contentWindow.postMessage(setings, "*");
     }
 
     const handleDiscountInputFields = (index) => (e) => {
@@ -692,7 +703,9 @@ function Cart() {
             ...setings,
             ['discount_input']: setings['discount_input'],
         }));
+        contentRef.contentWindow.postMessage(setings, "*");
     }
+
 
     const discountInputMarkup = (<Card.Section><FormLayout>
         <TextField
@@ -727,6 +740,7 @@ function Cart() {
             ...setings,
             ['checkout_btn_settings']: setings['checkout_btn_settings'],
         }));
+        contentRef.contentWindow.postMessage(setings, "*");
     }
 
     const handleCartFields = (field) => (e) => {
@@ -735,6 +749,7 @@ function Cart() {
             ...setings,
             ['cart_btn_settings']: setings['cart_btn_settings'],
         }));
+        contentRef.contentWindow.postMessage(setings, "*");
     }
 
     const handlePaymentFields = (field) => (e) => {
@@ -743,6 +758,7 @@ function Cart() {
             ...setings,
             ['payment_installments_settings']: setings['payment_installments_settings'],
         }));
+        contentRef.contentWindow.postMessage(setings, "*");
     }
 
     const mainPage = (<Layout>
@@ -1040,7 +1056,7 @@ function Cart() {
         
     </Layout>);
 
-    const toastMarkup = (<Toast content="Setting updated!" duration={2000} />);
+    const toastMarkup = (<Toast content="Setting updated!" duration={2000} onDismiss={setToastloader}/>);
 
     return (
         <Page fullWidth>

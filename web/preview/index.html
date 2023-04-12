@@ -23,9 +23,10 @@
     <link rel="stylesheet" href="/api/preview/css/style.css" />
   </head>
   <body>
+    <div id="upsell_prev_styl"></div>
     <div class="cart">
       <div class="header">
-        <div class="title">Your Cart</div>
+        <div class="title" id="upsell_prev_titl">Your Cart</div>
         <div class="message">
           Experiencing cart issues?
           <a href="#" onclick="cleanCart(event)">
@@ -33,66 +34,15 @@
           </a>
         </div>
         <div class="tiers">
-          <div class="gifts">
-            <div class="gift-item" id="freeShipping">
-              <div class="icon">
-                <svg
-                  width="11"
-                  height="9"
-                  viewBox="0 0 9 8"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M2.82415 6.15237L0.726419 4.05464L0.012085 4.76395L2.82415 7.57601L8.86078 1.53938L8.15147 0.830078L2.82415 6.15237Z"
-                    fill="#8494A0"
-                  ></path>
-                </svg>
-              </div>
-              <strong>Free shipping</strong>
-            </div>
-            <div class="gift-item" id="gift1">
-              <div class="icon">
-                <svg
-                  width="14"
-                  height="12"
-                  viewBox="0 0 15 18"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12.7808 3.71012H10.9961C10.9961 1.73797 9.39873 0.140625 7.42658 0.140625C5.45444 0.140625 3.85709 1.73797 3.85709 3.71012H2.07234C1.09073 3.71012 0.287598 4.51325 0.287598 5.49486V16.2033C0.287598 17.185 1.09073 17.9881 2.07234 17.9881H12.7808C13.7624 17.9881 14.5656 17.185 14.5656 16.2033V5.49486C14.5656 4.51325 13.7624 3.71012 12.7808 3.71012ZM7.42658 1.92537C8.40819 1.92537 9.21133 2.72851 9.21133 3.71012H5.64184C5.64184 2.72851 6.44497 1.92537 7.42658 1.92537ZM12.7808 16.2033H2.07234V5.49486H3.85709V7.27961C3.85709 7.77042 4.25866 8.17198 4.74946 8.17198C5.24027 8.17198 5.64184 7.77042 5.64184 7.27961V5.49486H9.21133V7.27961C9.21133 7.77042 9.6129 8.17198 10.1037 8.17198C10.5945 8.17198 10.9961 7.77042 10.9961 7.27961V5.49486H12.7808V16.2033Z"
-                    fill="#8494A0"
-                  ></path>
-                </svg>
-              </div>
-              <strong>Mystery Gift</strong>
-            </div>
-            <div class="gift-item" id="gift2">
-              <div class="icon">
-                <svg
-                  width="14"
-                  height="12"
-                  viewBox="0 0 15 18"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12.7808 3.71012H10.9961C10.9961 1.73797 9.39873 0.140625 7.42658 0.140625C5.45444 0.140625 3.85709 1.73797 3.85709 3.71012H2.07234C1.09073 3.71012 0.287598 4.51325 0.287598 5.49486V16.2033C0.287598 17.185 1.09073 17.9881 2.07234 17.9881H12.7808C13.7624 17.9881 14.5656 17.185 14.5656 16.2033V5.49486C14.5656 4.51325 13.7624 3.71012 12.7808 3.71012ZM7.42658 1.92537C8.40819 1.92537 9.21133 2.72851 9.21133 3.71012H5.64184C5.64184 2.72851 6.44497 1.92537 7.42658 1.92537ZM12.7808 16.2033H2.07234V5.49486H3.85709V7.27961C3.85709 7.77042 4.25866 8.17198 4.74946 8.17198C5.24027 8.17198 5.64184 7.77042 5.64184 7.27961V5.49486H9.21133V7.27961C9.21133 7.77042 9.6129 8.17198 10.1037 8.17198C10.5945 8.17198 10.9961 7.77042 10.9961 7.27961V5.49486H12.7808V16.2033Z"
-                    fill="#8494A0"
-                  ></path>
-                </svg>
-              </div>
-              <strong>Mystery Gift</strong>
-            </div>
+          <div class="gifts" id="upsell_prev_gift">
+            
           </div>
-          <div class="progress-bar">
+          <div class="progress-bar" id="upsell_prev_prog">
             <div class="bar" id="progressBar" style="width: 0%"></div>
           </div>
-          <div class="progress-hint" id="progressHint"></div>
         </div>
       </div>
-
+      <div class="progress-hint" id="progressHint"></div>
       <div class="content">
         <div class="cart-items" id="cartItems"></div>
 
@@ -249,9 +199,10 @@
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="message">
+        </div>
+        <div  id="upsell_proglayout_two"></div>
+        <div class="message" id="upsell_announcement">
           20% OFF When You Add These Items to Your Order Now!
         </div>
       </div>
@@ -270,9 +221,186 @@
       </div>
     </div>
 	<script>
+    function preview(){
+      fetch('https://geolocation-db.com/json/')
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (payload) {
+          window.country = payload.country_code;
+        });
+     
+		  console.log(event.data); 
+      document.getElementById("upsell_prev_titl").innerHTML = event.data.language.cart_title;
+      function tiers(){
+          document.getElementById("upsell_proglayout_two").innerHTML = '';
+          document.getElementById('upsell_prev_gift').innerHTML = '';
+          if(event.data.tiered_progress_bar == true){
+          for(var k=0;k<event.data.tiered_progress_bar_tabs.length;k++){
+          if(window.country == event.data.tiered_progress_bar_tabs[k].country){
+            if( event.data.tiered_progress_bar_tabs[k].layout_type == "in_line"){
+                var progress = document.getElementById('upsell_prev_gift');
+                progress.insertAdjacentHTML('beforeend',`<div class="upsell__cart-gifts"></div><div class="upsell__cart-progress-bar"> <div class="upsell__cart-bar" id="progressBar" style="width: 0%"></div></div>`);
+
+            }else{
+                var progress = document.getElementById("upsell_proglayout_two");
+                progress.insertAdjacentHTML('beforeend',`<div class="upsell__cart-gifts"></div><div class="upsell__cart-progress-bar"> <div class="upsell__cart-bar" id="progressBar" style="width: 0%"></div></div>`);
+            }
+            const hintContainer = document.getElementById("progressHint");
+            const barContainer = document.getElementById("progressBar");
+            const btnclr = "background:hsl("+event.data.buy_more.button_color.hue+",70%,30%)";
+            hintContainer.innerHTML = event.data.tiered_progress_bar_tabs[k].content;
+            const layout = event.data.tiered_progress_bar_tabs[k].layout_type;
+            const alltiers = event.data.tiered_progress_bar_tabs[k].tier.length;
+            const gifts = document.querySelector(".upsell__cart-gifts");
+
+            var amt = [];
+            for(var i=0;i<alltiers;i++){
+                const free = event.data.tiered_progress_bar_tabs[k].tier[i].type;
+                const ship = event.data.tiered_progress_bar_tabs[k].tier[i].free_shipping_all_products;
+                const minprice = event.data.tiered_progress_bar_tabs[k].tier[i].min_price;
+                amt.push(minprice);
+                if(free =='free_shipping'){
+                    var svg = `<svg width="11" height="9" viewBox="0 0 9 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.82415 6.15237L0.726419 4.05464L0.012085 4.76395L2.82415 7.57601L8.86078 1.53938L8.15147 0.830078L2.82415 6.15237Z" fill="#8494A0"></path></svg>`;
+                    var title = "Free Shipping";
+                }else{
+                    var svg = `<svg width="14" height="12" viewBox="0 0 15 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.7808 3.71012H10.9961C10.9961 1.73797 9.39873 0.140625 7.42658 0.140625C5.45444 0.140625 3.85709 1.73797 3.85709 3.71012H2.07234C1.09073 3.71012 0.287598 4.51325 0.287598 5.49486V16.2033C0.287598 17.185 1.09073 17.9881 2.07234 17.9881H12.7808C13.7624 17.9881 14.5656 17.185 14.5656 16.2033V5.49486C14.5656 4.51325 13.7624 3.71012 12.7808 3.71012ZM7.42658 1.92537C8.40819 1.92537 9.21133 2.72851 9.21133 3.71012H5.64184C5.64184 2.72851 6.44497 1.92537 7.42658 1.92537ZM12.7808 16.2033H2.07234V5.49486H3.85709V7.27961C3.85709 7.77042 4.25866 8.17198 4.74946 8.17198C5.24027 8.17198 5.64184 7.77042 5.64184 7.27961V5.49486H9.21133V7.27961C9.21133 7.77042 9.6129 8.17198 10.1037 8.17198C10.5945 8.17198 10.9961 7.77042 10.9961 7.27961V5.49486H12.7808V16.2033Z" fill="#8494A0"></path></svg>`;
+                    var title = "Mystery Gift";
+                }
+                gifts.insertAdjacentHTML('beforeend',`<div class="upsell__cart-gift-item" id="`+minprice+`">
+                <div class="upsell__cart-icon">`+svg+`</div><strong>`+title+`</strong></div>`);
+                setTimeout(function(){
+                const max = Math.max(...amt);
+                
+                if(free == "free_shipping" && subtotalPrice >= minprice){
+                    document.getElementById(""+minprice+"").querySelector(".upsell__cart-icon").classList.add("active");
+                    var pertcnt = minprice/max*100;
+                    barContainer.style = `width: `+pertcnt+`%;`+btnclr+``;
+                }
+                else if(free == "free_shipping" && subtotalPrice < minprice){
+                    var pertcnt = 0;
+                    barContainer.style = `width: `+pertcnt+`%;`+btnclr+``;
+                }
+                else if(free == "product" && subtotalPrice >= minprice){
+                      document.getElementById(""+minprice+"").querySelector(".upsell__cart-icon").classList.add("active");
+                      var pertcnt = minprice/max*100;
+                      barContainer.style = `width: `+pertcnt+`%;`+btnclr+``;
+                }
+              },200);
+            }
+          }
+          }
+
+          }
+      }
+
+      function announcMent(){
+        var allitms = event.data.announcement_bar_items.length;
+        let p = document.getElementById("upsell_announcement");
+        p.innerHTML = '';
+        if(allitms <= 1){
+            document.getElementById("upsell_announcement").innerText = event.data.announcement_bar_items[0];
+        }else{
+          let anoustemp = "<div id='upsell_mslide'></div>";
+          p.innerHTML = anoustemp
+          for(var i=0;i<allitms;i++){
+            document.getElementById("upsell_mslide").innerHTML += ('<div class="slide">'+event.data.announcement_bar_items[i]+'</div>');
+          }
+        }
+
+      }
+      announcMent();
+      tiers();
+
+      function announSlide(){
+          const slideContainer = document.querySelector('#upsell_announcement');
+          const slide = document.querySelector('#upsell_mslide');
+          const interval = 2000;
+
+          let slides = document.querySelectorAll('#upsell_mslide .slide');
+          let index = 1;
+          let slideId;
+
+          const firstClone = slides[0].cloneNode(true);
+          const lastClone = slides[slides.length - 1].cloneNode(true);
+
+          firstClone.id = 'first-clone';
+          lastClone.id = 'last-clone';
+
+          slide.append(firstClone);
+          slide.prepend(lastClone);
+
+          const slideWidth = slides[index].clientWidth;
+
+          slide.style.transform = `translateX(${-slideWidth * index}px)`;
+
+          const startSlide = () => {
+          slideId = setInterval(() => {
+              moveToNextSlide();
+          }, interval);
+          };
+
+          const getSlides = () => document.querySelectorAll('.slide');
+
+          slide.addEventListener('transitionend', () => {
+          slides = getSlides();
+          if (slides[index].id === firstClone.id) {
+              slide.style.transition = 'none';
+              index = 1;
+              slide.style.transform = `translateX(${-slideWidth * index}px)`;
+          }
+
+          if (slides[index].id === lastClone.id) {
+              slide.style.transition = 'none';
+              index = slides.length - 2;
+              slide.style.transform = `translateX(${-slideWidth * index}px)`;
+          }
+          });
+
+          const moveToNextSlide = () => {
+          slides = getSlides();
+          if (index >= slides.length - 1) return;
+          index++;
+          slide.style.transition = '.55s ease-out';
+          slide.style.transform = `translateX(${-slideWidth * index}px)`;
+          };
+
+          const moveToPreviousSlide = () => {
+          if (index <= 0) return;
+          index--;
+          slide.style.transition = '.5s ease-out';
+          slide.style.transform = `translateX(${-slideWidth * index}px)`;
+          };
+
+          slideContainer.addEventListener('mouseenter', () => {
+          clearInterval(slideId);
+          });
+
+          startSlide();
+      }
+      announSlide();
+      document.getElementById("upsell_prev_styl").innerHTML= `<style>
+        .icon.active{
+          background:hsl(`+event.data.buy_more.button_color.hue+`,70%,30%);
+        }
+        .progress-bar .bar{
+          background:hsl(`+event.data.buy_more.button_color.hue+`,70%,30%);
+        }
+        button.btn-primary{
+          background:hsl(`+event.data.checkout_btn_settings.checking_out_color.hue+`,90%,50%);
+        }
+        button.btn-secondary{
+          border: 2px solid hsl(`+event.data.checkout_btn_settings.checking_out_color.hue+`,90%,50%);
+          color: hsl(`+event.data.checkout_btn_settings.checking_out_color.hue+`,90%,50%);
+        }
+        </style>`;
+    }
 	  window.addEventListener('message', function(event) {
-		console.log(event.data); // Message received from parent
+        preview();
 	  });
+    document.addEventListener("DOMContentLoaded", () => {
+      preview();
+    });
 	</script>
     <script src="/api/preview/script.js"></script>
   </body>

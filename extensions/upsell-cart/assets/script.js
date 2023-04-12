@@ -97,11 +97,11 @@ class upsellCart{
                 </div>
                 </div>`));
                 if(window.UpsellWidget[i].layout.small_screens.display_style == 'grid'){
-                    upselstyle += "@media only screen and (max-width:767px){.upsell__cart-upsell2-container{display:grid;grid-template-columns: repeat("+window.UpsellWidget[i].layout.small_screens.grid_columns+",1fr);}}"
+                    upselstyle += "@media only screen and (max-width:767px){.upsell__cart-upsell2-container{overflow: hidden;gap:15px;display:grid;grid-template-columns: repeat("+window.UpsellWidget[i].layout.small_screens.grid_columns+",1fr);}}"
                 }
                 if(window.UpsellWidget[i].layout.large_screens.display_style == 'grid'){
                     var custcss = window.UpsellWidget[i].style;
-                    upselstyle += " @media only screen and (min-width:768px){ .upsell__cart-upsell2-container{display:grid;grid-template-columns: repeat("+window.UpsellWidget[i].layout.large_screens.grid_columns+",1fr);}}";
+                    upselstyle += " @media only screen and (min-width:768px){ .upsell__cart-upsell2-container{overflow: hidden;gap:15px;display:grid;grid-template-columns: repeat("+window.UpsellWidget[i].layout.large_screens.grid_columns+",1fr);}}";
                     upselstyle += custcss;
                 } 
                 if(window.UpsellWidget[i].layout.large_screens.display_style == 'list'){
@@ -125,7 +125,6 @@ class upsellCart{
                     var custcss = window.UpsellWidget[i].style;
                     upselstyle += custcss;
                 }
-             
         } 
          if(wtype == "featured_items"){
 
@@ -175,10 +174,10 @@ class upsellCart{
               </div>`)));
 
               if(window.UpsellWidget[i].layout.large_screens.display_style == 'grid'){
-                 upselstyle += "@media only screen and (min-width:768px){div#fitms{display:grid;grid-template-columns:repeat("+window.UpsellWidget[i].layout.large_screens.grid_columns+",1fr);}}";
+                 upselstyle += "@media only screen and (min-width:768px){overflow: hidden;gap:15px;div#fitms{display:grid;grid-template-columns:repeat("+window.UpsellWidget[i].layout.large_screens.grid_columns+",1fr);}}";
               }
               if(window.UpsellWidget[i].layout.small_screens.display_style == 'grid'){
-                  upselstyle += "@media only screen and (max-width:767px){div#fitms{display:grid;grid-template-columns: repeat("+window.UpsellWidget[i].layout.small_screens.grid_columns+",1fr);}}"
+                  upselstyle += "@media only screen and (max-width:767px){div#fitms{overflow: hidden;gap:15px;display:grid;grid-template-columns: repeat("+window.UpsellWidget[i].layout.small_screens.grid_columns+",1fr);}}"
               }
               if(window.UpsellWidget[i].layout.large_screens.display_style == 'list'){
                 var custcss = window.UpsellWidget[i].style;
@@ -224,10 +223,10 @@ class upsellCart{
               </div>`);
             }
             if(window.UpsellWidget[i].layout.large_screens.display_style == 'grid'){
-              upselstyle += "@media only screen and (min-width:768px){div#recentvue{display:grid;grid-template-columns:repeat("+window.UpsellWidget[i].layout.large_screens.grid_columns+",1fr);}}";
+              upselstyle += "@media only screen and (min-width:768px){div#recentvue{overflow: hidden;gap:15px;display:grid;grid-template-columns:repeat("+window.UpsellWidget[i].layout.large_screens.grid_columns+",1fr);}}";
             }
             if(window.UpsellWidget[i].layout.small_screens.display_style == 'grid'){
-                upselstyle += "@media only screen and (max-width:767px){div#recentvue{display:grid;grid-template-columns: repeat("+window.UpsellWidget[i].layout.small_screens.grid_columns+",1fr);}}"
+                upselstyle += "@media only screen and (max-width:767px){div#recentvue{overflow: hidden;gap:15px;display:grid;grid-template-columns: repeat("+window.UpsellWidget[i].layout.small_screens.grid_columns+",1fr);}}"
             }
             if(window.UpsellWidget[i].layout.large_screens.display_style == 'list'){
               var custcss = window.UpsellWidget[i].style;

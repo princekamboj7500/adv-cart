@@ -2,7 +2,7 @@ import { useMemo, useCallback, useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
 import {Frame, TopBar, Navigation, AppProvider, Spinner, EmptyState, Card, Page, FormLayout, TextField, Button} from '@shopify/polaris';
-import {HomeMinor, CartMajor} from '@shopify/polaris-icons';
+import {HomeMinor, CartMajor, ExternalSmallMinor} from '@shopify/polaris-icons';
 import { logo } from "../../assets";
 import './../../App.css'; 
 
@@ -51,7 +51,7 @@ export function AppBridgeProvider({ children }) {
     <TopBar.UserMenu
       actions={[
         {
-          items: [{content: 'User Profile'}],
+          items: [{content : profile.detail, url: 'https://'+profile.detail+'/admin', external:'yes', icon: ExternalSmallMinor }],
         },
         // {
         //   items: [{content: 'Sign out'}],
