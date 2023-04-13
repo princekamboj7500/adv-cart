@@ -93,9 +93,25 @@ app.post(
 
 // If you are adding routes outside of the /api path, remember to
 // also add a proxy rule for them in web/frontend/vite.config.js
-app.get("/api/prevwidget", (_req, res) => {
+app.get("/api/prevwidget/:shop",  async (_req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    var widgets = await storeController.widgets(_req.params.shop);
+    const doc = await StoreModel.findOne({store: _req.params.shop});
+    const token = doc.token;
 
-  console.log("dummy prev");
+    var myHeaders = new Headers();
+    myHeaders.append("X-Shopify-Access-Token", "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");
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+    
+    fetch("https://"+_req.params.shop+"/admin/api/2020-04/products.json?limit=5", requestOptions)
+      .then(response => response.text())
+      .then(result => 
+        res.status(200).send({allpro:JSON.parse(result),widgets:widgets}))
+      .catch(error => console.log('error', error));
 })
 
 app.use("/api/*", shopify.validateAuthenticatedSession());

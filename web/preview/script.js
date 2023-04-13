@@ -119,7 +119,7 @@ function drawCartItems(items) {
 
   countSubtotal(items);
   console.log(subtotalPrice);
-  countTiers(subtotalPrice, tiers);
+  // countTiers(subtotalPrice, tiers);
 }
 
 function addItem() {
@@ -179,54 +179,54 @@ function countSubtotal(items) {
   )}</span><s>${roundPrice(subtotalPrice * 1.2)}</s>`;
 }
 
-function countTiers(subtotalPrice, tiers) {
-  const hintContainer = document.getElementById("progressHint");
-  const barContainer = document.getElementById("progressBar");
-  const freeShippingIcon = document.getElementById("freeShipping");
-  const gift1Icon = document.getElementById("gift1");
-  const gift2Icon = document.getElementById("gift2");
+// function countTiers(subtotalPrice, tiers) {
+//   const hintContainer = document.getElementById("progressHint");
+//   const barContainer = document.getElementById("progressBar");
+//   const freeShippingIcon = document.getElementById("freeShipping");
+//   const gift1Icon = document.getElementById("gift1");
+//   const gift2Icon = document.getElementById("gift2");
 
-  if (subtotalPrice < tiers[0]) {
-    hintContainer.innerHTML = `You are $${roundPrice(
-      tiers[0] - subtotalPrice
-    )} away from <strong>FREE SHIPPING</strong>`;
-    barContainer.style = `width: ${roundPrice(
-      (subtotalPrice / tiers[2]) * 100
-    )}%`;
-    freeShippingIcon.querySelector(".icon").classList.remove("active");
-    gift1Icon.querySelector(".icon").classList.remove("active");
-    gift2Icon.querySelector(".icon").classList.remove("active");
-  }
-  if (subtotalPrice >= tiers[0]) {
-    hintContainer.innerHTML = `Add $${roundPrice(
-      tiers[1] - subtotalPrice
-    )} to unlock a free Mystery Gift!`;
-    barContainer.style = `width: ${roundPrice(
-      (subtotalPrice / tiers[2]) * 100
-    )}%`;
-    freeShippingIcon.querySelector(".icon").classList.add("active");
-    gift1Icon.querySelector(".icon").classList.remove("active");
-    gift2Icon.querySelector(".icon").classList.remove("active");
-  }
-  if (subtotalPrice >= tiers[1]) {
-    hintContainer.innerHTML = `Add $${roundPrice(
-      tiers[2] - subtotalPrice
-    )} to unlock a one more Mystery Gift!`;
-    barContainer.style = `width: ${roundPrice(
-      (subtotalPrice / tiers[2]) * 100
-    )}%`;
-    freeShippingIcon.querySelector(".icon").classList.add("active");
-    gift1Icon.querySelector(".icon").classList.add("active");
-    gift2Icon.querySelector(".icon").classList.remove("active");
-  }
-  if (subtotalPrice >= tiers[2]) {
-    hintContainer.innerHTML = `You've unlocked a Free Mystery Gift!`;
-    barContainer.style = `width: 100%`;
-    freeShippingIcon.querySelector(".icon").classList.add("active");
-    gift1Icon.querySelector(".icon").classList.add("active");
-    gift2Icon.querySelector(".icon").classList.add("active");
-  }
-}
+//   if (subtotalPrice < tiers[0]) {
+//     hintContainer.innerHTML = `You are $${roundPrice(
+//       tiers[0] - subtotalPrice
+//     )} away from <strong>FREE SHIPPING</strong>`;
+//     barContainer.style = `width: ${roundPrice(
+//       (subtotalPrice / tiers[2]) * 100
+//     )}%`;
+//     freeShippingIcon.querySelector(".icon").classList.remove("active");
+//     gift1Icon.querySelector(".icon").classList.remove("active");
+//     gift2Icon.querySelector(".icon").classList.remove("active");
+//   }
+//   if (subtotalPrice >= tiers[0]) {
+//     hintContainer.innerHTML = `Add $${roundPrice(
+//       tiers[1] - subtotalPrice
+//     )} to unlock a free Mystery Gift!`;
+//     barContainer.style = `width: ${roundPrice(
+//       (subtotalPrice / tiers[2]) * 100
+//     )}%`;
+//     freeShippingIcon.querySelector(".icon").classList.add("active");
+//     gift1Icon.querySelector(".icon").classList.remove("active");
+//     gift2Icon.querySelector(".icon").classList.remove("active");
+//   }
+//   if (subtotalPrice >= tiers[1]) {
+//     hintContainer.innerHTML = `Add $${roundPrice(
+//       tiers[2] - subtotalPrice
+//     )} to unlock a one more Mystery Gift!`;
+//     barContainer.style = `width: ${roundPrice(
+//       (subtotalPrice / tiers[2]) * 100
+//     )}%`;
+//     freeShippingIcon.querySelector(".icon").classList.add("active");
+//     gift1Icon.querySelector(".icon").classList.add("active");
+//     gift2Icon.querySelector(".icon").classList.remove("active");
+//   }
+//   if (subtotalPrice >= tiers[2]) {
+//     hintContainer.innerHTML = `You've unlocked a Free Mystery Gift!`;
+//     barContainer.style = `width: 100%`;
+//     freeShippingIcon.querySelector(".icon").classList.add("active");
+//     gift1Icon.querySelector(".icon").classList.add("active");
+//     gift2Icon.querySelector(".icon").classList.add("active");
+//   }
+// }
 
 function roundPrice(num) {
   return num.toFixed(2);
