@@ -74,6 +74,7 @@ class upsellCart{
             var cartObj = await fetch("/collections/all/products.json?limit=5");
             cartObj = await cartObj.json();
             var allpro = cartObj.products;
+            
             this.recmDation.innerHTML='';
             var noimg = '<img src='+window.noimg+' alt="" width="auto" height="auto" loading="lazy" />';
             allpro.map(
@@ -88,12 +89,15 @@ class upsellCart{
                     <div>
                         <strong>${item.title}</strong>
                     </div>
-                    <div class="upsell__cart-price">$${item.variants[0].price}</div>
+                    <div class="upsell__cart-price">`+window.money+` ${item.variants[0].price}</div>
                 </div>
                 <div class="upsell__cart-clear-price">
                     <div class="upsell__cart-add-btn">
                         <button class="addrecomd" onclick="window.__upsellCart.addItem(${item.variants[0].id})" vid="${item.variants[0].id}">Add</button>
                     </div>
+                </div>
+                <div class="upsell_variants">
+                  
                 </div>
                 </div>`));
                 if(window.UpsellWidget[i].layout.small_screens.display_style == 'grid'){
@@ -114,7 +118,7 @@ class upsellCart{
                     
                     if(window.UpsellWidget[i].layout.large_screens.display_as_carousel == true){
                         document.querySelector('.upsell__cart-upsell2-container').classList.add('crousl');
-                        var list = document.querySelectorAll('.crausalbtn');
+                        var list = document.querySelectorAll('.upsell_crausalbtn');
                         for (var i = 0; i < list.length; ++i) {
                             list[i].classList.add('crousl');
                         }
@@ -146,9 +150,10 @@ class upsellCart{
           document.getElementById("newwidget").insertAdjacentHTML('afterbegin',"<div class='upwidgets' id='featured_itm'><div id='fitms'></div></div>");
           var newidget = document.getElementById("fitms");
           var self = this;
-          var cartObj = await fetch("/collections/new-collection/products.json?limit=5");
+          var cartObj = await fetch("/collections/all/products.json?limit=5");
           cartObj = await cartObj.json();
           var allpro = cartObj.products;
+        
           newidget.innerHTML='';
           var noimg = '<img src='+window.noimg+' alt="" width="auto" height="auto" loading="lazy" />';
           
@@ -164,7 +169,7 @@ class upsellCart{
                   <div>
                       <strong>${item.title}</strong>
                   </div>
-                  <div class="upsell__cart-price">$${item.variants[0].price}</div>
+                  <div class="upsell__cart-price">`+window.money+` ${item.variants[0].price}</div>
               </div>
               <div class="upsell__cart-clear-price">
                   <div class="upsell__cart-add-btn">
@@ -180,15 +185,15 @@ class upsellCart{
                   upselstyle += "@media only screen and (max-width:767px){div#fitms{overflow: hidden;gap:15px;display:grid;grid-template-columns: repeat("+window.UpsellWidget[i].layout.small_screens.grid_columns+",1fr);}}"
               }
               if(window.UpsellWidget[i].layout.large_screens.display_style == 'list'){
-                var custcss = window.UpsellWidget[i].style;
-                upselstyle += "div#fitms{display:grid;}.upsell__cart-upsell2-item{ width:100%;text-align: center;}.upsell__cart-upsell2-item img{width:unset;}";
-                upselstyle += custcss;
-            }
+                  var custcss = window.UpsellWidget[i].style;
+                  upselstyle += "div#fitms{display:grid;}.upsell__cart-upsell2-item{ width:100%;text-align: center;}.upsell__cart-upsell2-item img{width:unset;}";
+                  upselstyle += custcss;
+              }
             if(window.UpsellWidget[i].layout.large_screens.display_style == "line"){
                     
               if(window.UpsellWidget[i].layout.large_screens.display_as_carousel == true){
                 document.getElementById('fitms').classList.add('crousl');
-                document.getElementById('featured_itm').insertAdjacentHTML('beforeend','<button class="crausalbtn crousl" onclick="prevSlide(this)" id="prev"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path> </svg></button><button class="crausalbtn crousl" onclick="nextSlide(this)" id="next"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path> </svg></button>');
+                document.getElementById('featured_itm').insertAdjacentHTML('beforeend','<button class="upsell_crausalbtn crousl" onclick="prevSlide(this)" id="prev"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path> </svg></button><button class="upsell_crausalbtn crousl" onclick="nextSlide(this)" id="next"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path> </svg></button>');
               }else{
                 upselstyle += "div#fitms{overflow-x: scroll;}";
               }
@@ -213,7 +218,7 @@ class upsellCart{
                   <div>
                       <strong>`+recpro[j].title+`</strong>
                   </div>
-                  <div class="upsell__cart-price">$`+recpro[j].price+`</div>
+                  <div class="upsell__cart-price">`+window.money+` `+recpro[j].price+`</div>
               </div>
               <div class="upsell__cart-clear-price">
                   <div class="upsell__cart-add-btn">
@@ -237,7 +242,7 @@ class upsellCart{
            
             if(window.UpsellWidget[i].layout.large_screens.display_as_carousel == true){
                 document.getElementById('recentvue').classList.add('crousl');
-                document.getElementById('recent_view').insertAdjacentHTML('beforeend','<button class="crausalbtn crousl" onclick="prevSlide(this)" id="prev"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path> </svg></button><button class="crausalbtn crousl" onclick="nextSlide(this)" id="next"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path> </svg></button>');
+                document.getElementById('recent_view').insertAdjacentHTML('beforeend','<button class="upsell_crausalbtn crousl" onclick="prevSlide(this)" id="prev"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path> </svg></button><button class="upsell_crausalbtn crousl" onclick="nextSlide(this)" id="next"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path> </svg></button>');
             }else{
               upselstyle += "div#recentvue{overflow-x: scroll;}";
             }
@@ -373,7 +378,7 @@ class upsellCart{
                 </div>
                 ${
                   item.discount === true
-                    ? `<div class="upsell__cart-discount">$${self.roundPrice(
+                    ? `<div class="upsell__cart-discount">`+window.money+` ${self.roundPrice(
                         item.quantity * item.price/100
                       )}</div>`
                     : ""
@@ -381,8 +386,8 @@ class upsellCart{
                 <div class="upsell__cart-price">
                   ${
                     item.discount === true
-                      ? `<s>$${ self.roundPrice(item.quantity * item.discounted_price/100) }</s>`
-                      : `$${ self.roundPrice(item.quantity * item.price/100) }`
+                      ? `<s>`+window.money+`${ self.roundPrice(item.quantity * item.discounted_price/100) }</s>`
+                      : window.money+`${ self.roundPrice(item.quantity * item.price/100) }`
                   }
                 </div>
               </div>
@@ -420,7 +425,12 @@ class upsellCart{
     var num = item.id;
     var text = num.toString();
     var data = {"id": text, "quantity": e.value};
-    this.changeItms(data)
+    if(e.value == 0){
+      this.removeItem(num)
+    }else{
+      this.changeItms(data)
+    }
+    
   }
   getCounty(){
 
@@ -489,13 +499,19 @@ class upsellCart{
     itemsContainer.innerHTML = `${
         this.subtotalItems === 1 ? singleitm.replace('{{ item_count }}',qty) : manyitms.replace('{{ item_count }}',qty)
     }`;
-    priceContainer.innerHTML = `<span class="discount">$${ this.roundPrice(
+    priceContainer.innerHTML = `<span class="discount">`+window.money+` ${ this.roundPrice(
         this.subtotalPrice
-    )}</span> <s>${ this.roundPrice(this.subtotalPrice  * 1.2) }</s>`;
+    )}</span> <s>`+window.money+` ${ this.roundPrice(this.subtotalPrice  * 1.2) }</s>`;
     document.querySelector(".discount").style.color = "hsl("+window.UpsellCart.checkout_btn_settings.checking_out_color.hue+",90%,50%)";
   }
   
   countTiers(subtotalPrice, tiers) {
+    var amt = [];
+    const ranges = document.querySelectorAll(".upsell__cart-gift-item");
+    for(var n = 0; n < ranges.length; n++){
+        amt.push(ranges[n].getAttribute('id'));
+    }
+  const max = Math.max(...amt);
     const hintContainer = document.getElementById("progressHint");
     const barContainer = document.getElementById("progressBar");
     const btnclr = "background:hsl("+window.UpsellCart.buy_more.button_color.hue+",70%,30%)";
@@ -510,13 +526,12 @@ class upsellCart{
           //document.getElementById("giftlayout").innerHTML = '';
          
           gifts.innerHTML = '';
-          var amt = [];
-          
+         
           for(var i=0;i<alltiers;i++){
               const free = window.UpsellCart.tiered_progress_bar_tabs[k].tier[i].type;
               const ship = window.UpsellCart.tiered_progress_bar_tabs[k].tier[i].free_shipping_all_products;
               const minprice = window.UpsellCart.tiered_progress_bar_tabs[k].tier[i].min_price;
-              amt.push(minprice);
+            
               if(free =='free_shipping'){
                   var svg = `<svg width="11" height="9" viewBox="0 0 9 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.82415 6.15237L0.726419 4.05464L0.012085 4.76395L2.82415 7.57601L8.86078 1.53938L8.15147 0.830078L2.82415 6.15237Z" fill="#8494A0"></path></svg>`;
                   var title = "Free Shipping";
@@ -524,11 +539,15 @@ class upsellCart{
                   var svg = `<svg width="14" height="12" viewBox="0 0 15 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.7808 3.71012H10.9961C10.9961 1.73797 9.39873 0.140625 7.42658 0.140625C5.45444 0.140625 3.85709 1.73797 3.85709 3.71012H2.07234C1.09073 3.71012 0.287598 4.51325 0.287598 5.49486V16.2033C0.287598 17.185 1.09073 17.9881 2.07234 17.9881H12.7808C13.7624 17.9881 14.5656 17.185 14.5656 16.2033V5.49486C14.5656 4.51325 13.7624 3.71012 12.7808 3.71012ZM7.42658 1.92537C8.40819 1.92537 9.21133 2.72851 9.21133 3.71012H5.64184C5.64184 2.72851 6.44497 1.92537 7.42658 1.92537ZM12.7808 16.2033H2.07234V5.49486H3.85709V7.27961C3.85709 7.77042 4.25866 8.17198 4.74946 8.17198C5.24027 8.17198 5.64184 7.77042 5.64184 7.27961V5.49486H9.21133V7.27961C9.21133 7.77042 9.6129 8.17198 10.1037 8.17198C10.5945 8.17198 10.9961 7.77042 10.9961 7.27961V5.49486H12.7808V16.2033Z" fill="#8494A0"></path></svg>`;
                   var title = "Mystery Gift";
               }
+             
               gifts.insertAdjacentHTML('beforeend',`<div class="upsell__cart-gift-item" id="`+minprice+`">
               <div class="upsell__cart-icon">`+svg+`</div><strong>`+title+`</strong></div>`);
-              setTimeout(function(){
-              const max = Math.max(...amt);
              
+              if(subtotalPrice >= minprice){
+                document.getElementById(""+minprice+"").classList.add("active");
+              }else{
+                document.getElementById(""+minprice+"").classList.remove("active");
+              }
               if(free == "free_shipping" && subtotalPrice >= minprice){
                   document.getElementById(""+minprice+"").querySelector(".upsell__cart-icon").classList.add("active");
                   var pertcnt = minprice/max*100;
@@ -543,7 +562,7 @@ class upsellCart{
                     var pertcnt = minprice/max*100;
                     barContainer.style = `width: `+pertcnt+`%;`+btnclr+``;
               }
-            },200);
+         
           }
         }
        }
@@ -732,9 +751,9 @@ function nextSlide(elem){
   
     var neslide = parnt.firstChild.innerHTML;
     var nxt = `<div class='item upsell__cart-upsell2-item'>`+neslide+`</div>`;
-    parnt.classList.add("animate");
+    parnt.classList.add("upsell_animate");
     setTimeout(function(){
-      parnt.classList.remove("animate");
+      parnt.classList.remove("upsell_animate");
       parnt.insertAdjacentHTML('beforeend',nxt);
       parnt.querySelector(".upsell__cart-upsell2-item").remove();
         
@@ -750,9 +769,9 @@ function prevSlide(elem){
     var prevslide = parnt.querySelectorAll(".upsell__cart-upsell2-item");
      var last = prevslide[prevslide.length- 1].innerHTML;
      var nxt = `<div class='item upsell__cart-upsell2-item'>`+last+`</div>`;
-     parnt.classList.add("animaterev");
+     parnt.classList.add("upsell_animaterev");
      setTimeout(function(){
-        parnt.classList.remove("animaterev");
+        parnt.classList.remove("upsell_animaterev");
         parnt.insertAdjacentHTML('afterbegin',nxt);
         prevslide[prevslide.length- 1].remove();
     },300);

@@ -124,7 +124,7 @@
 
         <div class="upsell2">
           <div class="crsl">
-            <div class="upsell_prev_recom title">You may also like</div>
+            <div class="upsell_prev_recom title"></div>
             <div class="upsell2-container" id="upsell_prev_recom"></div>
           </div>
           <div class="crsl">
@@ -149,6 +149,9 @@
         <div class="message" id="upsell_announcement">
           20% OFF When You Add These Items to Your Order Now!
         </div>
+        <div id="continueshop">
+        
+        </div>
       </div>
 
       <div class="footer">
@@ -159,33 +162,33 @@
         <div id="afterpayTop" class="afterpay"></div>
         <div class="checkout">
           <button class="btn-secondary" id="viewCartButton">View Cart</button>
-          <button class="btn-primary">Checkout</button>
+          <button class="btn-primary" id="chkoutbtn">Checkout</button>
         </div>
         <div id="afterpayBottom" class="afterpay"></div>
       </div>
     </div>
 	<script>
      function prevSlide(elem){
-          var parnt =  elem.parentNode.querySelector('.crousl');
+          var parnt =  elem.parentNode.parentNode.querySelector('.crousl');
           var prevslide = parnt.querySelectorAll(".upsell__cart-upsell2-item");
           var last = prevslide[prevslide.length- 1].innerHTML;
           var nxt = `<div class='item upsell__cart-upsell2-item'>`+last+`</div>`;
-          parnt.classList.add("animaterev");
+          parnt.classList.add("upsell_animaterev");
           setTimeout(function(){
-              parnt.classList.remove("animaterev");
+              parnt.classList.remove("upsell_animaterev");
               parnt.insertAdjacentHTML('afterbegin',nxt);
               prevslide[prevslide.length- 1].remove();
           },300);
       }
 
       function nextSlide(elem){
-          var parnt = elem.parentNode.querySelector('.crousl');
+          var parnt = elem.parentNode.parentNode.querySelector('.crousl');
         
           var neslide = parnt.firstChild.innerHTML;
           var nxt = `<div class='item upsell__cart-upsell2-item'>`+neslide+`</div>`;
-          parnt.classList.add("animate");
+          parnt.classList.add("upsell_animate");
           setTimeout(function(){
-            parnt.classList.remove("animate");
+            parnt.classList.remove("upsell_animate");
             parnt.insertAdjacentHTML('beforeend',nxt);
             parnt.querySelector(".upsell__cart-upsell2-item").remove();
               
@@ -193,7 +196,7 @@
         
       }
 
-    function preview(){
+    function preview(store){
       fetch('https://geolocation-db.com/json/')
         .then(function (response) {
             return response.json();
@@ -201,20 +204,22 @@
         .then(function (payload) {
           window.country = payload.country_code;
         });
+       
       function allwdgt(){
-        fetch('https://252b-2405-201-5802-4c37-5439-682d-b112-6de8.ngrok-free.app/api/prevwidget/3dproductv.myshopify.com')
+        //fetch('https://cart.brandlift.io/api/prevwidget/'+store+'')
+        fetch('https://1ca4-2405-201-5802-4c37-ad21-8e6f-1cfc-4c2e.ngrok-free.app/api/prevwidget/'+store+'')
         .then(function (response) {
             return response.json();
         })
         .then(function (payload) {
-         console.log(payload.widgets);
-         
           var upselstyle = '';
+          
           for(var i=0;i<payload.widgets.length;i++){
               var wtype = payload.widgets[i].type;
               if(wtype == 'recommended_full_page)'){
+
                  var recmDation = document.getElementById("upsell_prev_recom");
-                
+                 document.querySelector('.crsl button').remove()
                   document.querySelector('.upsell_prev_recom.title').innerHTML = payload.widgets[i].name;
                   if(payload.widgets[i].images.fixed_height == true){
                     upselstyle += '.upsell__cart-image img{height:'+payload.widgets[i].images.image_height+"px;}"
@@ -233,6 +238,7 @@
                   var allpro = payload.allpro.products;
                   recmDation.innerHTML='';
                   var noimg = '<img src='+window.noimg+' alt="" width="auto" height="auto" loading="lazy" />';
+                  console.log( payload.allpro)
                   allpro.map(
                   (item) =>
                       ( 
@@ -253,7 +259,7 @@
                           </div>
                       </div>
                       </div>`));
-                     
+                      
                       if(payload.widgets[i].layout.large_screens.display_style == 'grid'){
                           var custcss = payload.widgets[i].style;
                           upselstyle += " @media only screen and (min-width:768px){ #upsell_prev_recom{overflow: hidden;gap:15px;display:grid;grid-template-columns: repeat("+payload.widgets[i].layout.large_screens.grid_columns+",1fr);}}";
@@ -268,10 +274,15 @@
                       if(payload.widgets[i].layout.large_screens.display_style == "line"){
                           
                           if(payload.widgets[i].layout.large_screens.display_as_carousel == true){
+                              var removelm = document.querySelector(".crousl .upsell_prvbtn");
+                              if(removelm){        
+                                  removelm.remove();
+                              }
                               document.querySelector('#upsell_prev_recom').classList.add('crousl');
                               var list = document.querySelector('#upsell_prev_recom');
-                              list.parentNode.insertAdjacentHTML('beforeend','<button class="crausalbtn crousl" onclick="prevSlide(this)" id="prev"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path> </svg></button><button class="crausalbtn crousl" onclick="nextSlide(this)" id="next"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path> </svg></button>');
+                              list.parentNode.insertAdjacentHTML('beforeend','<div class="upsell_prvbtn"> <button class="upsell_crausalbtn crousl" onclick="prevSlide(this)" id="prev"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path> </svg></button><button class="upsell_crausalbtn crousl" onclick="nextSlide(this)" id="next"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path> </svg></button></div>');
                               list.parentNode.classList.add("crousl")
+                             
                             }else{
                             upselstyle += "div#upsell_prev_recom{overflow-x: scroll;}";
                           }
@@ -321,9 +332,13 @@
                       if(payload.widgets[i].layout.large_screens.display_style == "line"){
                           
                           if(payload.widgets[i].layout.large_screens.display_as_carousel == true){
+                            var removelm = document.querySelector(".crousl .upsell_prvbtn");
+                              if(removelm){        
+                                  removelm.remove();
+                              }
                               document.querySelector('#upsell_prev_featur').classList.add('crousl');
                               var list = document.querySelector('#upsell_prev_featur');
-                              list.parentNode.insertAdjacentHTML('beforeend','<button class="crausalbtn crousl" onclick="prevSlide(this)" id="prev"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path> </svg></button><button class="crausalbtn crousl" onclick="nextSlide(this)" id="next"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path> </svg></button>');
+                              list.parentNode.insertAdjacentHTML('beforeend','<div class="upsell_prvbtn"><button class="upsell_crausalbtn crousl" onclick="prevSlide(this)" id="prev"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path> </svg></button><button class="upsell_crausalbtn crousl" onclick="nextSlide(this)" id="next"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path> </svg></button></div>');
                               list.parentNode.classList.add("crousl")
                             }else{
                             upselstyle += "div#upsell_prev_featur{overflow-x: scroll;}";
@@ -374,9 +389,13 @@
                       if(payload.widgets[i].layout.large_screens.display_style == "line"){
                           
                           if(payload.widgets[i].layout.large_screens.display_as_carousel == true){
+                              var removelm = document.querySelector(".crousl .upsell_prvbtn");
+                              if(removelm){        
+                                  removelm.remove();
+                              }
                               document.querySelector('#upsell_prev_rcent').classList.add('crousl');
                               var list = document.querySelector('#upsell_prev_rcent');
-                              list.parentNode.insertAdjacentHTML('beforeend','<button class="crausalbtn crousl" onclick="prevSlide(this)" id="prev"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path> </svg></button><button class="crausalbtn crousl" onclick="nextSlide(this)" id="next"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path> </svg></button>');
+                              list.parentNode.insertAdjacentHTML('beforeend','<div class="upsell_prvbtn"><button class="upsell_crausalbtn crousl" onclick="prevSlide(this)" id="prev"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path> </svg></button><button class="upsell_crausalbtn crousl" onclick="nextSlide(this)" id="next"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path> </svg></button></div>');
                               list.parentNode.classList.add("crousl")
                             }else{
                             upselstyle += "div#upsell_prev_rcent{overflow-x: scroll;}";
@@ -427,9 +446,13 @@
                       if(payload.widgets[i].layout.large_screens.display_style == "line"){
                           
                           if(payload.widgets[i].layout.large_screens.display_as_carousel == true){
+                              var removelm = document.querySelector(".crousl .upsell_prvbtn");
+                              if(removelm){        
+                                  removelm.remove();
+                              }
                               document.querySelector('#upsell_prev_buyit').classList.add('crousl');
                               var list = document.querySelector('#upsell_prev_buyit');
-                              list.parentNode.insertAdjacentHTML('beforeend','<button class="crausalbtn crousl" onclick="prevSlide(this)" id="prev"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path> </svg></button><button class="crausalbtn crousl" onclick="nextSlide(this)" id="next"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path> </svg></button>');
+                              list.parentNode.insertAdjacentHTML('beforeend','<div class="upsell_prvbtn"><button class="upsell_crausalbtn crousl" onclick="prevSlide(this)" id="prev"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path> </svg></button><button class="upsell_crausalbtn crousl" onclick="nextSlide(this)" id="next"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path> </svg></button></div>');
                               list.parentNode.classList.add("crousl")
                             }else{
                             upselstyle += "div#upsell_prev_buyit{overflow-x: scroll;}";
@@ -480,9 +503,13 @@
                       if(payload.widgets[i].layout.large_screens.display_style == "line"){
                           
                           if(payload.widgets[i].layout.large_screens.display_as_carousel == true){
+                             var removelm = document.querySelector(".crousl .upsell_prvbtn");
+                              if(removelm){        
+                                  removelm.remove();
+                              }
                               document.querySelector('#upsell_prev_topsel').classList.add('crousl');
                               var list = document.querySelector('#upsell_prev_topsel');
-                              list.parentNode.insertAdjacentHTML('beforeend','<button class="crausalbtn crousl" onclick="prevSlide(this)" id="prev"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path> </svg></button><button class="crausalbtn crousl" onclick="nextSlide(this)" id="next"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path> </svg></button>');
+                              list.parentNode.insertAdjacentHTML('beforeend','<div class="upsell_prvbtn"><button class="upsell_crausalbtn crousl" onclick="prevSlide(this)" id="prev"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path> </svg></button><button class="upsell_crausalbtn crousl" onclick="nextSlide(this)" id="next"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path> </svg></button></div>');
                               list.parentNode.classList.add("crousl")
                             }else{
                             upselstyle += "div#upsell_prev_topsel{overflow-x: scroll;}";
@@ -502,9 +529,34 @@
       }
       allwdgt();
 
+
+      function cartOptions(){
+        if(event.data.cart_btn_status == true){
+          document.getElementById("viewCartButton").style.display = "block";
+          document.getElementById("viewCartButton").innerHTML = '<a href="/cart">'+event.data.cart_btn_settings.view_cart_label+'</a>';
+        }
+        if(event.data.shopping_btn_status == true){
+          document.getElementById("continueshop").innerHTML = "<a href='/collections/all'>"+event.data.shopping_btn+"</a>"
+        }
+        if(event.data.checkout_btn_status == true){
+          document.getElementById("chkoutbtn").style.display = "block";
+          document.getElementById("chkoutbtn").innerHTML = '<a href="/checkout">'+event.data.checkout_btn_settings.checkout_label+'</a>'
+        }else if(event.data.checkout_btn_status == false){
+          document.getElementById("chkoutbtn").style.display = "none";
+        }
+        if(event.data.payment_installments_status == true){
+          document.getElementById("afterpayBottom").innerHTML = '<p>or '+event.data.payment_installments_settings.payment_count+' interest-free installments by <a href="'+event.data.payment_installments_settings.terms_url+'">'+event.data.payment_installments_settings.provider+'</a></p>'
+        }
+        if(event.data.note_status == true){
+          document.getElementById("continueshop").insertAdjacentHTML(`afterbegin`,`<div class="notediv"><label>`+event.data.note_label+`</label><textarea id='rebuy-cart-notes' placeholder='Your notes...' class='rebuy-textarea rebuy-cart__flyout-note-textarea'></textarea>`);
+        }
+      }
+
+      cartOptions();
+
       document.getElementById("upsell_prev_titl").innerHTML = event.data.language.cart_title;
 
-      function tiers(){
+      function tiers(subtotalPrice){
         var subp = document.querySelector('#subtotalPrice').querySelector('.discount').innerText;
         var subtotalPrice = parseFloat(subp.replace('$',''));
        
@@ -546,20 +598,21 @@
                 <div class="upsell__cart-icon">`+svg+`</div><strong>`+title+`</strong></div>`);
                 setTimeout(function(){
                 const max = Math.max(...amt);
-                
-                var pertcnt = subtotalPrice/max*100;
-                console.log(`width: `+pertcnt+`%;`)
-                barContainer.style = `width: `+pertcnt+`%;`;
-                if(free == "free_shipping" ){
-                    
-                    document.getElementById(""+minprice+"").querySelector(".upsell__cart-icon").classList.add("active");
-                   
+              
+                if(subtotalPrice >= minprice){
+                  console.log('inner--'+subtotalPrice)
+                  document.getElementById(""+minprice+"").querySelector(".upsell__cart-icon").classList.add("active");
                 }
-                // else if(free == "free_shipping" && subtotalPrice < minprice){
-                //     var pertcnt = 0;
-                //     barContainer.style = `width: `+pertcnt+`%;`+btnclr+``;
-                // }
-                else if(free == "product" && subtotalPrice >= minprice){
+                var pertcnt = subtotalPrice/max*100;
+                barContainer.style = `width: `+pertcnt+`%;`;
+                if(free == "free_shipping" && subtotalPrice >= minprice ){      
+                    document.getElementById(""+minprice+"").querySelector(".upsell__cart-icon").classList.add("active");
+                }
+               if(free == "free_shipping" && subtotalPrice < minprice){
+                    var pertcnt = 0;
+                    barContainer.style = `width: `+pertcnt+`%;`+btnclr+``;
+                }
+               if(free == "product" && subtotalPrice >= minprice){
                       document.getElementById(""+minprice+"").querySelector(".upsell__cart-icon").classList.add("active");
                       var pertcnt = minprice/max*100;
                       barContainer.style = `width: `+pertcnt+`%;`+btnclr+``;
@@ -677,14 +730,21 @@
         .cart-item button{
           background:hsl(`+event.data.buy_more.button_color.hue+`,70%,30%);
         }
+        .upsell__cart-icon.active{
+          background:hsl(`+event.data.buy_more.button_color.hue+`,70%,30%);
+        }
+        button#viewCartButton a{
+          color: hsl(`+event.data.checkout_btn_settings.checking_out_color.hue+`,90%,50%);
+          text-decoration: none;
+        }
         </style>`;
     }
 	  window.addEventListener('message', function(event) {
-        preview();
-	  });
+        preview(event.data.store);
+    });
+  
     document.addEventListener("DOMContentLoaded", () => {
-       preview();
-      
+        preview(event.data.store);
     });
 	</script>
     <script src="/api/preview/script.js"></script>

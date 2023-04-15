@@ -12,7 +12,8 @@
 }
 div#upsell_announcement {
   position: relative;
-  height: 40px;
+  height: 50px;
+  overflow-x: hidden;
 }
  #upsell_mslide .slide {
   min-width: 100%;
@@ -454,13 +455,13 @@ span.crossw {
 marquee#upsell_mslide span {
   margin-left: 70px;
 }
-.animate{
+.upsell_animate{
   -webkit-transition: 0.25s ease;
   transition: 0.3s ease;
   -webkit-transform: translate(-140px, 0);
   transform: translate(-140px, 0);
 }
-.animaterev{
+.upsell_animaterev{
   -webkit-transition: 0.25s ease;
   transition: 0.3s ease;
   -webkit-transform: translate(140px, 0);
@@ -503,6 +504,14 @@ div#continueshop a {
 #chkoutbtn a{
   color:#fff;
   text-decoration: none;
+  height: 100%;
+  width: 100%;
+  display: block;
+}
+button#viewCartButton a {
+  height: 100%;
+  width: 100%;
+  display: block;
 }
 .notediv {
   display: grid;
@@ -572,4 +581,10 @@ div#freegifts {
 }
 div#giftlayout {
   display: none;
+}
+button.upsell_crausalbtn{
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border: none;
+  border-radius: 100%;
+  padding: 6px;
 }

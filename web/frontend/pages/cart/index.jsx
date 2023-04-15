@@ -161,7 +161,8 @@ function Cart() {
         }));
         contentRef.contentWindow.postMessage(setings, "*");
     };
-    
+
+
     const [loader, setLoader] = useState(false);
     const [toastloader, setToastloader] = useState(false);
 
@@ -193,6 +194,7 @@ function Cart() {
         console.log(cartObj)
         setSettings(cartObj);
         setPageload(false);
+       
         ///setProfile({name: profile.name, detail: profile.shop, initials: profile.name.charAt(0).toUpperCase(), isloading: false});
     }
 
