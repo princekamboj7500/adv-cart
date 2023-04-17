@@ -33,6 +33,9 @@
             Click here to clean your cart...
           </a>
         </div>
+        <div class="upsell_announctop">
+        
+        </div>
         <div class="tiers">
           <div class="gifts" id="upsell_prev_gift">
             
@@ -207,13 +210,13 @@
        
       function allwdgt(){
         //fetch('https://cart.brandlift.io/api/prevwidget/'+store+'')
-        fetch('https://1ca4-2405-201-5802-4c37-ad21-8e6f-1cfc-4c2e.ngrok-free.app/api/prevwidget/'+store+'')
+        fetch('https://1699-2405-201-5802-4c37-9826-e5c6-f903-4bf0.ngrok-free.app/api/prevwidget/'+store+'')
         .then(function (response) {
             return response.json();
         })
         .then(function (payload) {
           var upselstyle = '';
-          
+       
           for(var i=0;i<payload.widgets.length;i++){
               var wtype = payload.widgets[i].type;
               if(wtype == 'recommended_full_page)'){
@@ -238,7 +241,7 @@
                   var allpro = payload.allpro.products;
                   recmDation.innerHTML='';
                   var noimg = '<img src='+window.noimg+' alt="" width="auto" height="auto" loading="lazy" />';
-                  console.log( payload.allpro)
+                  
                   allpro.map(
                   (item) =>
                       ( 
@@ -402,7 +405,7 @@
                           }
                           var custcss = payload.widgets[i].style;
                           upselstyle += custcss;
-                      }
+                      } 
               } 
               if(wtype == "buy_it_again"){
                  var recmDation1 = document.getElementById("upsell_prev_buyit");
@@ -627,12 +630,23 @@
 
       function announcMent(){
         var allitms = event.data.announcement_bar_items.length;
-        let p = document.getElementById("upsell_announcement");
+        var remitm = document.querySelector("#upsell_mslide");
+        if(remitm){
+          remitm.remove();
+        }
+        if(event.data.announcement_position == 'topflyout'){
+          document.querySelector(".upsell_announctop").classList.remove('deactivated');
+          var p = document.querySelector(".upsell_announctop");
+         
+        }else{
+          document.querySelector(".upsell_announctop").classList.add('deactivated');
+          var p = document.getElementById("upsell_announcement");
+        }
         p.innerHTML = '';
         if(allitms <= 1){
-            document.getElementById("upsell_announcement").innerText = event.data.announcement_bar_items[0];
+           p.innerText = event.data.announcement_bar_items[0];
         }else{
-          let anoustemp = "<div id='upsell_mslide'></div>";
+          var anoustemp = "<div id='upsell_mslide'></div>";
           p.innerHTML = anoustemp
           for(var i=0;i<allitms;i++){
             document.getElementById("upsell_mslide").innerHTML += ('<div class="slide">'+event.data.announcement_bar_items[i]+'</div>');
@@ -737,14 +751,18 @@
           color: hsl(`+event.data.checkout_btn_settings.checking_out_color.hue+`,90%,50%);
           text-decoration: none;
         }
+        .upsell_announctop.deactivated{
+          display:none;
+        }
         </style>`;
     }
 	  window.addEventListener('message', function(event) {
         preview(event.data.store);
+        console.log(event.data)
     });
   
     document.addEventListener("DOMContentLoaded", () => {
-        preview(event.data.store);
+        preview();
     });
 	</script>
     <script src="/api/preview/script.js"></script>

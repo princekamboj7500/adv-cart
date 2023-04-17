@@ -468,7 +468,7 @@ marquee#upsell_mslide span {
   transform: translate(140px, 0);
 }
 .upsell__cart-image img {
-  height: 100px;
+  height: 100px; 
   width:100%;
 }
 div#viewcart a {
@@ -587,4 +587,22 @@ button.upsell_crausalbtn{
   border: none;
   border-radius: 100%;
   padding: 6px;
+}
+.upsell_announctop {
+  background: var(--lighten-grey);
+  border: 1px solid var(--light-grey);
+  color: var(--blue);
+  font-size: 14px;
+  padding: 5px 10px;
+  margin: 5px 0;
+  border-radius: 3px;
+  text-align: center;
+  height: 40px;
+}
+select.upsell_voptions {
+  width: 100%;
+  border-color: #ccc;
+  padding: 4px;
+  cursor: pointer;
+  border-radius: 4px;
 }

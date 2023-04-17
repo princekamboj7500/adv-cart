@@ -122,7 +122,7 @@ function drawCartItems(items) {
   const ranges = document.querySelectorAll(".upsell__cart-gift-item");
   var amt = [];
   for(var i = 0; i < ranges.length; i++){
-      amt.push(ranges[i].getAttribute('id'));
+      amt.push(ranges[i].getAttribute('id')); 
       var id = ranges[i].getAttribute('id');
       if(subtotalPrice >= id){
         document.getElementById(""+id+"").querySelector(".upsell__cart-icon").classList.add("active");

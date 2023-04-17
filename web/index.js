@@ -12,7 +12,8 @@ import shopify from "./shopify.js";
 import productCreator from "./product-creator.js";
 import GDPRWebhookHandlers from "./gdpr.js";
 import { billingConfig, createSubscription } from "./billing.js";
-
+import axios from "axios";
+import cors from "cors";
 
 mongoose.Promise = global.Promise;
  
@@ -28,6 +29,7 @@ const STATIC_PATH =
 const PREVIEWSTATIC_PATH = `${process.cwd()}/preview/`;
 
 const app = express();
+app.use(cors());
 
 // Set up Shopify authentication and webhook handling
 app.get(shopify.config.auth.path, shopify.auth.begin());
@@ -97,7 +99,7 @@ app.get("/api/prevwidget/:shop",  async (_req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     var widgets = await storeController.widgets(_req.params.shop);
     var doc = await StoreModel.findOne({store: _req.params.shop});
-    if(doc){
+    if(doc){ 
       var shoptoken = doc.token;
       var myHeaders = new Headers();
       myHeaders.append("X-Shopify-Access-Token", ""+shoptoken+"");
@@ -214,6 +216,32 @@ app.post("/api/widgets", async (_req, res) => {
   }else{
     res.status(404).send({});
   }
+});
+
+app.get("/api/coupon/:code/:shop", cors(), async (_req, res) => {
+  var code = _req.params.code;
+  var shop = _req.params.shop;
+  const doc = await StoreModel.findOne({store: shop});
+  let config = {
+    method: 'get',
+    withCredentials: false,
+    url: 'https://'+doc.store+'/admin/api/2023-04/discount_codes/lookup.json?code='+code,
+    headers: { 
+      'X-Shopify-Access-Token': doc.token
+    }
+  };
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  axios.request(config)
+  .then((response) => {
+   
+    console.log(JSON.stringify(response.data));
+    res.status(200).send(response.data); 
+  })
+  .catch((error) => {
+    res.status(200).send(error); 
+    console.log(error);
+  });
+  
 });
 
 app.get("/api/widget/preview", async (_req, res) => {

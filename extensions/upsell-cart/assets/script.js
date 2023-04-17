@@ -38,6 +38,7 @@ class upsellCart{
     this.getRecmdpros();
     this.cartOptions();
     this.getCounty();
+    
   }
 
   async getItems(){
@@ -74,7 +75,7 @@ class upsellCart{
             var cartObj = await fetch("/collections/all/products.json?limit=5");
             cartObj = await cartObj.json();
             var allpro = cartObj.products;
-            
+            console.log(allpro);
             this.recmDation.innerHTML='';
             var noimg = '<img src='+window.noimg+' alt="" width="auto" height="auto" loading="lazy" />';
             allpro.map(
@@ -91,13 +92,22 @@ class upsellCart{
                     </div>
                     <div class="upsell__cart-price">`+window.money+` ${item.variants[0].price}</div>
                 </div>
+                <div class="upsell_variants">
+                 ${ item.variants[1] ? ` <select class="upsell_voptions" onchange="window.__upsellCart.upsellVoptn(this)">
+                 ${
+                   item.variants.map(
+                     (variant) =>
+                         ( 
+                           `<option  value="${variant.id}">${variant.title}</option>`
+                         ))
+                 }
+                 </select>`: ''}
+                 
+                </div>
                 <div class="upsell__cart-clear-price">
                     <div class="upsell__cart-add-btn">
                         <button class="addrecomd" onclick="window.__upsellCart.addItem(${item.variants[0].id})" vid="${item.variants[0].id}">Add</button>
                     </div>
-                </div>
-                <div class="upsell_variants">
-                  
                 </div>
                 </div>`));
                 if(window.UpsellWidget[i].layout.small_screens.display_style == 'grid'){
@@ -171,6 +181,18 @@ class upsellCart{
                   </div>
                   <div class="upsell__cart-price">`+window.money+` ${item.variants[0].price}</div>
               </div>
+              <div class="upsell_variants">
+                 ${ item.variants[1] ? ` <select class="upsell_voptions" onchange="window.__upsellCart.upsellVoptn(this)">
+                 ${
+                   item.variants.map(
+                     (variant) =>
+                         ( 
+                           `<option  value="${variant.id}">${variant.title}</option>`
+                         ))
+                 }
+                 </select>`: ''}
+                 
+                </div>
               <div class="upsell__cart-clear-price">
                   <div class="upsell__cart-add-btn">
                       <button class="addrecomd" onclick="window.__upsellCart.addItem(${item.variants[0].id})" vid="${item.variants[0].id}">Add</button>
@@ -206,7 +228,6 @@ class upsellCart{
             var recpro =  JSON.parse(localStorage.getItem('recentjson'));
             document.getElementById("newwidget").insertAdjacentHTML('afterbegin',"<div class='upwidgets2' id='recent_view'><div id='recentvue'></div></div>");
             var newidget3 = document.getElementById("recentvue");
-             
             newidget3.innerHTML='';
             var noimg = '<img src='+window.noimg+' alt="" width="auto" height="auto" loading="lazy" />';
             for(var j=0;j<recpro.length;j++){
@@ -220,6 +241,7 @@ class upsellCart{
                   </div>
                   <div class="upsell__cart-price">`+window.money+` `+recpro[j].price+`</div>
               </div>
+              
               <div class="upsell__cart-clear-price">
                   <div class="upsell__cart-add-btn">
                       <button class="addrecomd" onclick="window.__upsellCart.addItem(`+recpro[j].varid+`)" vid="`+recpro[j].varid+`">Add</button>
@@ -261,7 +283,13 @@ class upsellCart{
 
   announcMent(){
     var allitms = window.UpsellCart.announcement_bar_items.length;
-    let p = document.getElementById("upsell_announcement");
+    if(window.UpsellCart.announcement_position == 'topflyout'){
+      var p = document.querySelector(".upsell_announctop");
+    }else{
+      document.querySelector(".upsell_announctop").classList.add('deactivated');
+      var p = document.getElementById("upsell_announcement");
+    }
+    
     p.innerHTML = '';
     if(allitms <= 1){
         document.getElementById("upsell_announcement").innerText = window.UpsellCart.announcement_bar_items[0];
@@ -279,6 +307,7 @@ class upsellCart{
     document.getElementById("chkoutbtn").style.background = "hsl("+window.UpsellCart.checkout_btn_settings.checking_out_color.hue+",90%,50%)";
     
   }
+
   drawerOpen(){
     
     this.cartMainContainer.classList.remove("upsell__cart-close");
@@ -294,13 +323,14 @@ class upsellCart{
     setTimeout(function(){
         window.__upsellCart.announSlide();
     },1000)
+    
   }
   cartOptions(){
     if(window.UpsellCart.cart_btn_status == true){
       document.getElementById("viewCartButton").style.display = "block";
       document.getElementById("viewCartButton").innerHTML = '<a href="/cart">'+window.UpsellCart.cart_btn_settings.view_cart_label+'</a>';
     }
-    if(window.UpsellCart.shopping_btn_status == true){
+    if(window.UpsellCart.shopping_btn_status == true){ 
       document.getElementById("continueshop").innerHTML = "<a href='/collections/all'>"+window.UpsellCart.shopping_btn+"</a>"
     }
     if(window.UpsellCart.checkout_btn_status == true){
@@ -318,14 +348,49 @@ class upsellCart{
   }
 
   discountLabel(){
-      if(window.UpsellCart.discount_input_status == true){
-        document.getElementById("cartItems").insertAdjacentHTML('beforeend',`<div class="disount_input">
+    if(window.UpsellCart.discount_input_status == true){
+      if(window.UpsellCart.discount_input.position == 'above_subtotal'){
+        document.querySelector(".upsell_disc_input").innerHTML = `<div class="disount_input">
         <label>`+window.UpsellCart.discount_input.discount_label+`</label>
-        <input type="text" placeholder="`+window.UpsellCart.discount_input.discount_code_label+`">
-        <input type="submit" class="addrecomd" value="`+window.UpsellCart.discount_input.discount_button_label+`">
-        </div>`)
+        <input type="text" id="upsell_discinp" placeholder="`+window.UpsellCart.discount_input.discount_code_label+`">
+        <input type="button" onclick="window.__upsellCart.validateCode(this)" class="addrecomd" value="`+window.UpsellCart.discount_input.discount_button_label+`">
+        </div>`;
       }
-  }
+      else if(window.UpsellCart.discount_input.position == 'below_lineitm'){
+        document.querySelector(".upsel_disc_inp1").innerHTML = `<div class="disount_input">
+        <label>`+window.UpsellCart.discount_input.discount_label+`</label>
+        <input type="text" id="upsell_discinp" placeholder="`+window.UpsellCart.discount_input.discount_code_label+`">
+        <input type="button" onclick="window.__upsellCart.validateCode(this)" class="addrecomd" value="`+window.UpsellCart.discount_input.discount_button_label+`">
+        </div>`;
+      }
+     
+    }
+}
+
+validateCode(elem){
+  var element = document.querySelector(".disount_input .addrecomd");
+  element.value = "checking...";
+  var dcode = document.getElementById("upsell_discinp").value;
+  console.log(dcode);
+  var url = '/apps/coupon/'+dcode+'/'+window.upsell_shop_domain;
+  fetch(url)
+  .then(function (response) {
+    return response.json();
+  })
+  .then(function (payload) {
+   if(payload.discount_code){
+    document.querySelector("#upsell_error1").innerHTML = "Valid code";
+    document.querySelector("#upsell_error").innerHTML = "Valid code";
+     element.value = window.UpsellCart.discount_input.discount_button_label;
+   }else{
+    
+     document.querySelector("#upsell_error1").innerHTML = window.UpsellCart.discount_input.discount_invalid_message;
+     document.querySelector("#upsell_error").innerHTML = window.UpsellCart.discount_input.discount_invalid_message;
+     element.value = window.UpsellCart.discount_input.discount_button_label;
+   }
+  });
+  
+}
   drawerClose(){
     this.cartMainContainer.classList.add("upsell__cart-close");
   }
@@ -400,6 +465,7 @@ class upsellCart{
     //console.log(this.subtotalPrice);
     this.countTiers(this.subtotalPrice, this.tiers);
     this.discountLabel();
+   
   }
   
   addItem(e) {
@@ -466,6 +532,13 @@ class upsellCart{
         xhr.send(newdata);
 
   }
+ upsellVoptn(elm){
+    var vid = elm.value;
+     var natr = `window.__upsellCart.addItem(`+vid+`)`;
+    elm.parentNode.parentNode.querySelector(".addrecomd").setAttribute("onclick",natr );
+     elm.parentNode.parentNode.querySelector(".addrecomd").setAttribute("vid",vid );
+ }
+
   cleanCart(event) {
     event.preventDefault();
     this.items = [];
@@ -832,6 +905,9 @@ button.btn-secondary{
 }
 .upsell__cart-cart-item button{
   background : hsl(`+window.UpsellCart.buy_more.button_color.hue+`,70%,30%);
+}
+.upsell_announctop.deactivated{
+  display:none;
 }
 `+customcode+`
 </style>`;

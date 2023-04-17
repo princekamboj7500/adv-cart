@@ -3,6 +3,7 @@ var CartSchema = new Schema({
     store:{type: String},
     live_mode:{type: Boolean, default: false},
     announcement_bar:{type: Boolean, default: false},
+    announcement_position:{type: String},
     announcement_bar_items:{type: Array},
     tiered_progress_bar:{type: Boolean, default: false},
     tiered_progress_bar_tabs:{type: Array},

@@ -8,6 +8,9 @@
             Click here to clean your cart...
           </a>
         </div>
+        <div class="upsell_announctop">
+        
+        </div>
         <div class="upsell__cart-tiers">
           <div class="upsell__cart-gifts">
            
@@ -43,7 +46,7 @@
             </div>
             <div class="upsell__cart-clear-price"> 
                 <div class="upsell__cart-add-btn">
-                <button class="addrecomd" onclick="window.__upsellCart.addItem(44679815004436)" vid=""44679815004436>Add</button>
+                <button class="addrecomd" onclick="window.__upsellCart.addItem(44679815004436)" vid="44679815004436">Add</button>
                 </div>
             </div>
         </div>
@@ -116,7 +119,7 @@
             <button class="upsell_crausalbtn" onclick="nextSlide(this)" id="next" class="btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/> </svg></button>
         </div>
         <div id="newwidget"></div>
-        
+        <div class="upsel_disc_inp1"></div>
         <div class="upsell__cart-message" id="upsell_announcement">
           20% OFF When You Add These Items to Your Order Now!
         </div>
@@ -125,10 +128,11 @@
         </div>
         <div id="continueshop">
         
-        </div>
+        </div> 
       </div>
 
       <div class="upsell__cart-footer">
+       <div class="upsell_disc_input"></div>
         <div class="upsell__cart-subtotal">
           <div id="subtotalItems" class="upsell__cart-subtotal-items"></div>
           <div id="subtotalPrice"></div>
@@ -173,6 +177,7 @@ window.noimg = "{{ 'no-image.png' | asset_img_url }}";
 window.UpsellCart = {{ app.metafields.settings.cart }};
 window.UpsellWidget = {{ app.metafields.settings.widget }};
 window.money =  "{{ cart.currency.symbol }}";
+window.upsell_shop_domain= "{{shop.permanent_domain}}";
 </script> 
 {% schema %}
   {
