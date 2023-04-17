@@ -481,15 +481,46 @@ button.btn-secondary {
 .crsl.crousl .crousl {
   overflow: hidden !important;
 }
-.animate{
+.upsell_animate{
   -webkit-transition: 0.25s ease;
   transition: 0.3s ease;
   -webkit-transform: translate(-140px, 0);
   transform: translate(-140px, 0);
 }
-.animaterev{
+.upsell_animaterev{
   -webkit-transition: 0.25s ease;
   transition: 0.3s ease;
   -webkit-transform: translate(140px, 0);
   transform: translate(140px, 0);
+} 
+.upsell__cart-icon.active svg {
+  fill: #fff;
+  stroke: #fff;
+}
+button.upsell_crausalbtn{
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border: none;
+  border-radius: 100%;
+  padding: 6px;
+}
+div#upsell_announcement {
+  overflow-x: hidden;
+  position: relative;
+  bottom: 30px;
+  padding: 13px 0px;
+}
+button#chkoutbtn a {
+  color: #fff;
+  text-decoration: none;
+}
+.upsell_announctop {
+  background: var(--lighten-grey);
+  border: 1px solid var(--light-grey);
+  color: var(--blue);
+  font-size: 14px;
+  padding: 5px 10px;
+  margin: 5px 0;
+  border-radius: 3px;
+  text-align: center;
+  height: 25px;
 }

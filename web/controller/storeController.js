@@ -29,6 +29,7 @@ storeController.cart = async function(store){
     return {
         "live_mode": false,
         "announcement_bar": false,
+        "announcement_position":"topflyout",
         "announcement_bar_items": [],
         "tiered_progress_bar": false,
         "tiered_progress_bar_tabs": [{
@@ -71,7 +72,8 @@ storeController.cart = async function(store){
             "discount_code_label": "Discount Code",
             "discount_label": "Discount",
             "discount_button_label": "Apply",
-            "discount_invalid_message": "Invalid Discount Code"
+            "discount_invalid_message": "Invalid Discount Code",
+            "position":"above_subtotal"
         },
         "shopping_btn_status":false,
         "shopping_btn": "Continue Shopping",

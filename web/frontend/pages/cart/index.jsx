@@ -43,6 +43,7 @@ function Cart() {
     const [setings, setSettings] = useState({
         "live_mode": false,
         "announcement_bar": false,
+        "announcement_position":"topflyout",
         "announcement_bar_items": [],
         "tiered_progress_bar": false,
         "tiered_progress_bar_tabs": [{
@@ -89,7 +90,8 @@ function Cart() {
             "discount_code_label": "Discount Code",
             "discount_label": "Discount",
             "discount_button_label": "Apply",
-            "discount_invalid_message": "Invalid Discount Code"
+            "discount_invalid_message": "Invalid Discount Code",
+            "position":"above_subtotal"
         },
         "shopping_btn_status":false,
         "shopping_btn": "Continue Shopping",
@@ -159,15 +161,15 @@ function Cart() {
             ...setings,
             [field]: e,
         }));
+       
         contentRef.contentWindow.postMessage(setings, "*");
     };
-    
+
+
     const [loader, setLoader] = useState(false);
     const [toastloader, setToastloader] = useState(false);
 
     const saveCart = async function(){
-        console.log(previewiframe);
-
         console.log(setings);
         setLoader(true);
         var auth = Cookies.get('auth');
@@ -183,7 +185,7 @@ function Cart() {
 
     const loadCart = async function(){
         var auth = Cookies.get('auth');
-        var response = await fetch("/api/cart", {
+        var response = await fetch("/api/cart", { 
           headers: {
             "Content-Type": "application/json",
             "Authorization": "Bearer "+auth 
@@ -193,6 +195,7 @@ function Cart() {
         console.log(cartObj)
         setSettings(cartObj);
         setPageload(false);
+       
         ///setProfile({name: profile.name, detail: profile.shop, initials: profile.name.charAt(0).toUpperCase(), isloading: false});
     }
 
@@ -239,8 +242,11 @@ function Cart() {
                     />
                     <Button icon={DeleteMinor} onClick={deleteMessageAction(index)}></Button>
                 </FormLayout.Group>
+               
             </FormLayout>
+           
         </Card.Section>
+        
     )) : <p>&nbsp;</p>);
 
     const [selected, setSelected] = useState(0);
@@ -732,6 +738,15 @@ function Cart() {
             autoComplete="off"
             value={setings.discount_input.discount_invalid_message}
         />
+        <Select
+            label="Position"
+            options={[
+                { label: 'Below line items', value: 'below_lineitm' },
+                { label: 'Above subtotal', value: 'above_subtotal' },
+            ]}
+            onChange={handleDiscountInputFields("position")}
+            value={setings.discount_input.position}
+        />
     </FormLayout></Card.Section>);
 
     const handleCheckoutFields = (field) => (e) => {
@@ -786,7 +801,21 @@ function Cart() {
                     <Button
                         primary={!setings['announcement_bar']}
                         onClick={handleToggle('announcement_bar')}>{setings['announcement_bar'] ? 'Deactivate' : 'Activate'}</Button>
+                        
                 </Card.Header>
+                <Card.Section>
+               
+                <Select
+                        label="Position"
+                        options={[
+                            { label: 'Top of flyout', value: 'topflyout' },
+                            { label: 'Bottom of lineitems', value: 'bottomflyout' },
+                        ]}
+                        onChange={handleField("announcement_position")}
+                        value={setings.announcement_position}
+                    />
+
+                   </Card.Section>
                 {setings['announcement_bar'] ? announcementItemsMarkup : <p>&nbsp;</p>}
             </Card>
 
