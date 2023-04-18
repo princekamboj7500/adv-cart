@@ -330,34 +330,52 @@ class upsellCart{
       document.getElementById("viewCartButton").style.display = "block";
       document.getElementById("viewCartButton").innerHTML = '<a href="/cart">'+window.UpsellCart.cart_btn_settings.view_cart_label+'</a>';
     }
-    if(window.UpsellCart.shopping_btn_status == true){ 
-      document.getElementById("continueshop").innerHTML = "<a href='/collections/all'>"+window.UpsellCart.shopping_btn+"</a>"
+    if(window.UpsellCart.shopping_btn_status == true){
+      if(window.UpsellCart.continue_shopping.Position == "fly_top"){
+        document.querySelector(".upsell_header").style.justifyContent ="space-evenly";
+        document.querySelector(".upsell_header").style.display = "flex";
+        document.getElementById("upsell_conti_top").innerHTML = "<span onclick='window.__upsellCart.upsellConti();'>"+window.UpsellCart.continue_shopping.shopping_btn+"</span>"
+      }else if(window.UpsellCart.continue_shopping.Position == "fly_bottom"){
+        document.getElementById("upsell_continueshop").innerHTML = "<span onclick='window.__upsellCart.upsellConti();'>"+window.UpsellCart.continue_shopping.shopping_btn+"</span>"
+      }
+      
     }
     if(window.UpsellCart.checkout_btn_status == true){
       document.getElementById("chkoutbtn").style.display = "block";
       document.getElementById("chkoutbtn").innerHTML = '<a href="/checkout">'+window.UpsellCart.checkout_btn_settings.checkout_label+'</a>'
-    }else if(window.UpsellCart.checkout_btn_status == false){
+    }
+    if(window.UpsellCart.checkout_btn_status == false){
       document.getElementById("chkoutbtn").style.display = "none";
     }
     if(window.UpsellCart.payment_installments_status == true){
       document.getElementById("afterpayBottom").innerHTML = '<p>or '+window.UpsellCart.payment_installments_settings.payment_count+' interest-free installments by <a href="'+window.UpsellCart.payment_installments_settings.terms_url+'">'+window.UpsellCart.payment_installments_settings.provider+'</a></p>'
     }
     if(window.UpsellCart.note_status == true){
-      document.getElementById("continueshop").insertAdjacentHTML(`afterbegin`,`<div class="notediv"><label>`+window.UpsellCart.note_label+`</label><textarea id='rebuy-cart-notes' placeholder='Your notes...' class='rebuy-textarea rebuy-cart__flyout-note-textarea'></textarea>`);
+      if(window.UpsellCart.note_input.position == "above_subtotal"){
+        document.querySelector(".upsell_note_input2").innerHTML = `<div class="upsell_notediv"><label>`+window.UpsellCart.note_input.note_label+`</label><textarea id='rebuy-cart-notes' placeholder='Your notes...' class='rebuy-textarea rebuy-cart__flyout-note-textarea'></textarea>`;
+        document.querySelector(".upsell_notediv").style.paddingTop = window.UpsellCart.note_input.padding+'px';
+        document.querySelector(".upsell_notediv").style.paddingBottom  = window.UpsellCart.note_input.padding+'px';
+      }
+      else if(window.UpsellCart.note_input.position == "below_lineitm"){
+        document.querySelector(".upsell_note_input1").innerHTML = `<div class="upsell_notediv"><label>`+window.UpsellCart.note_input.note_label+`</label><textarea id='rebuy-cart-notes' placeholder='Your notes...' class='rebuy-textarea rebuy-cart__flyout-note-textarea'></textarea>`;
+        document.querySelector(".upsell_notediv").style.paddingTop = window.UpsellCart.note_input.padding+'px';
+        document.querySelector(".upsell_notediv").style.paddingBottom  = window.UpsellCart.note_input.padding+'px';
+      }
+      
     }
   }
 
   discountLabel(){
     if(window.UpsellCart.discount_input_status == true){
       if(window.UpsellCart.discount_input.position == 'above_subtotal'){
-        document.querySelector(".upsell_disc_input").innerHTML = `<div class="disount_input">
+        document.querySelector(".upsell_disc_input").innerHTML = `<div class="upsell_disount_input">
         <label>`+window.UpsellCart.discount_input.discount_label+`</label>
         <input type="text" id="upsell_discinp" placeholder="`+window.UpsellCart.discount_input.discount_code_label+`">
         <input type="button" onclick="window.__upsellCart.validateCode(this)" class="addrecomd" value="`+window.UpsellCart.discount_input.discount_button_label+`">
         </div>`;
       }
       else if(window.UpsellCart.discount_input.position == 'below_lineitm'){
-        document.querySelector(".upsel_disc_inp1").innerHTML = `<div class="disount_input">
+        document.querySelector(".upsel_disc_inp1").innerHTML = `<div class="upsell_disount_input">
         <label>`+window.UpsellCart.discount_input.discount_label+`</label>
         <input type="text" id="upsell_discinp" placeholder="`+window.UpsellCart.discount_input.discount_code_label+`">
         <input type="button" onclick="window.__upsellCart.validateCode(this)" class="addrecomd" value="`+window.UpsellCart.discount_input.discount_button_label+`">
@@ -368,7 +386,7 @@ class upsellCart{
 }
 
 validateCode(elem){
-  var element = document.querySelector(".disount_input .addrecomd");
+  var element = document.querySelector(".upsell_disount_input .addrecomd");
   element.value = "checking...";
   var dcode = document.getElementById("upsell_discinp").value;
   console.log(dcode);
@@ -559,7 +577,14 @@ validateCode(elem){
     optionsSelect.classList.remove("upsell__cart-hidden");
     el.classList.add("upsell__cart-hidden");
   }
-  
+  upsellConti(){
+    if(window.UpsellCart.continue_shopping.redirect_option == "close_cart"){
+      window.__upsellCart.drawerClose();
+    }else if(window.UpsellCart.continue_shopping.redirect_option == "redirecturi"){
+      window.location.href = window.UpsellCart.continue_shopping.redirect_url;
+    }
+}
+
   countSubtotal(items) {
     const itemsContainer = document.getElementById("subtotalItems");
     const priceContainer = document.getElementById("subtotalPrice");
@@ -908,6 +933,15 @@ button.btn-secondary{
 }
 .upsell_announctop.deactivated{
   display:none;
+}
+div#upsell_continueshop span{
+  background: hsl(`+window.UpsellCart.checkout_btn_settings.checking_out_color.hue+`,90%,50%);
+  color: #fff;
+  text-align: center;
+  padding: 7px;
+  margin: 10px;
+  border-radius: 4px;
+  cursor: pointer;
 }
 `+customcode+`
 </style>`;

@@ -144,7 +144,7 @@ div#upsell_mslide {
 }
 
 .content {
-  height: calc(100% - 310px);
+  height: calc(100% - 350px);
   overflow-y: scroll;
 }
 
@@ -523,4 +523,28 @@ button#chkoutbtn a {
   border-radius: 3px;
   text-align: center;
   height: 25px;
+}
+.disount_input {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 0px;
+  padding: 0px 16px;
+}
+.disount_input input.addrecomd {
+  color: #fff;
+  border: none;
+  width: 100px;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 5px;
+}
+.upsel_disc_inp1 .disount_input {
+  margin-bottom: 40px;
+}
+.upsell_notediv {
+  display: grid;
+  padding: 0px 10px;
+}
+.upsell_note_input1 {
+  margin-bottom: 13px;
 }
