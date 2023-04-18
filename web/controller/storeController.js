@@ -76,9 +76,18 @@ storeController.cart = async function(store){
             "position":"above_subtotal"
         },
         "shopping_btn_status":false,
-        "shopping_btn": "Continue Shopping",
+        "continue_shopping": {
+          "shopping_btn":"Continue shopping",
+          "redirect_option":"redirecturi",
+          "Position":"fly_top",
+          "redirect_url":"/collections/all"
+      },
         "note_status": false,
-        "note_label": "Add a note (optional)",
+        "note_input":{
+          "note_label": "Add a note (optional)",
+          "position":"above_subtotal",
+          "padding":"20"
+      },
         "checkout_btn_status": false,
         "checkout_btn_settings":{
             "checkout_label": "<i class=\"rebuy-button-icon prefix fas fa-lock\"></i> Checkout <i class=\"\"></i>",

@@ -1,7 +1,10 @@
     <div class="upsell--cart upsell__cart-close">
       <div class="upsell__cart-header">
       <span class="crossw" onclick="window.__upsellCart.drawerClose()">X</span>
-        <div class="upsell__cart-title">Your Cart</div>
+       <div class="upsell_header">
+        <span id="upsell_conti_top"></span>
+        <div class="upsell__cart-title"> Your Cart</div>
+      </div>
         <div class="upsell__cart-message">
           Experiencing cart issues?
           <a href="#" onclick="window.__upsellCart.cleanCart(event)">
@@ -119,11 +122,16 @@
             <button class="upsell_crausalbtn" onclick="nextSlide(this)" id="next" class="btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/> </svg></button>
         </div>
         <div id="newwidget"></div>
+
         <div class="upsel_disc_inp1"></div>
+        <div class="upsell_note_input1"></div>
         <div class="upsell__cart-message" id="upsell_announcement">
           20% OFF When You Add These Items to Your Order Now!
         </div>
         <div id="viewcart">
+        
+        </div>
+         <div id="upsell_continueshop">
         
         </div>
         <div id="continueshop">
@@ -133,6 +141,7 @@
 
       <div class="upsell__cart-footer">
        <div class="upsell_disc_input"></div>
+       <div class="upsell_note_input2"></div>
         <div class="upsell__cart-subtotal">
           <div id="subtotalItems" class="upsell__cart-subtotal-items"></div>
           <div id="subtotalPrice"></div>

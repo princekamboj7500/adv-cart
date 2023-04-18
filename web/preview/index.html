@@ -26,7 +26,10 @@
     <div id="upsell_prev_styl"></div>
     <div class="cart">
       <div class="header">
-        <div class="title" id="upsell_prev_titl">Your Cart</div>
+        <div class="upsell_header">
+          <span id="upsell_conti_top"></span>
+          <div class="title" id="upsell_prev_titl">Your Cart</div>
+        </div>
         <div class="message">
           Experiencing cart issues?
           <a href="#" onclick="cleanCart(event)">
@@ -48,7 +51,7 @@
       <div class="progress-hint" id="progressHint"></div>
       <div class="content">
         <div class="cart-items" id="cartItems"></div>
-
+        
         <div class="upsell">
           <div class="title">INSTANT 20% DISCOUNT</div>
           <div class="subtitle">
@@ -148,16 +151,19 @@
           </div>
 
         </div>
+        <div class="upsel_disc_inp1"></div>
+        <div class="upsell_note_input1"></div>
+        
         <div  id="upsell_proglayout_two"></div>
         <div class="message" id="upsell_announcement">
           20% OFF When You Add These Items to Your Order Now!
         </div>
-        <div id="continueshop">
-        
-        </div>
+        <div id="upsell_continueshop"></div>
       </div>
-
+     
       <div class="footer">
+        <div class="upsell_disc_input"></div>
+        <div class="upsell_note_input2"></div>
         <div class="subtotal">
           <div id="subtotalItems" class="subtotal-items"></div>
           <div id="subtotalPrice"></div>
@@ -210,7 +216,8 @@
        
       function allwdgt(){
 
-        fetch('https://cart.brandlift.io/api/prevwidget/'+store+'')
+        //fetch('https://cart.brandlift.io/api/prevwidget/'+store+'')
+        fetch('https://39c9-2405-201-5802-4c37-486-4272-71bf-811d.ngrok-free.app/api/prevwidget/'+store+'')
         .then(function (response) {
             return response.json();
         })
@@ -532,26 +539,69 @@
       }
       allwdgt();
 
-
+     function  discountLabel(){
+        if(event.data.discount_input_status == true){
+          if(event.data.discount_input.position == 'above_subtotal'){
+            document.querySelector(".upsell_disc_input").innerHTML = `<div class="disount_input">
+            <label>`+event.data.discount_input.discount_label+`</label>
+            <input type="text" id="upsell_discinp" placeholder="`+event.data.discount_input.discount_code_label+`">
+            <input type="button" onclick="window.__upsellCart.validateCode(this)" class="addrecomd" value="`+event.data.discount_input.discount_button_label+`">
+            </div>`;
+          }
+          else if(event.data.discount_input.position == 'below_lineitm'){
+            document.querySelector(".upsel_disc_inp1").innerHTML = `<div class="disount_input">
+            <label>`+event.data.discount_input.discount_label+`</label>
+            <input type="text" id="upsell_discinp" placeholder="`+event.data.discount_input.discount_code_label+`">
+            <input type="button" onclick="window.__upsellCart.validateCode(this)" class="addrecomd" value="`+event.data.discount_input.discount_button_label+`">
+            </div>`;
+          }
+        
+        }
+    }
+    discountLabel();
       function cartOptions(){
         if(event.data.cart_btn_status == true){
           document.getElementById("viewCartButton").style.display = "block";
           document.getElementById("viewCartButton").innerHTML = '<a href="/cart">'+event.data.cart_btn_settings.view_cart_label+'</a>';
         }
         if(event.data.shopping_btn_status == true){
-          document.getElementById("continueshop").innerHTML = "<a href='/collections/all'>"+event.data.shopping_btn+"</a>"
+          if(event.data.continue_shopping.Position == "fly_top"){
+            document.querySelector(".upsell_header").style.justifyContent ="space-evenly";
+            document.querySelector(".upsell_header").style.display = "flex";
+            document.getElementById("upsell_conti_top").innerHTML = "<span>"+event.data.continue_shopping.shopping_btn+"</span>"
+          }else if(event.data.continue_shopping.Position == "fly_bottom"){
+            document.getElementById("upsell_continueshop").innerHTML = "<span>"+event.data.continue_shopping.shopping_btn+"</span>"
+          }
+          
         }
         if(event.data.checkout_btn_status == true){
           document.getElementById("chkoutbtn").style.display = "block";
-          document.getElementById("chkoutbtn").innerHTML = '<a href="/checkout">'+event.data.checkout_btn_settings.checkout_label+'</a>'
-        }else if(event.data.checkout_btn_status == false){
+          if(event.data.checkout_btn_settings.checkout_routing == 'custom'){
+            document.getElementById("chkoutbtn").innerHTML = '<a href="'+event.data.checkout_btn_settings.custom_checkout_url+'">'+event.data.checkout_btn_settings.checkout_label+'</a>'
+          }else{
+            document.getElementById("chkoutbtn").innerHTML = '<a href="/checkout">'+event.data.checkout_btn_settings.checkout_label+'</a>'
+          }
+          
+        }
+        
+        if(event.data.checkout_btn_status == false){
           document.getElementById("chkoutbtn").style.display = "none";
         }
         if(event.data.payment_installments_status == true){
           document.getElementById("afterpayBottom").innerHTML = '<p>or '+event.data.payment_installments_settings.payment_count+' interest-free installments by <a href="'+event.data.payment_installments_settings.terms_url+'">'+event.data.payment_installments_settings.provider+'</a></p>'
         }
         if(event.data.note_status == true){
-          document.getElementById("continueshop").insertAdjacentHTML(`afterbegin`,`<div class="notediv"><label>`+event.data.note_label+`</label><textarea id='rebuy-cart-notes' placeholder='Your notes...' class='rebuy-textarea rebuy-cart__flyout-note-textarea'></textarea>`);
+          if(event.data.note_input.position == "above_subtotal"){
+            document.querySelector(".upsell_note_input2").innerHTML = `<div class="upsell_notediv"><label>`+event.data.note_input.note_label+`</label><textarea id='rebuy-cart-notes' placeholder='Your notes...' class='rebuy-textarea rebuy-cart__flyout-note-textarea'></textarea>`;
+            document.querySelector(".upsell_notediv").style.paddingTop = event.data.note_input.padding+'px';
+            document.querySelector(".upsell_notediv").style.paddingBottom  = event.data.note_input.padding+'px';
+          }
+          else if(event.data.note_input.position == "below_lineitm"){
+            document.querySelector(".upsell_note_input1").innerHTML = `<div class="upsell_notediv"><label>`+event.data.note_input.note_label+`</label><textarea id='rebuy-cart-notes' placeholder='Your notes...' class='rebuy-textarea rebuy-cart__flyout-note-textarea'></textarea>`;
+            document.querySelector(".upsell_notediv").style.paddingTop = event.data.note_input.padding+'px';
+            document.querySelector(".upsell_notediv").style.paddingBottom  = event.data.note_input.padding+'px';
+          }
+          
         }
       }
 
@@ -753,6 +803,15 @@
         }
         .upsell_announctop.deactivated{
           display:none;
+        }
+        div#upsell_continueshop span{
+          background: hsl(`+event.data.checkout_btn_settings.checking_out_color.hue+`,90%,50%);
+          color: #fff;
+          text-align: center;
+          padding: 7px;
+          margin: 10px;
+          border-radius: 4px;
+          cursor: pointer;
         }
         </style>`;
     }

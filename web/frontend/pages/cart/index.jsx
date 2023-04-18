@@ -94,9 +94,18 @@ function Cart() {
             "position":"above_subtotal"
         },
         "shopping_btn_status":false,
-        "shopping_btn": "Continue Shopping",
+        "continue_shopping": {
+            "shopping_btn":"Continue shopping",
+            "redirect_option":"redirecturi",
+            "Position":"fly_top",
+            "redirect_url":"/collections/all"
+        },
         "note_status": false,
-        "note_label": "Add a note (optional)",
+        "note_input":{
+            "note_label": "Add a note (optional)",
+            "position":"above_subtotal",
+            "padding":"20"
+        },
         "checkout_btn_status": false,
         "checkout_btn_settings":{
             "checkout_label": "<i class=\"rebuy-button-icon prefix fas fa-lock\"></i> Checkout <i class=\"\"></i>",
@@ -702,7 +711,20 @@ function Cart() {
         }));
         contentRef.contentWindow.postMessage(setings, "*");
     }
-
+    const handlenoteInputField = (index) => (e) => {
+        setings["note_input"][index] = e;
+        setSettings(setings => ({
+            ...setings,
+            ['note_input']: setings['note_input'],
+        }));
+    }
+    const handleShoppigInput = (index) => (e) => {
+        setings["continue_shopping"][index] = e;
+        setSettings(setings => ({
+            ...setings,
+            ['continue_shopping']: setings['continue_shopping'],
+        }));
+    }
     const handleDiscountInputFields = (index) => (e) => {
         setings["discount_input"][index] = e;
         setSettings(setings => ({
@@ -899,11 +921,35 @@ function Cart() {
                     </Stack>
                 </Card.Header>
                 {setings['shopping_btn_status'] ? <Card.Section><FormLayout>
-                    <TextField
+                <TextField
                         label="Continue Shopping"
-                        onChange={handleField("shopping_btn")}
                         autoComplete="off"
-                        value={setings.shopping_btn}
+                        onChange={handleShoppigInput("shopping_btn")}
+                        value={setings.continue_shopping.shopping_btn}
+                    />
+                    <Select
+                        label="Redirect Option"
+                        options={[
+                            { label: 'Close flyout cart', value: 'close_cart' },
+                            { label: 'Redirect to url', value: 'redirecturi' },
+                        ]}
+                        onChange={handleShoppigInput("redirect_option")}
+                        value={setings.continue_shopping.redirect_option}
+                    />
+                    <TextField
+                        label="Redirect URL"
+                        autoComplete="off"
+                        onChange={handleShoppigInput("redirect_url")}
+                        value={setings.continue_shopping.redirect_url}
+                    />
+                    <Select
+                        label="Position"
+                        options={[
+                            { label: 'Top of flyout', value: 'fly_top' },
+                            { label: 'Bottom of flyout', value: 'fly_bottom' },
+                        ]}
+                        onChange={handleShoppigInput("Position")}
+                        value={setings.continue_shopping.Position}
                     />
                 </FormLayout></Card.Section> : <p>&nbsp;</p>}
             </Card>
@@ -919,11 +965,27 @@ function Cart() {
                     </Stack>
                 </Card.Header>
                 {setings['note_status'] ? <Card.Section><FormLayout>
-                    <TextField
+                <TextField
                         label="Note Label"
-                        onChange={handleField("note_label")}
                         autoComplete="off"
-                        value={setings.note_label}
+                        onChange={handlenoteInputField("note_label")}
+                        value={setings.note_input.note_label}
+                    />
+                     <Select
+                        label="Position"
+                        options={[
+                            { label: 'Below line items', value: 'below_lineitm' },
+                            { label: 'Above subtotal', value: 'above_subtotal' },
+                        ]}
+                        onChange={handlenoteInputField("position")}
+                        value={setings.note_input.position}
+                    />
+                     <TextField
+                        label="Padding Top and Bottom"
+                        type="number"
+                        onChange={handlenoteInputField("padding")}
+                        value={setings.note_input.padding}
+                        autoComplete="off"
                     />
                 </FormLayout></Card.Section> : <p>&nbsp;</p>}
             </Card>
