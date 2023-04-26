@@ -239,7 +239,7 @@ fetch('https://geolocation-db.com/json/')
 });
 
 function allwdgt(){
-
+console.log(event.data.store)
 fetch('https://cart.brandlift.io/api/prevwidget/'+event.data.store+'')
 .then(function (response) {
     return response.json();
@@ -640,7 +640,7 @@ cartOptions();
 
 
 function tiers(subtotalPrice){
-if(event.data){
+
 var subp = document.querySelector('#subtotalPrice').querySelector('.discount').innerText;
 var subtotalPrice = parseFloat(subp.replace('$',''));
 
@@ -703,7 +703,6 @@ var subtotalPrice = parseFloat(subp.replace('$',''));
         }
       },200);
     }
-  }
   }
 }
   }
