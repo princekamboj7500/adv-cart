@@ -210,6 +210,7 @@ function Cart() {
         setSettings(cartObj);
         setPageload(false);
         
+        ///setProfile({name: profile.name, detail: profile.shop, initials: profile.name.charAt(0).toUpperCase(), isloading: false});
     }
 
     useEffect(() => {
