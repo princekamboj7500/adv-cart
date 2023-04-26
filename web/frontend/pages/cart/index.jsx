@@ -209,6 +209,7 @@ function Cart() {
         console.log(cartObj)
         setSettings(cartObj);
         setPageload(false);
+        
     }
 
     useEffect(() => {
