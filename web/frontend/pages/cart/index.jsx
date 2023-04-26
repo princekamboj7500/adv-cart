@@ -209,12 +209,8 @@ function Cart() {
         console.log(cartObj)
         setSettings(cartObj);
         setPageload(false);
-<<<<<<< HEAD
         
         ///setProfile({name: profile.name, detail: profile.shop, initials: profile.name.charAt(0).toUpperCase(), isloading: false});
-=======
-      
->>>>>>> f06547c760bc98953ae78de8f3c32b8347b6603e
     }
 
     useEffect(() => {
