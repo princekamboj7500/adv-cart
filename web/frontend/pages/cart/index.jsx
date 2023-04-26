@@ -139,7 +139,7 @@ function Cart() {
 
     // const handleToggle = useCallback(() => setActive((active) => !active), []);
 
-    const [contentRef, setContentRef] = useState(null);
+    const [contentRef, setContentRef] = useState(null)
 
     const handleIframeLoad = () => {
         contentRef.contentWindow.postMessage(setings, "*");
@@ -209,7 +209,7 @@ function Cart() {
         console.log(cartObj)
         setSettings(cartObj);
         setPageload(false);
-        
+        setTimeout(function() { contentRef.contentWindow.postMessage(setings, "*"); }, 5000);
         ///setProfile({name: profile.name, detail: profile.shop, initials: profile.name.charAt(0).toUpperCase(), isloading: false});
     }
 
