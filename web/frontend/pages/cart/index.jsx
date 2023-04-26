@@ -139,11 +139,16 @@ function Cart() {
 
     // const handleToggle = useCallback(() => setActive((active) => !active), []);
 
-    const [contentRef, setContentRef] = useState(null)
-    
+    const [contentRef, setContentRef] = useState(null);
+
+    const handleIframeLoad = () => {
+        contentRef.contentWindow.postMessage(setings, "*");
+    }
+
     const previewiframe = (<iframe
         id='previewiframe'
         ref={setContentRef}
+        onLoad={handleIframeLoad}
         style={{width:"100%", border:"unset", height: "45em"}}
         src='/api/widget/preview'></iframe>);
 
@@ -204,12 +209,13 @@ function Cart() {
         console.log(cartObj)
         setSettings(cartObj);
         setPageload(false);
-       
+        setTimeout(function() { contentRef.contentWindow.postMessage(setings, "*"); }, 5000);
         ///setProfile({name: profile.name, detail: profile.shop, initials: profile.name.charAt(0).toUpperCase(), isloading: false});
     }
 
     useEffect(() => {
-        loadCart()
+        loadCart();
+        
     }, []);
 
     const addMessageAction = () => {
@@ -328,7 +334,7 @@ function Cart() {
             ...setings,
             ['tiered_progress_bar_tabs']: setings['tiered_progress_bar_tabs'],
         }));
-        
+        contentRef.contentWindow.postMessage(setings, "*");
     }
 
     const handleTierToggle = (indx) => (e) => {
@@ -337,6 +343,7 @@ function Cart() {
             ...setings,
             ['tiered_progress_bar_tabs']: setings['tiered_progress_bar_tabs'],
         }));
+        contentRef.contentWindow.postMessage(setings, "*");
     }
 
     const deselectedOptions = useMemo(
@@ -518,7 +525,7 @@ function Cart() {
             />
         )
     }
-
+    
     const addNewTire = () => {
         setings['tiered_progress_bar_tabs'][selected]['tier'].push({
             name: 'Tire',
@@ -566,6 +573,7 @@ function Cart() {
                     {tierMarkup()}
                     <Stack>
                         <Button icon={CirclePlusMinor} onClick={addNewTire}>Add New Tire</Button>
+                        
                         {selectedTierItems.length ? <Button icon={DeleteMinor} destructive onClick={deleteSelectedTierItems}>Delete selected tier</Button> : ''}
                     </Stack>
                 </FormLayout>
