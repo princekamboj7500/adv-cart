@@ -209,7 +209,7 @@ function Cart() {
         console.log(cartObj)
         setSettings(cartObj);
         setPageload(false);
-       
+
     }
 
     useEffect(() => {
@@ -1166,3 +1166,4 @@ function Cart() {
 }
 
 export default Cart;
+
