@@ -219,6 +219,7 @@ app.post("/api/widgets", async (_req, res) => {
 });
 
 app.get("/api/coupon/:code/:shop", cors(), async (_req, res) => {
+  await console.log('comeee')
   var code = _req.params.code;
   var shop = _req.params.shop;
   const doc = await StoreModel.findOne({store: shop});
