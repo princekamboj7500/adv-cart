@@ -120,6 +120,7 @@ app.get("/api/prevwidget/:shop",  async (_req, res) => {
 
 })
 
+
 app.use("/api/*", shopify.validateAuthenticatedSession());
 
 app.use(express.json());

@@ -123,6 +123,7 @@ storeController.cartSave = async function(session, data){
   }
 }
 
+
 storeController.widgetSave = async function(session, data){
   await widgetSchema.insertMany([data]);
   // var store = await widgetSchema.findOne({store: session.shop});

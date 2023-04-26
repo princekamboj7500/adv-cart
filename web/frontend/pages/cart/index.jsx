@@ -197,6 +197,7 @@ function Cart() {
         }).then(()=>setLoader(false),setToastloader((toastloader) => !toastloader), []).catch(()=>setLoader(false));
     }
 
+    
     const loadCart = async function(){
         var auth = Cookies.get('auth');
         var response = await fetch("/api/cart", { 
@@ -209,7 +210,8 @@ function Cart() {
         console.log(cartObj)
         setSettings(cartObj);
         setPageload(false);
-       
+       //setTimeout(function() { contentRef.contentWindow.postMessage(setings, "*"); }, 5000);
+        ///setProfile({name: profile.name, detail: profile.shop, initials: profile.name.charAt(0).toUpperCase(), isloading: false});
     }
 
     useEffect(() => {
