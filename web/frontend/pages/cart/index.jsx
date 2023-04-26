@@ -209,7 +209,7 @@ function Cart() {
         console.log(cartObj)
         setSettings(cartObj);
         setPageload(false);
-        setTimeout(function() { contentRef.contentWindow.postMessage(setings, "*"); }, 5000);
+       //setTimeout(function() { contentRef.contentWindow.postMessage(setings, "*"); }, 5000);
         ///setProfile({name: profile.name, detail: profile.shop, initials: profile.name.charAt(0).toUpperCase(), isloading: false});
     }
 
