@@ -273,7 +273,6 @@ fetch('https://cart.brandlift.io/api/prevwidget/'+event.data.store+'')
           recmDation.innerHTML='';
           var noimg = '<img src='+window.noimg+' alt="" width="auto" height="auto" loading="lazy" />';
           
-          
           allpro.map(
           (item) =>
               ( 

@@ -261,6 +261,7 @@ class upsellCart{
               upselstyle += "div#recentvue{display:grid;}.upsell__cart-upsell2-item{ width:100%;text-align: center;}.upsell__cart-upsell2-item img{width:unset;}";
               upselstyle += custcss;
           }
+          
           if(window.UpsellWidget[i].layout.large_screens.display_style == "line"){
            
             if(window.UpsellWidget[i].layout.large_screens.display_as_carousel == true){

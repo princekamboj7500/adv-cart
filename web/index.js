@@ -117,7 +117,6 @@ app.get("/api/prevwidget/:shop",  async (_req, res) => {
     }else{
       res.status(200).json({})
     }
-
 })
 
 
