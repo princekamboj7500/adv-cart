@@ -46,6 +46,29 @@ function Cart() {
         "announcement_position":"topflyout",
         "announcement_bar_items": [],
         "tiered_progress_bar": false,
+        "general_settings_status":false,
+        "general_settings":{
+            "font_family":"Roboto",
+            "border_radius":"10",
+            "header_padding":"15",
+            "header_background":{
+                hue: 120,
+                brightness: 1,
+                saturation: 1,
+            },
+            "main_background":{
+                hue: 120,
+                brightness: 1,
+                saturation: 1,
+            },
+            "footer_padding":"15",
+            "footer_background":{
+                hue: 120,
+                brightness: 1,
+                saturation: 1,
+            }
+            
+        },
         "tiered_progress_bar_tabs": [{
             id: 'tire-0',
             content: 'Add New Bar',
@@ -91,20 +114,65 @@ function Cart() {
             "discount_label": "Discount",
             "discount_button_label": "Apply",
             "discount_invalid_message": "Invalid Discount Code",
-            "position":"above_subtotal"
+            "position":"above_subtotal",
+            "button_font_weight":"500",
+            "button_font_size":"15",
+            "label_font_weight":"500",
+            "label_font_size":"15",
+            "button_color":{
+                hue: 120,
+                brightness: 1,
+                saturation: 1,
+            },
+            "button_font_color":{
+                hue: 120,
+                brightness: 1,
+                saturation: 1,
+            },
+            "label_color":{
+                hue: 120,
+                brightness: 1,
+                saturation: 1,
+            },
+            "label_font_color":{
+                hue: 120,
+                brightness: 1,
+                saturation: 1,
+            },
         },
         "shopping_btn_status":false,
         "continue_shopping": {
             "shopping_btn":"Continue shopping",
             "redirect_option":"redirecturi",
             "Position":"fly_top",
-            "redirect_url":"/collections/all"
+            "redirect_url":"/collections/all",
+            "font_size":"20",
+            "font_weight":"500",
+            "font_color":{
+                hue: 25,
+                brightness: 1,
+                saturation: 1,
+            },
+           
         },
         "note_status": false,
         "note_input":{
             "note_label": "Add a note (optional)",
             "position":"above_subtotal",
-            "padding":"20"
+            "padding":"20",
+            "inputsize":"40",
+            "font_size":"15",
+            "font_weight":"500",
+            "font_color":{
+                hue: 25,
+                brightness: 1,
+                saturation: 1,
+            },
+            "color":{
+                hue: 25,
+                brightness: 1,
+                saturation: 1,
+            }
         },
         "checkout_btn_status": false,
         "checkout_btn_settings":{
@@ -196,8 +264,10 @@ function Cart() {
             }
         }).then(()=>setLoader(false),setToastloader((toastloader) => !toastloader), []).catch(()=>setLoader(false));
     }
-
-    
+   
+    const [prodata , setPro] = useState({
+        prodata:{}
+    })
     const loadCart = async function(){
         var auth = Cookies.get('auth');
         var response = await fetch("/api/cart", { 
@@ -210,13 +280,29 @@ function Cart() {
         console.log(cartObj)
         setSettings(cartObj);
         setPageload(false);
-          //setTimeout(function() { contentRef.contentWindow.postMessage(setings, "*"); }, 5000);
-        ///setProfile({name: profile.name, detail: profile.shop, initials: profile.name.charAt(0).toUpperCase(), isloading: false});
-    }
 
+        var obj = [];
+        fetch('https://cart.brandlift.io/api/getallpro/'+cartObj.store+'')
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (payload) {
+            var allpro = payload.products;
+            allpro.map(
+                (item) =>
+                    ( 
+                        obj.push({value:item.title,label:item.title,id:item.id})
+                    ));
+        })
+        setPro({prodata:obj});
+          //setTimeout(function() { contentRef.contentWindow.postMessage(setings, "*"); }, 5000);
+          //setProfile({name: profile.name, detail: profile.shop, initials: profile.name.charAt(0).toUpperCase(), isloading: false});
+    }
+   
+  
     useEffect(() => {
         loadCart();
-        
+       
     }, []);
 
     const addMessageAction = () => {
@@ -270,6 +356,7 @@ function Cart() {
     const handleTabChange = useCallback(
         (selectedTabIndex) => setSelected(selectedTabIndex),
         [],
+        
     );
 
     const addTierTab = () => {
@@ -288,6 +375,7 @@ function Cart() {
             ['tiered_progress_bar_tabs']: setings['tiered_progress_bar_tabs'],
         }));
         contentRef.contentWindow.postMessage(setings, "*");
+       
     };
 
     const TireDeleteTab = () => {
@@ -317,6 +405,7 @@ function Cart() {
         }));
         contentRef.contentWindow.postMessage(setings, "*");
     }
+
 
     const handleTierRadioChange = (index, key, v) => (e, value) => {
         console.log(index, key, v, e, value);
@@ -348,14 +437,9 @@ function Cart() {
     }
 
     const deselectedOptions = useMemo(
-        () => [
-            { value: 'rustic', label: 'Rustic' },
-            { value: 'antique', label: 'Antique' },
-            { value: 'vinyl', label: 'Vinyl' },
-            { value: 'vintage', label: 'Vintage' },
-            { value: 'refurbished', label: 'Refurbished' },
-        ],
-        [],
+        
+        () => prodata.prodata
+      
     );
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [inputValue, setInputValue] = useState('');
@@ -363,6 +447,7 @@ function Cart() {
     const [loading, setLoading] = useState(false);
 
     const updateText = useCallback(
+      
         (value) => {
             setInputValue(value);
 
@@ -385,7 +470,7 @@ function Cart() {
             }, 300);
         },
         [deselectedOptions, loading],
-
+        
     );
 
     const updateSelection = useCallback(
@@ -734,6 +819,7 @@ function Cart() {
             ['continue_shopping']: setings['continue_shopping'],
         }));
     }
+    
     const handleDiscountInputFields = (index) => (e) => {
         setings["discount_input"][index] = e;
         setSettings(setings => ({
@@ -778,6 +864,66 @@ function Cart() {
             onChange={handleDiscountInputFields("position")}
             value={setings.discount_input.position}
         />
+        <TextField
+            label="Button font size"
+            type="number"
+            min={10}
+            max={50}
+            step={1}
+            onChange={handleDiscountInputFields("button_font_size")}
+            autoComplete="off"
+            value={setings.discount_input.button_font_size}
+        />
+        <TextField
+            label="Button font weight"
+            type="number"
+            min={100}
+            max={900}
+            step={100}
+            onChange={handleDiscountInputFields("button_font_weight")}
+            autoComplete="off"
+            value={setings.discount_input.button_font_weight}
+        />
+        <TextField
+            label="label font size"
+            type="number"
+            min={10}
+            max={50}
+            step={1}
+            onChange={handleDiscountInputFields("label_font_size")}
+            autoComplete="off"
+            value={setings.discount_input.label_font_size}
+        />
+        <TextField
+            label="label font weight"
+            type="number"
+            min={100}
+            max={900}
+            step={100}
+            onChange={handleDiscountInputFields("label_font_weight")}
+            autoComplete="off"
+            value={setings.discount_input.label_font_weight}
+        />
+        <DisplayText  size="small">Button color</DisplayText >
+        <ColorPicker 
+            onChange={handleDiscountInputFields("button_color")} 
+            color={setings.discount_input.button_color}
+        />
+        <DisplayText  size="small">Button font color</DisplayText >
+        <ColorPicker 
+            onChange={handleDiscountInputFields("button_font_color")} 
+            color={setings.discount_input.button_font_color}
+        />
+        <DisplayText  size="small">Label color</DisplayText >
+        <ColorPicker 
+            onChange={handleDiscountInputFields("label_color")} 
+            color={setings.discount_input.label_color}
+        />
+        <DisplayText  size="small">Label font color</DisplayText >
+        <ColorPicker 
+            onChange={handleDiscountInputFields("label_font_color")} 
+            color={setings.discount_input.label_font_color}
+        />
     </FormLayout></Card.Section>);
 
     const handleCheckoutFields = (field) => (e) => {
@@ -806,6 +952,15 @@ function Cart() {
         }));
         contentRef.contentWindow.postMessage(setings, "*");
     }
+ 
+    const handleGeneralSetting = (index) => (e) => {
+        setings["general_settings"][index] = e;
+        setSettings(setings => ({
+            ...setings,
+            ['general_settings']: setings['general_settings'],
+        }));
+        contentRef.contentWindow.postMessage(setings, "*");
+    }
 
     const mainPage = (<Layout>
         <Layout.Section>
@@ -822,6 +977,88 @@ function Cart() {
                 </div>
                 .
             </SettingToggle> */}
+             <Card>
+                <Card.Header
+                    actions={[]}
+                    title="general Settings">
+                    <Stack>
+                        <Button
+                            primary={!setings['general_settings_status']}
+                            onClick={handleToggle('general_settings_status')}>{setings['general_settings_status'] ? 'Deactivate' : 'Activate'}</Button>
+                    </Stack>
+                </Card.Header>
+                {setings['general_settings_status'] ? <Card.Section><FormLayout>
+                
+                    <Select
+                        label="Choose font"
+                        options={[
+
+                            { label: 'Roboto', value: 'Roboto' },
+                            { label: 'Monstrate', value: 'Monstrate' },
+                            { label: 'Sofia', value: 'Sofia' },
+                            { label: 'Audiowide', value: 'Audiowide' },
+                            { label: 'Trirong', value: 'Trirong' },
+                            { label: 'serif', value: 'serif' },
+                            { label: 'Lora ', value: 'Lora ' },
+                            { label: 'Lato', value: 'Lato' },
+                            { label: 'Poppins', value: 'Poppins' },
+                            { label: 'Lobster', value: 'Lobster' },
+                            { label: 'Comfortaa', value: 'Comfortaa' },
+                            { label: 'Caveat', value: 'Caveat' },
+                        ]}
+                        onChange={handleGeneralSetting("font_family")}
+                        value={setings.general_settings.font_family}
+                    />
+                    <TextField
+                        label="Slideout Border Radius"
+                        type="number"
+                        min={0}
+                        max={50}
+                        step={1}
+                        autoComplete="off"
+                        onChange={handleGeneralSetting("border_radius")}
+                        value={setings.general_settings.border_radius}
+                    />
+                    <DisplayText size="small">Header</DisplayText>
+                    <TextField
+                        label="Header padding"
+                        type="number"
+                        min={0}
+                        max={100}
+                        step={2}
+                        autoComplete="off"
+                        onChange={handleGeneralSetting("header_padding")}
+                        value={setings.general_settings.header_padding}
+                    />
+                    <DisplayText  size="small">header background color</DisplayText >
+                    <ColorPicker 
+                        onChange={handleGeneralSetting("header_background")} 
+                        color={setings.general_settings.header_background}
+                    />
+                    <DisplayText  size="small">Main content background</DisplayText >
+                    <ColorPicker 
+                        onChange={handleGeneralSetting("main_background")} 
+                        color={setings.general_settings.main_background}
+                    />
+                   <DisplayText  size="small">Footer</DisplayText >
+                   <TextField
+                        label="footer padding"
+                        type="number"
+                        min={0}
+                        max={100}
+                        step={2}
+                        autoComplete="off"
+                        onChange={handleGeneralSetting("footer_padding")}
+                        value={setings.general_settings.footer_padding}
+                    />
+                    <DisplayText  size="small">Footer background color</DisplayText >
+                    <ColorPicker 
+                        onChange={handleGeneralSetting("footer_background")} 
+                        color={setings.general_settings.footer_background}
+                    />
+                </FormLayout></Card.Section> : <p>&nbsp;</p>}
+            </Card>
+
 
             <Card
                 primaryFooterAction={setings['announcement_bar'] ? { content: 'Add messgae', icon: CirclePlusMinor, onAction: addMessageAction } : false}
@@ -960,6 +1197,32 @@ function Cart() {
                         onChange={handleShoppigInput("Position")}
                         value={setings.continue_shopping.Position}
                     />
+                     <TextField
+                        label="Font Size"
+                        autoComplete="off"
+                        type="number"
+                        min={10}
+                        max={50}
+                        step={2}
+                        onChange={handleShoppigInput("font_size")}
+                        value={setings.continue_shopping.font_size}
+                    />
+                    <TextField
+                        label="Font Weight"
+                        autoComplete="off"
+                        min={100}
+                        max={900}
+                        step={100}
+                        type="number"
+                        onChange={handleShoppigInput("font_weight")}
+                        value={setings.continue_shopping.font_weight}
+                    />
+                    <DisplayText  size="small">Font color</DisplayText >
+                    <ColorPicker 
+                        onChange={handleShoppigInput("font_color")} 
+                        color={setings.continue_shopping.font_color}
+                    />
+                   
                 </FormLayout></Card.Section> : <p>&nbsp;</p>}
             </Card>
 
@@ -995,6 +1258,46 @@ function Cart() {
                         onChange={handlenoteInputField("padding")}
                         value={setings.note_input.padding}
                         autoComplete="off"
+                    />
+                    <TextField
+                        label="Font size"
+                        type="number"
+                        min={10}
+                        max={50}
+                        step={1}
+                        onChange={handlenoteInputField("font_size")}
+                        value={setings.note_input.font_size}
+                        autoComplete="off"
+                    />
+                    <TextField
+                        label="Font weight"
+                        type="number"
+                        min={100}
+                        max={900}
+                        step={100}
+                        onChange={handlenoteInputField("font_weight")}
+                        value={setings.note_input.font_weight}
+                        autoComplete="off"
+                    />
+                    <TextField
+                        label="Note input size"
+                        type="number"
+                        min={20}
+                        max={900}
+                        step={5}
+                        onChange={handlenoteInputField("inputsize")}
+                        value={setings.note_input.inputsize}
+                        autoComplete="off"
+                    />
+                    <DisplayText  size="small">Font color</DisplayText >
+                    <ColorPicker 
+                        onChange={handlenoteInputField("font_color")} 
+                        color={setings.note_input.font_color}
+                    />
+                    <DisplayText  size="small">Color</DisplayText >
+                    <ColorPicker 
+                        onChange={handlenoteInputField("color")} 
+                        color={setings.note_input.color}
                     />
                 </FormLayout></Card.Section> : <p>&nbsp;</p>}
             </Card>
@@ -1092,11 +1395,16 @@ function Cart() {
                         autoComplete="off"
                         value={setings.payment_installments_settings.payment_count}
                     />
-                    <TextField
-                        label="Provider"
-                        onChange={handlePaymentFields("provider")}
-                        autoComplete="off"
-                        value={setings.payment_installments_settings.provider}
+                    <DisplayText  size="small">Provider</DisplayText >
+                     <Select
+                        options={[
+                            { label: 'AfterPay', value: 'AfterPay' },
+                            { label: 'Klarna', value: 'Klarna' },
+                            { label: 'ShopPay', value: 'ShopPay' },
+                            { label: 'Affirm', value: 'Affirm' },
+                        ]}
+                        onChange={handleField("product_form_redirect")}
+                        value={setings.product_form_redirect}
                     />
                     <TextField
                         label="Terms URL"

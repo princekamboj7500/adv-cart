@@ -99,6 +99,7 @@ app.get("/api/prevwidget/:shop",  async (_req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     var widgets = await storeController.widgets(_req.params.shop);
     var doc = await StoreModel.findOne({store: _req.params.shop});
+    console.log(doc.token);
     if(doc){ 
       var shoptoken = doc.token;
       var myHeaders = new Headers();
@@ -117,6 +118,51 @@ app.get("/api/prevwidget/:shop",  async (_req, res) => {
     }else{
       res.status(200).json({})
     }
+})
+
+app.get("/api/getallpro/:shop",  async (_req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  var doc = await StoreModel.findOne({store: _req.params.shop});
+  if(doc){ 
+    var shoptoken = doc.token;
+    var myHeaders = new Headers();
+    myHeaders.append("X-Shopify-Access-Token", ""+shoptoken+"");
+    var requestOptions1 = {
+      method: 'GET',
+      headers: myHeaders, 
+      redirect: 'follow'
+    }; 
+    fetch("https://"+_req.params.shop+"/admin/api/2023-04/products.json?limit=250", requestOptions1)
+      .then(response => response.text())
+      .then(result => 
+        res.status(200).send(result))
+      .catch(error => console.log('error', error));
+  }else{
+    res.status(200).json({})
+  }
+})
+
+
+app.get("/api/getcollection/:shop",  async (_req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  var doc = await StoreModel.findOne({store: _req.params.shop});
+  if(doc){ 
+    var shoptoken = doc.token;
+    var myHeaders = new Headers();
+    myHeaders.append("X-Shopify-Access-Token", ""+shoptoken+"");
+    var requestOptions1 = {
+      method: 'GET',
+      headers: myHeaders, 
+      redirect: 'follow'
+    }; 
+    fetch("https://"+_req.params.shop+"/admin/api/2023-01/custom_collections.json", requestOptions1)
+      .then(response => response.text())
+      .then(result => 
+        res.status(200).send(result))
+      .catch(error => console.log('error', error));
+  }else{
+    res.status(200).json({})
+  }
 })
 
 

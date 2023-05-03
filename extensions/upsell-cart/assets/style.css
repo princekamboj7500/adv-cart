@@ -558,7 +558,7 @@ div#featured_itm {
   width: 100px;
   cursor: pointer;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 20px;
 }
 div#afterpayBottom p {
   margin: 0;
@@ -602,6 +602,7 @@ button.upsell_crausalbtn{
   border-radius: 3px;
   text-align: center;
   height: 40px;
+  overflow:hidden;
 }
 select.upsell_voptions {
   width: 100%;
@@ -616,4 +617,21 @@ select.upsell_voptions {
 }
 span#upsell_conti_top {
   cursor: pointer;
+}
+body.upsell_draw:before {
+  content: '';
+  background: rgba(0,0,0,0.4);
+  height: 100%;
+  display: block;
+  width: 100%;
+  position: fixed;
+  z-index: 99;
+}
+.upsell__cart-content {
+  overflow-x: hidden;
+}
+input#upsell_discinp {
+  width: 70%;
+  border-radius: 20px;
+  padding-left: 15px;
 }
