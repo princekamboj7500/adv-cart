@@ -159,6 +159,9 @@ export default function crossSell() {
             },
             style:{
                 css: ""
+            },
+            collection:{
+                name:"test"
             }
         };
         await fetch("/api/widgets", {

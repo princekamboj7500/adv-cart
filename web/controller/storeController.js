@@ -31,6 +31,16 @@ storeController.cart = async function(store){
         "announcement_bar": false,
         "announcement_position":"topflyout",
         "announcement_bar_items": [],
+        "general_settings":{
+          "font_family":"Roboto",
+          "border_radius":"10",
+          "header_padding":"15",
+          "header_background":"#00456C",
+          "main_background":"#00456C",
+          "footer_padding":"15",
+           "footer_background":"#00456C"
+          
+      },
         "tiered_progress_bar": false,
         "tiered_progress_bar_tabs": [{
             id: 'tire-0',
@@ -73,20 +83,36 @@ storeController.cart = async function(store){
             "discount_label": "Discount",
             "discount_button_label": "Apply",
             "discount_invalid_message": "Invalid Discount Code",
-            "position":"above_subtotal"
+            "position":"above_subtotal",
+            "button_font_weight":"500",
+            "button_font_size":"15",
+            "label_font_weight":"500",
+            "label_font_size":"15",
+            "button_color":"#D53600",
+            "button_font_color":"#D53600",
+            "label_color":"#D53600",
+            "label_font_color":"#D53600",
         },
         "shopping_btn_status":false,
         "continue_shopping": {
           "shopping_btn":"Continue shopping",
           "redirect_option":"redirecturi",
           "Position":"fly_top",
-          "redirect_url":"/collections/all"
+          "redirect_url":"/collections/all",
+          "font_size":"15",
+          "font_weight":"500",
+          "font_color":"#D53600",
       },
         "note_status": false,
         "note_input":{
           "note_label": "Add a note (optional)",
           "position":"above_subtotal",
-          "padding":"20"
+          "padding":"20",
+          "inputsize":"40",
+          "font_size":"15",
+          "font_weight":"500",
+          "font_color":"#D53600",
+          "color":"#D53600",
       },
         "checkout_btn_status": false,
         "checkout_btn_settings":{

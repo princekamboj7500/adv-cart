@@ -2,6 +2,8 @@ import { Schema, model } from 'mongoose';
 var CartSchema = new Schema({
     store:{type: String},
     live_mode:{type: Boolean, default: false},
+    general_settings_status:{type: Boolean, default: false},
+    general_settings:{type: Object},
     announcement_bar:{type: Boolean, default: false},
     announcement_position:{type: String},
     announcement_bar_items:{type: Array},

@@ -245,7 +245,6 @@ fetch('https://cart.brandlift.io/api/prevwidget/'+event.data.store+'')
     return response.json();
 })
 .then(function (payload) {
-  console.log(payload);
   var upselstyle = '';
   if(payload.widgets){
   for(var i=0;i<payload.widgets.length;i++){
@@ -253,7 +252,9 @@ fetch('https://cart.brandlift.io/api/prevwidget/'+event.data.store+'')
       if(wtype == 'recommended_full_page)'){
 
          var recmDation = document.getElementById("upsell_prev_recom");
-         document.querySelector('.crsl button').remove()
+          if(document.querySelector('.crsl button')){
+            document.querySelector('.crsl button').remove()
+          }
           document.querySelector('.upsell_prev_recom.title').innerHTML = payload.widgets[i].name;
           if(payload.widgets[i].images.fixed_height == true){
             upselstyle += '.upsell__cart-image img{height:'+payload.widgets[i].images.image_height+"px;}"
@@ -645,17 +646,18 @@ var subp = document.querySelector('#subtotalPrice').querySelector('.discount').i
 var subtotalPrice = parseFloat(subp.replace('$',''));
 
   document.getElementById("upsell_proglayout_two").innerHTML = '';
-  document.getElementById('upsell_prev_gift').innerHTML = '';
+  document.querySelector('#upsell_prev_gift').innerHTML = '';
   if(event.data.tiered_progress_bar == true){
   for(var k=0;k<event.data.tiered_progress_bar_tabs.length;k++){
   if(window.country == event.data.tiered_progress_bar_tabs[k].country){
+    console.log('thereee')
     if( event.data.tiered_progress_bar_tabs[k].layout_type == "in_line"){
-        var progress = document.getElementById('upsell_prev_gift');
-        progress.insertAdjacentHTML('beforeend',`<div class="upsell__cart-gifts"></div><div class="upsell__cart-progress-bar"> <div class="upsell__cart-bar" id="progressBar" style="width: 0%"></div></div>`);
+        var progress = document.querySelector('#upsell_prev_gift');
+        progress.insertAdjacentHTML('beforeend',`<div class="upsell__cart-gifts"></div>`);
 
     }else{
         var progress = document.getElementById("upsell_proglayout_two");
-        progress.insertAdjacentHTML('beforeend',`<div class="upsell__cart-gifts"></div><div class="upsell__cart-progress-bar"> <div class="upsell__cart-bar" id="progressBar" style="width: 0%"></div></div>`);
+        progress.insertAdjacentHTML('beforeend',`<div class="upsell__cart-gifts"></div>`);
     }
     const hintContainer = document.getElementById("progressHint");
     const barContainer = document.querySelector("#upsell_prev_prog").querySelector('#progressBar');
@@ -724,14 +726,19 @@ if(event.data.announcement_position == 'topflyout'){
   var p = document.getElementById("upsell_announcement");
 }
 p.innerHTML = '';
-if(allitms <= 1){
-   p.innerText = event.data.announcement_bar_items[0];
-}else{
-  var anoustemp = "<div id='upsell_mslide'></div>";
-  p.innerHTML = anoustemp
-  for(var i=0;i<allitms;i++){
-    document.getElementById("upsell_mslide").innerHTML += ('<div class="slide">'+event.data.announcement_bar_items[i]+'</div>');
+if(event.data.announcement_bar == true){
+  if(allitms <= 1){
+    p.innerText = event.data.announcement_bar_items[0];
+  }else{
+    var anoustemp = "<div id='upsell_mslide'></div>";
+    p.innerHTML = anoustemp
+    for(var i=0;i<allitms;i++){
+      document.getElementById("upsell_mslide").innerHTML += ('<div class="slide">'+event.data.announcement_bar_items[i]+'</div>');
+    }
   }
+}
+if(event.data.announcement_bar == false){
+   p.style.display = "none";
 }
 }
 }

@@ -68,7 +68,7 @@ export default function upsell() {
             <div>{location}</div>
           </ResourceItem>
         );
-      }
+    }
 
     const promotedBulkActions = [
         {

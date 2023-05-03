@@ -11,6 +11,7 @@ var widgetsSchema = new Schema({
     layout:{type: Object},
     images:{type: Object},
     style:{type: Object},
+    coll:{type:Object},
     status:{type: Number, default:0},
 	created_date:{
         type: Date,

@@ -523,6 +523,7 @@ button#chkoutbtn a {
   border-radius: 3px;
   text-align: center;
   height: 25px;
+  overflow:hidden;
 }
 .disount_input {
   display: flex;
@@ -548,4 +549,6 @@ button#chkoutbtn a {
 .upsell_note_input1 {
   margin-bottom: 13px;
 }
-
+.upsell__cart-content {
+  overflow-x: hidden;
+}

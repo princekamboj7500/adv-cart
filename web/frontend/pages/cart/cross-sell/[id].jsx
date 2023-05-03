@@ -70,6 +70,9 @@ export default function editWidget() {
         },
         style:{
             css: ""
+        },
+        coll:{
+            col_name:"test",
         }
     });
 
@@ -113,7 +116,13 @@ export default function editWidget() {
             ...collapse,
             [field]: !collapse[field],
         }));
+       
+        console.log(prodata.prodata)
     };
+   
+    const [prodata , setPro] = useState({
+        prodata:{}
+    })
 
     async function loadWidget(){
         var auth = Cookies.get('auth');
@@ -125,6 +134,21 @@ export default function editWidget() {
         });
         var widgetObj = await response.json();
         setWidget(widgetObj);
+        var obj = [];
+        fetch('https://9e0c-2405-201-5802-4c37-e400-abf9-e019-307f.ngrok-free.app/api/getcollection/'+widgetObj.store+'')
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (payload) {
+            var allpro = payload.custom_collections;
+            allpro.map(
+                (item) =>
+                    ( 
+                        obj.push({value:item.title,label:item.title,id:item.id})
+                    ));
+        })
+        window.allcol = obj;
+        setPro({prodata:obj});
     } 
 
     async function saveWidget(){
@@ -572,15 +596,37 @@ export default function editWidget() {
                             </FormLayout>
                         </Card.Section>: <p>&nbsp;</p>}
                     </Card>
-
+                    
+                    {widget.name == 'Featured Items' ?  
+                   
+                        <Card>
+                        <Card.Header
+                            title="Collection">
+                            <Stack>
+                                <Button plain icon={collapse.coll ? ChevronUpMinor:ChevronDownMinor} onClick={handleToggle('coll')}></Button>
+                            </Stack>
+                        </Card.Header>
+                        { collapse.coll ? 
+                        <Card.Section>
+                            <FormLayout>
+                                <Select
+                                    label="Select collection"
+                                    options={window.allcol}
+                                    value={widget.coll}
+                                    onChange={handleWidget('coll.col_name')}
+                                />
+                            </FormLayout>
+                        </Card.Section> : <p>&nbsp;</p>}
+                    </Card>
+                   
+                   : <p>&nbsp;</p>}
                     <p>&nbsp;</p>
                 </Layout.Section>
             </Layout>
-
             <PageActions
                 primaryAction={{content: 'Save', disabled: !saveState, onAction: saveWidget, loading: saveProcess}}
             />
-
+            
             { toastState ? <Toast content="Updated" onDismiss={() => setToastState(false)} duration={4500} /> : '' }
         </Page>);
 }
