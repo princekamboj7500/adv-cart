@@ -246,6 +246,7 @@ if(event.data.general_settings_status == true){
   document.querySelector('.footer').style.padding = event.data.general_settings.footer_padding+'px';
 }
 if(event.data.clear_cart_status == true){
+  document.querySelector('.message').innerHTML = '';
   document.querySelector('.message').insertAdjacentHTML(`afterbegin`,``+event.data.clear_cart.label+` <a href="#">`+event.data.clear_cart.btn_text+`</a>`)
 }
 if(event.data.clear_cart_status == false){
