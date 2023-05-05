@@ -84,6 +84,7 @@ storeController.cart = async function(store){
             "discount_button_label": "Apply",
             "discount_invalid_message": "Invalid Discount Code",
             "position":"above_subtotal",
+            "layout":"square",
             "button_font_weight":"500",
             "button_font_size":"15",
             "label_font_weight":"500",
@@ -134,6 +135,20 @@ storeController.cart = async function(store){
             "terms_url": "https://www.afterpay.com/installment-agreement"
         },
         "product_form_redirect": "none",
+        "clear_cart_status": false,
+        "clear_cart":{
+          "label":"Experiencing cart issues?",
+            "btn_text":"Click here to clean your cart...",
+      },
+      "cart_empty_status": false,
+      "cart_empty":{
+            "collections":"test",
+            "button_font_weight":"500",
+            "button_font_size":"15",
+            "button_color":"#D53600",
+            "button_font_color":"#D53600",
+            "button_high_color":"#D53600"
+        },
         "custom_code_status": false,
         "custom_code": ""
     }

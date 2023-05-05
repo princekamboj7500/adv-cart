@@ -38,7 +38,7 @@ class upsellCart{
     this.getRecmdpros();
     this.cartOptions();
     this.getCounty();
-    
+    this.clearCart();
   }
 
   async getItems(){
@@ -311,6 +311,16 @@ class upsellCart{
     
   }
 
+  clearCart(){
+    const clearmsg = document.querySelector('.upsell__cart-message');
+
+    if(window.UpsellCart.clear_cart_status == false){
+      clearmsg.style.display = "none";
+    }else{
+      clearmsg.insertAdjacentHTML(`afterbegin`,``+window.UpsellCart.clear_cart.label+` <a href="#" onclick="window.__upsellCart.cleanCart(event)">`+window.UpsellCart.clear_cart.btn_text+`</a>`)
+    }
+  }
+
   drawerOpen(){
     
     this.cartMainContainer.classList.remove("upsell__cart-close");
@@ -370,17 +380,22 @@ class upsellCart{
   }
 
   discountLabel(){
+    if(window.UpsellCart.discount_input.layout == 'rounded'){
+      var styl = 'border-radius: 20px'
+    }else{
+      var styl = ''
+    }
     if(window.UpsellCart.discount_input_status == true){
       if(window.UpsellCart.discount_input.position == 'above_subtotal'){
         document.querySelector(".upsell_disc_input").innerHTML = `<div class="upsell_disount_input">
-        <input type="text" id="upsell_discinp" placeholder="`+window.UpsellCart.discount_input.discount_code_label+`">
-        <input type="button" onclick="window.__upsellCart.validateCode(this)" class="addrecomd" value="`+window.UpsellCart.discount_input.discount_button_label+`">
+        <input type="text" id="upsell_discinp" style="`+styl+`" placeholder="`+window.UpsellCart.discount_input.discount_code_label+`">
+        <input type="button"  style="`+styl+`" onclick="window.__upsellCart.validateCode(this)" class="addrecomd" value="`+window.UpsellCart.discount_input.discount_button_label+`">
         </div>`;
       }
       else if(window.UpsellCart.discount_input.position == 'below_lineitm'){
         document.querySelector(".upsel_disc_inp1").innerHTML = `<div class="upsell_disount_input">
-        <input type="text" id="upsell_discinp" placeholder="`+window.UpsellCart.discount_input.discount_code_label+`">
-        <input type="button" onclick="window.__upsellCart.validateCode(this)" class="addrecomd" value="`+window.UpsellCart.discount_input.discount_button_label+`">
+        <input type="text" id="upsell_discinp"  style="`+styl+`" placeholder="`+window.UpsellCart.discount_input.discount_code_label+`">
+        <input type="button" style="`+styl+`" onclick="window.__upsellCart.validateCode(this)" class="addrecomd" value="`+window.UpsellCart.discount_input.discount_button_label+`">
         </div>`;
       }
      
@@ -607,12 +622,8 @@ validateCode(elem){
   }
   
   countTiers(subtotalPrice, tiers) {
-    var amt = [];
-    const ranges = document.querySelectorAll(".upsell__cart-gift-item");
-    for(var n = 0; n < ranges.length; n++){
-        amt.push(ranges[n].getAttribute('id'));
-    }
-  const max = Math.max(...amt);
+      var amt = [];
+      
     const hintContainer = document.getElementById("progressHint");
     const barContainer = document.getElementById("progressBar");
     const btnclr = "background:hsl("+window.UpsellCart.buy_more.button_color.hue+",70%,30%)";
@@ -632,7 +643,8 @@ validateCode(elem){
               const free = window.UpsellCart.tiered_progress_bar_tabs[k].tier[i].type;
               const ship = window.UpsellCart.tiered_progress_bar_tabs[k].tier[i].free_shipping_all_products;
               const minprice = window.UpsellCart.tiered_progress_bar_tabs[k].tier[i].min_price;
-            
+              amt.push(minprice)
+              const max = Math.max(...amt);
               if(free =='free_shipping'){
                   var svg = `<svg width="11" height="9" viewBox="0 0 9 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.82415 6.15237L0.726419 4.05464L0.012085 4.76395L2.82415 7.57601L8.86078 1.53938L8.15147 0.830078L2.82415 6.15237Z" fill="#8494A0"></path></svg>`;
                   var title = "Free Shipping";
@@ -649,19 +661,18 @@ validateCode(elem){
               }else{
                 document.getElementById(""+minprice+"").classList.remove("active");
               }
+             
+                var pertcnt = subtotalPrice/max*100;
+                barContainer.style = `width: `+pertcnt+`%;`+btnclr+``;
+              
+              
               if(free == "free_shipping" && subtotalPrice >= minprice){
                   document.getElementById(""+minprice+"").querySelector(".upsell__cart-icon").classList.add("active");
-                  var pertcnt = minprice/max*100;
-                  barContainer.style = `width: `+pertcnt+`%;`+btnclr+``;
-              }
-              else if(free == "free_shipping" && subtotalPrice < minprice){
-                  var pertcnt = 0;
-                  barContainer.style = `width: `+pertcnt+`%;`+btnclr+``;
+                 
               }
               else if(free == "product" && subtotalPrice >= minprice){
                     document.getElementById(""+minprice+"").querySelector(".upsell__cart-icon").classList.add("active");
-                    var pertcnt = minprice/max*100;
-                    barContainer.style = `width: `+pertcnt+`%;`+btnclr+``;
+                   
               }
          
           }
@@ -970,6 +981,10 @@ textarea#rebuy-cart-notes{
   font-size:`+window.UpsellCart.note_input.font_size+`px;
   font-weight:`+window.UpsellCart.note_input.font_weight+`;
   height:`+window.UpsellCart.note_input.inputsize+`px;
+  color:hsl(`+window.UpsellCart.note_input.font_color.hue+`,90%,50%);
+  background:hsl(`+window.UpsellCart.note_input.color.hue+`,90%,50%);
+}
+textarea#rebuy-cart-notes::placeholder{
   color:hsl(`+window.UpsellCart.note_input.font_color.hue+`,90%,50%);
 }
 .upsell--cart{

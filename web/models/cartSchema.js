@@ -26,6 +26,10 @@ var CartSchema = new Schema({
     payment_installments_settings:{type: Object},
     product_form_redirect:{type: String},
     custom_code_status:{type: Boolean, default: false},
+    clear_cart_status:{type: Boolean, default: false},
+    clear_cart:{type: Object},
+    cart_empty_status:{type: Boolean, default: false},
+    cart_empty:{type: Object},
     custom_code:{type: String},
 	created_date:{
         type: Date,

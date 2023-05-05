@@ -280,9 +280,10 @@ div#upsell_continueshop span {
   position: absolute;
   bottom: 0;
   border-top: 1px solid var(--light-grey);
-  padding: 15px 0px;
+  padding: 15px 20px !important;
   border-radius: 0 0 15px 15px;
   padding-left:15px;
+  width:100%;
 }
 
 .upsell__cart-subtotal {
@@ -550,7 +551,7 @@ div#featured_itm {
   display: flex;
   justify-content: space-between;
   margin: 15px 0px;
-  padding: 0px 16px;
+  gap:10px;
 }
 .upsell_disount_input input.addrecomd {
   color: #fff;
@@ -558,7 +559,6 @@ div#featured_itm {
   width: 100px;
   cursor: pointer;
   padding: 10px;
-  border-radius: 20px;
 }
 div#afterpayBottom p {
   margin: 0;
@@ -603,6 +603,8 @@ button.upsell_crausalbtn{
   text-align: center;
   height: 40px;
   overflow:hidden;
+  justify-content:center;
+  display: flex;
 }
 select.upsell_voptions {
   width: 100%;
@@ -613,7 +615,6 @@ select.upsell_voptions {
 }
 .upsell_notediv {
   display: grid;
-  padding: 0px 10px;
 }
 span#upsell_conti_top {
   cursor: pointer;
@@ -632,6 +633,16 @@ body.upsell_draw:before {
 }
 input#upsell_discinp {
   width: 70%;
-  border-radius: 20px;
   padding-left: 15px;
+}
+textarea#rebuy-cart-notes {
+  resize: none;
+}
+div#afterpayBottom p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+div#afterpayBottom a {
+  margin-left: 10px;
 }

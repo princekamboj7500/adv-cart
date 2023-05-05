@@ -135,7 +135,7 @@ export default function editWidget() {
         var widgetObj = await response.json();
         setWidget(widgetObj);
         var obj = [];
-        fetch('https://9e0c-2405-201-5802-4c37-e400-abf9-e019-307f.ngrok-free.app/api/getcollection/'+widgetObj.store+'')
+        fetch('https://cart.brandlift.io/api/api/getcollection/'+widgetObj.store+'')
         .then(function (response) {
             return response.json();
         })

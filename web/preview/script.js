@@ -237,6 +237,21 @@ fetch('https://geolocation-db.com/json/')
 .then(function (payload) {
   window.country = payload.country_code;
 });
+console.log(event.data);
+if(event.data.general_settings_status == true){
+  document.querySelector('html head').insertAdjacentHTML(`beforeend`,`<link rel="stylesheet" id="fontapend" href="https://fonts.googleapis.com/css?family=`+event.data.general_settings.font_family+`">`)
+  document.querySelector('.cart').style.fontFamily = event.data.general_settings.font_family;
+  document.querySelector('.cart').style.borderRadius  = event.data.general_settings.border_radius+'px';
+  document.querySelector('.header').style.padding = event.data.general_settings.header_padding+'px';
+  document.querySelector('.footer').style.padding = event.data.general_settings.footer_padding+'px';
+}
+if(event.data.clear_cart_status == true){
+  document.querySelector('.message').insertAdjacentHTML(`afterbegin`,``+event.data.clear_cart.label+` <a href="#">`+event.data.clear_cart.btn_text+`</a>`)
+}
+if(event.data.clear_cart_status == false){
+  document.querySelector('.message').style.display = "none";
+}
+
 
 function allwdgt(){
 console.log(event.data.store)
@@ -812,6 +827,8 @@ function announSlide(){
   startSlide();
 }
 announSlide();
+
+
 document.getElementById("upsell_prev_styl").innerHTML= `<style>
 .icon.active{
   background:hsl(`+event.data.buy_more.button_color.hue+`,70%,30%);
