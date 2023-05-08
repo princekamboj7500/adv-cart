@@ -646,3 +646,7 @@ div#afterpayBottom p {
 div#afterpayBottom a {
   margin-left: 10px;
 }
+.empty_upsell_coll {
+
+  text-align: center;
+}

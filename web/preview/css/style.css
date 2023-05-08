@@ -552,3 +552,8 @@ button#chkoutbtn a {
 .upsell__cart-content {
   overflow-x: hidden;
 }
+div#afterpayBottom p {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}

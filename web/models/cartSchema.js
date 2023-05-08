@@ -5,6 +5,7 @@ var CartSchema = new Schema({
     general_settings_status:{type: Boolean, default: false},
     general_settings:{type: Object},
     announcement_bar:{type: Boolean, default: false},
+    progress_bar_color:{type: Object},
     announcement_position:{type: String},
     announcement_bar_items:{type: Array},
     tiered_progress_bar:{type: Boolean, default: false},

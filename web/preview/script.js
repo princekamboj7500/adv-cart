@@ -120,21 +120,31 @@ function drawCartItems(items) {
   countSubtotal(items);
   const barContainer2 = document.querySelector("#upsell_prev_prog").querySelector('#progressBar');
   const ranges = document.querySelectorAll(".upsell__cart-gift-item");
+  const hintContainer = document.getElementById("progressHint");
   var amt = [];
   for(var i = 0; i < ranges.length; i++){
       amt.push(ranges[i].getAttribute('id')); 
       var id = ranges[i].getAttribute('id');
       if(subtotalPrice >= id){
         document.getElementById(""+id+"").querySelector(".upsell__cart-icon").classList.add("active");
+        document.getElementById(""+id+"").classList.remove("getprice");
       }else{
         document.getElementById(""+id+"").querySelector(".upsell__cart-icon").classList.remove("active");
+        document.getElementById(""+id+"").classList.add("getprice");
       }
   }
   const max = Math.max(...amt);
- 
+  setTimeout(function(){
+    var prc = document.querySelectorAll('.upsell__cart-gift-item.getprice')[0].getAttribute('id');
+    hintContainer.innerHTML = "You are "+(prc -subtotalPrice).toFixed(2)+" away from free gift"
+   
+  },500)
+  
   var pertcnt = subtotalPrice/max*100;
   barContainer2.style = `width: `+pertcnt+`%;`;
   // countTiers(subtotalPrice, tiers);
+  
+  
 }
 
 function addItem() {
@@ -155,6 +165,7 @@ function changeQty(e, id) {
   const item = items.find((item) => item.id === id);
   item.qty = parseInt(e.value);
   drawCartItems(items);
+ 
 }
 
 function removeItem(id) {
@@ -230,6 +241,7 @@ function nextSlide(elem){
 }
 
 function preview(event){
+  
 fetch('https://geolocation-db.com/json/')
 .then(function (response) {
     return response.json();
@@ -584,18 +596,21 @@ allwdgt();
 function  discountLabel(){
 if(event.data){
 if(event.data.discount_input_status == true){
+  if(event.data.discount_input.layout == 'rounded'){
+    var styl = 'border-radius: 20px'
+  }else{
+    var styl = ''
+  }
   if(event.data.discount_input.position == 'above_subtotal'){
     document.querySelector(".upsell_disc_input").innerHTML = `<div class="disount_input">
-    <label>`+event.data.discount_input.discount_label+`</label>
-    <input type="text" id="upsell_discinp" placeholder="`+event.data.discount_input.discount_code_label+`">
-    <input type="button" onclick="window.__upsellCart.validateCode(this)" class="addrecomd" value="`+event.data.discount_input.discount_button_label+`">
+    <input type="text" id="upsell_discinp" style="`+styl+`" placeholder="`+event.data.discount_input.discount_code_label+`">
+    <input type="button" style="`+styl+`" onclick="window.__upsellCart.validateCode(this)" class="addrecomd" value="`+event.data.discount_input.discount_button_label+`">
     </div>`;
   }
   else if(event.data.discount_input.position == 'below_lineitm'){
     document.querySelector(".upsel_disc_inp1").innerHTML = `<div class="disount_input">
-    <label>`+event.data.discount_input.discount_label+`</label>
-    <input type="text" id="upsell_discinp" placeholder="`+event.data.discount_input.discount_code_label+`">
-    <input type="button" onclick="window.__upsellCart.validateCode(this)" class="addrecomd" value="`+event.data.discount_input.discount_button_label+`">
+    <input type="text" id="upsell_discinp" style="`+styl+`" placeholder="`+event.data.discount_input.discount_code_label+`">
+    <input type="button" style="`+styl+`" onclick="window.__upsellCart.validateCode(this)" class="addrecomd" value="`+event.data.discount_input.discount_button_label+`">
     </div>`;
   }
 
@@ -677,8 +692,7 @@ var subtotalPrice = parseFloat(subp.replace('$',''));
     }
     const hintContainer = document.getElementById("progressHint");
     const barContainer = document.querySelector("#upsell_prev_prog").querySelector('#progressBar');
-    const btnclr = "background:hsl("+event.data.buy_more.button_color.hue+",70%,30%)";
-    hintContainer.innerHTML = event.data.tiered_progress_bar_tabs[k].content;
+    const btnclr = "background:hsl("+event.data.progress_bar_color.hue+",70%,30%)";
     const layout = event.data.tiered_progress_bar_tabs[k].layout_type;
     const alltiers = event.data.tiered_progress_bar_tabs[k].tier.length;
     const gifts = document.querySelector(".upsell__cart-gifts");
@@ -696,7 +710,7 @@ var subtotalPrice = parseFloat(subp.replace('$',''));
             var svg = `<svg width="14" height="12" viewBox="0 0 15 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.7808 3.71012H10.9961C10.9961 1.73797 9.39873 0.140625 7.42658 0.140625C5.45444 0.140625 3.85709 1.73797 3.85709 3.71012H2.07234C1.09073 3.71012 0.287598 4.51325 0.287598 5.49486V16.2033C0.287598 17.185 1.09073 17.9881 2.07234 17.9881H12.7808C13.7624 17.9881 14.5656 17.185 14.5656 16.2033V5.49486C14.5656 4.51325 13.7624 3.71012 12.7808 3.71012ZM7.42658 1.92537C8.40819 1.92537 9.21133 2.72851 9.21133 3.71012H5.64184C5.64184 2.72851 6.44497 1.92537 7.42658 1.92537ZM12.7808 16.2033H2.07234V5.49486H3.85709V7.27961C3.85709 7.77042 4.25866 8.17198 4.74946 8.17198C5.24027 8.17198 5.64184 7.77042 5.64184 7.27961V5.49486H9.21133V7.27961C9.21133 7.77042 9.6129 8.17198 10.1037 8.17198C10.5945 8.17198 10.9961 7.77042 10.9961 7.27961V5.49486H12.7808V16.2033Z" fill="#8494A0"></path></svg>`;
             var title = "Mystery Gift";
         }
-        gifts.insertAdjacentHTML('beforeend',`<div class="upsell__cart-gift-item" id="`+minprice+`">
+        gifts.insertAdjacentHTML('beforeend',`<div class="upsell__cart-gift-item getprice" id="`+minprice+`">
         <div class="upsell__cart-icon">`+svg+`</div><strong>`+title+`</strong></div>`);
         setTimeout(function(){
         const max = Math.max(...amt);
@@ -720,6 +734,25 @@ var subtotalPrice = parseFloat(subp.replace('$',''));
               barContainer.style = `width: `+pertcnt+`%;`+btnclr+``;
         }
       },200);
+    }
+    for(var m=0;m<alltiers;m++){
+      const free = event.data.tiered_progress_bar_tabs[k].tier[m].type;
+      const minprice = event.data.tiered_progress_bar_tabs[k].tier[m].min_price;
+      if(minprice-subtotalPrice > 0){
+       
+        if(free == "free_shipping" && subtotalPrice < minprice){
+            hintContainer.innerHTML = "You are "+(minprice - subtotalPrice )+" away from free shipping";
+            break;
+        }
+        else if(free == "product" && subtotalPrice < minprice){
+            hintContainer.innerHTML = "You are "+(minprice - subtotalPrice )+" away from free gift";
+            break;
+        }
+       
+      }else{
+        hintContainer.innerHTML = "You unlock all free gift";
+      }
+
     }
   }
 }
@@ -829,13 +862,36 @@ function announSlide(){
 }
 announSlide();
 
-
+var discountcss = `
+  background:hsl(`+event.data.discount_input.label_color.hue+`,90%,50%);
+  color:hsl(`+event.data.discount_input.label_font_color.hue+`,70%,30%);
+  font-size:`+event.data.discount_input.label_font_size+`px;
+  font-weight:`+event.data.discount_input.label_font_weight+`;
+  width: 70%;
+  border: none;
+  padding-left: 10px;
+`;
+var disbtn = `
+  background:hsl(`+event.data.discount_input.button_color.hue+`,90%,50%);
+  color:hsl(`+event.data.discount_input.button_font_color.hue+`,70%,30%);
+  font-size:`+event.data.discount_input.button_font_size+`px;
+  font-weight:`+event.data.discount_input.button_font_weight+`;
+`;
 document.getElementById("upsell_prev_styl").innerHTML= `<style>
 .icon.active{
   background:hsl(`+event.data.buy_more.button_color.hue+`,70%,30%);
 }
+#upsell_discinp{
+  `+discountcss+`
+}
+.disount_input input.addrecomd{
+  `+disbtn+`
+}
+#upsell_discinp::placeholder{
+  color:hsl(`+event.data.discount_input.label_font_color.hue+`,70%,30%);
+}
 .progress-bar .bar{
-  background:hsl(`+event.data.buy_more.button_color.hue+`,70%,30%);
+  background:hsl(`+event.data.progress_bar_color.hue+`,70%,30%);
 }
 button.btn-primary{
   background:hsl(`+event.data.checkout_btn_settings.checking_out_color.hue+`,90%,50%);
@@ -851,7 +907,7 @@ button.btn-secondary{
   background:hsl(`+event.data.buy_more.button_color.hue+`,70%,30%);
 }
 .upsell__cart-icon.active{
-  background:hsl(`+event.data.buy_more.button_color.hue+`,70%,30%);
+  background:hsl(`+event.data.progress_bar_color.hue+`,70%,30%);
 }
 button#viewCartButton a{
   color: hsl(`+event.data.checkout_btn_settings.checking_out_color.hue+`,90%,50%);
