@@ -311,6 +311,21 @@ class upsellCart{
     
   }
 
+  emptyCart(){
+    if(window.UpsellCart.cart_empty_status == true){
+          var empdiv = document.querySelector(".empty-cart");
+          if(empdiv){
+           empdiv.insertAdjacentHTML(`afterend`,`<div class="empty_upsell_coll">
+            </div>`);
+            for(var i=0;i<window.UpsellCart.cart_empty.collections.length;i++){
+              var str = window.UpsellCart.cart_empty.collections[i];
+              str = str.replace(/\s+/g, '-').toLowerCase();
+               document.querySelector(".empty_upsell_coll").insertAdjacentHTML(`afterbegin`,`<a href="/collections/`+str+`">`+window.UpsellCart.cart_empty.collections[i]+`</a>`);
+            }
+          }    
+    }
+  }
+
   clearCart(){
     const clearmsg = document.querySelector('.upsell__cart-message');
 
@@ -501,7 +516,7 @@ validateCode(elem){
     //console.log(this.subtotalPrice);
     this.countTiers(this.subtotalPrice, this.tiers);
     this.discountLabel();
-   
+    this.emptyCart();
   }
   
   addItem(e) {
@@ -626,11 +641,11 @@ validateCode(elem){
       
     const hintContainer = document.getElementById("progressHint");
     const barContainer = document.getElementById("progressBar");
-    const btnclr = "background:hsl("+window.UpsellCart.buy_more.button_color.hue+",70%,30%)";
+    const btnclr = "background:hsl("+window.UpsellCart.progress_bar_color.hue+",70%,30%)";
     if(window.UpsellCart.tiered_progress_bar == true){
        for(var k=0;k<window.UpsellCart.tiered_progress_bar_tabs.length;k++){
         if(window.country == window.UpsellCart.tiered_progress_bar_tabs[k].country){
-          hintContainer.innerHTML = window.UpsellCart.tiered_progress_bar_tabs[k].content;
+          
           const layout = window.UpsellCart.tiered_progress_bar_tabs[k].layout_type;
           const alltiers = window.UpsellCart.tiered_progress_bar_tabs[k].tier.length;
           const gifts = document.querySelector(".upsell__cart-gifts");
@@ -638,7 +653,7 @@ validateCode(elem){
           //document.getElementById("giftlayout").innerHTML = '';
          
           gifts.innerHTML = '';
-         
+          
           for(var i=0;i<alltiers;i++){
               const free = window.UpsellCart.tiered_progress_bar_tabs[k].tier[i].type;
               const ship = window.UpsellCart.tiered_progress_bar_tabs[k].tier[i].free_shipping_all_products;
@@ -658,23 +673,40 @@ validateCode(elem){
              
               if(subtotalPrice >= minprice){
                 document.getElementById(""+minprice+"").classList.add("active");
+                //hintContainer.innerHTML = "You are "+(subtotalPrice - minprice)+" away from free shipping";
               }else{
                 document.getElementById(""+minprice+"").classList.remove("active");
               }
              
                 var pertcnt = subtotalPrice/max*100;
                 barContainer.style = `width: `+pertcnt+`%;`+btnclr+``;
-              
-              
+                
               if(free == "free_shipping" && subtotalPrice >= minprice){
                   document.getElementById(""+minprice+"").querySelector(".upsell__cart-icon").classList.add("active");
-                 
               }
               else if(free == "product" && subtotalPrice >= minprice){
-                    document.getElementById(""+minprice+"").querySelector(".upsell__cart-icon").classList.add("active");
-                   
+                  document.getElementById(""+minprice+"").querySelector(".upsell__cart-icon").classList.add("active");
               }
-         
+             
+          }
+          for(var m=0;m<alltiers;m++){
+            const free = window.UpsellCart.tiered_progress_bar_tabs[k].tier[m].type;
+            const minprice = window.UpsellCart.tiered_progress_bar_tabs[k].tier[m].min_price;
+            if(minprice-subtotalPrice > 0){
+             
+              if(free == "free_shipping" && subtotalPrice < minprice){
+                  hintContainer.innerHTML = "You are "+(minprice - subtotalPrice ).toFixed(2)+" away from free shipping";
+                  break;
+              }
+              else if(free == "product" && subtotalPrice < minprice){
+                  hintContainer.innerHTML = "You are "+(minprice - subtotalPrice ).toFixed(2)+" away from free gift";
+                  break;
+              }
+             
+            }else{
+              hintContainer.innerHTML = "You unlock all free gift";
+            }
+
           }
         }
        }
@@ -913,8 +945,21 @@ if(drawerdirecion == 'none' || drawerdirecion == 'disabled'){
 }
 
 
-var styles = 'background : hsl('+window.UpsellCart.buy_more.button_color.hue+',70%,30%)';
+var styles = 'background : hsl('+window.UpsellCart.progress_bar_color.hue+',70%,30%)';
 var viewclr = 'background : hsl('+window.UpsellCart.checkout_btn_settings.checking_out_color.hue+',90%,50%)';
+var empcart = `
+ font-size:`+window.UpsellCart.cart_empty.button_font_size+`px;
+ font-weight:`+window.UpsellCart.cart_empty.button_font_weight+`;
+ background:hsl(`+window.UpsellCart.cart_empty.button_color.hue+`,90%,50%);
+ color:hsl(`+window.UpsellCart.cart_empty.button_font_color.hue+`,70%,30%);
+ margin: 15px;
+ padding: 8px;
+ border: 1px solid;
+ cursor: pointer;
+ display: block;
+ text-decoration: none;
+`;
+var empcarthover = `background:hsl(`+window.UpsellCart.cart_empty.button_high_color.hue+`,90%,50%)`;
 var customcode = '';
 if(window.UpsellCart.custom_code_status == true){
   customcode = window.UpsellCart.custom_code;
@@ -922,6 +967,12 @@ if(window.UpsellCart.custom_code_status == true){
 var appstyle = `<style>
 .upsell__cart-icon.active{
   `+styles+`
+}
+.empty_upsell_coll a{
+  `+empcart+`
+}
+.empty_upsell_coll a:hover{
+  `+empcarthover+`
 }
 #viewcart a{
   `+viewclr+`
