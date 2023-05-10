@@ -164,7 +164,32 @@ app.get("/api/getcollection/:shop",  async (_req, res) => {
     res.status(200).json({})
   }
 })
-
+app.get("/api/coupon/:code/:shop", cors(), async (_req, res) => {
+  await console.log('comeee')
+  var code = _req.params.code;
+  var shop = _req.params.shop;
+  const doc = await StoreModel.findOne({store: shop});
+  let config = {
+    method: 'get',
+    withCredentials: false,
+    url: 'https://'+doc.store+'/admin/api/2023-01/discount_codes/lookup.json?code='+code,
+    headers: { 
+      'X-Shopify-Access-Token': doc.token
+    }
+  };
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  axios.request(config)
+  .then((response) => {
+   
+    console.log(JSON.stringify(response.data.discount_code.price_rule_id));
+    res.status(200).send(response.data); 
+  })
+  .catch((error) => {
+    res.status(200).send(error); 
+    console.log(error);
+  });
+  
+});
 
 app.use("/api/*", shopify.validateAuthenticatedSession());
 
@@ -264,32 +289,7 @@ app.post("/api/widgets", async (_req, res) => {
   }
 });
 
-app.get("/api/coupon/:code/:shop", cors(), async (_req, res) => {
-  await console.log('comeee')
-  var code = _req.params.code;
-  var shop = _req.params.shop;
-  const doc = await StoreModel.findOne({store: shop});
-  let config = {
-    method: 'get',
-    withCredentials: false,
-    url: 'https://'+doc.store+'/admin/api/2023-04/discount_codes/lookup.json?code='+code,
-    headers: { 
-      'X-Shopify-Access-Token': doc.token
-    }
-  };
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  axios.request(config)
-  .then((response) => {
-   
-    console.log(JSON.stringify(response.data));
-    res.status(200).send(response.data); 
-  })
-  .catch((error) => {
-    res.status(200).send(error); 
-    console.log(error);
-  });
-  
-});
+
 
 app.get("/api/widget/preview", async (_req, res) => {
   var session = res.locals.shopify.session;
