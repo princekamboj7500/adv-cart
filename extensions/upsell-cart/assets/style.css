@@ -137,6 +137,7 @@ div#upsell_announcement {
   border-radius: 10px;
   transition: width 500ms ease-in;
   display: block;
+  max-width:100%;
 }
 
 .upsell__cart-progress-hint {
@@ -654,4 +655,7 @@ div#afterpayBottom a {
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.item.upsell__cart-upsell2-item.addedtoqueue {
+  display: none;
 }

@@ -389,17 +389,20 @@ class upsellCart{
       var styl = ''
     }
     if(window.UpsellCart.discount_input_status == true){
+      document.querySelector(".upsell__cart-content").style.height = "calc(100% - 440px)";
       if(window.UpsellCart.discount_input.position == 'above_subtotal'){
         document.querySelector(".upsell_disc_input").innerHTML = `<div class="upsell_disount_input">
         <input type="text" id="upsell_discinp" style="`+styl+`" placeholder="`+window.UpsellCart.discount_input.discount_code_label+`">
         <input type="button"  style="`+styl+`" onclick="window.__upsellCart.validateCode(this)" class="addrecomd" value="`+window.UpsellCart.discount_input.discount_button_label+`">
-        </div>`;
+        
+        </div><div id="upsell_error1"></div>`;
       }
       else if(window.UpsellCart.discount_input.position == 'below_lineitm'){
         document.querySelector(".upsel_disc_inp1").innerHTML = `<div class="upsell_disount_input">
         <input type="text" id="upsell_discinp"  style="`+styl+`" placeholder="`+window.UpsellCart.discount_input.discount_code_label+`">
         <input type="button" style="`+styl+`" onclick="window.__upsellCart.validateCode(this)" class="addrecomd" value="`+window.UpsellCart.discount_input.discount_button_label+`">
-        </div>`;
+        
+        </div><div id="upsell_error1">`;
       }
      
     }
@@ -416,14 +419,14 @@ validateCode(elem){
     return response.json();
   })
   .then(function (payload) {
+    
    if(payload.discount_code){
     document.querySelector("#upsell_error1").innerHTML = "Valid code";
-    document.querySelector("#upsell_error").innerHTML = "Valid code";
      element.value = window.UpsellCart.discount_input.discount_button_label;
+     document.querySelector("#chkoutbtn a").setAttribute("href","/checkout?discount="+dcode+"")
    }else{
-    
+     document.querySelector("#chkoutbtn a").setAttribute("href","/checkout")
      document.querySelector("#upsell_error1").innerHTML = window.UpsellCart.discount_input.discount_invalid_message;
-     document.querySelector("#upsell_error").innerHTML = window.UpsellCart.discount_input.discount_invalid_message;
      element.value = window.UpsellCart.discount_input.discount_button_label;
    }
   });
@@ -521,6 +524,7 @@ validateCode(elem){
     
     xhr.send(data);
     this.drawCartItems(this.items);
+    document.querySelector('[vid="'+e+'"]').closest('.upsell__cart-upsell2-item').classList.add("addedtoqueue")
   }
   
   changeQty(e, id) {
@@ -555,6 +559,8 @@ validateCode(elem){
     var data = {"id":text,"quantity":"0"};
     this.changeItms(data);
     this.drawCartItems(this.items);
+    document.querySelector('[vid="'+id+'"]').closest('.upsell__cart-upsell2-item').classList.remove("addedtoqueue")
+    
   }
   changeItms(data){
         var xhr = new XMLHttpRequest();
