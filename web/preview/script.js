@@ -135,8 +135,11 @@ function drawCartItems(items) {
   }
   const max = Math.max(...amt);
   setTimeout(function(){
-    var prc = document.querySelectorAll('.upsell__cart-gift-item.getprice')[0].getAttribute('id');
-    hintContainer.innerHTML = "You are "+(prc -subtotalPrice).toFixed(2)+" away from free gift"
+    var prc = document.querySelectorAll('.upsell__cart-gift-item.getprice')[0]
+    if(prc){
+      var price = prc.getAttribute('id');
+      hintContainer.innerHTML = "You are "+(price -subtotalPrice).toFixed(2)+" away from free gift"
+    }
    
   },500)
   
@@ -145,6 +148,41 @@ function drawCartItems(items) {
   // countTiers(subtotalPrice, tiers);
   
   
+}
+
+function hsbaToRgb(h, s, br, a) {
+  // Convert HSB to RGB
+  let c = (1 - Math.abs(2 * br - 1)) * s;
+  let hp = h / 60.0;
+  let x = c * (1 - Math.abs((hp % 2) - 1));
+  let m = br - c / 2;
+  let r = 0, g = 0, b = 0;
+  if (hp >= 0 && hp < 1) {
+    r = c;
+    g = x;
+  } else if (hp >= 1 && hp < 2) {
+    r = x;
+    g = c;
+  } else if (hp >= 2 && hp < 3) {
+    g = c;
+    b = x;
+  } else if (hp >= 3 && hp < 4) {
+    g = x;
+    b = c;
+  } else if (hp >= 4 && hp < 5) {
+    r = x;
+    b = c;
+  } else if (hp >= 5 && hp < 6) {
+    r = c;
+    b = x;
+  }
+  r = Math.round((r + m) * 255);
+  g = Math.round((g + m) * 255);
+  b = Math.round((b + m) * 255);
+  // Convert alpha to decimal
+  a = parseFloat(a);
+  // Return RGB color code
+  return "rgb(" + r + ", " + g + ", " + b + ", " + a + ")";
 }
 
 function addItem() {
@@ -861,10 +899,10 @@ function announSlide(){
   startSlide();
 }
 announSlide();
-
+console.log(hsbaToRgb( event.data.checkout_btn_settings.checking_out_color.hue, event.data.checkout_btn_settings.checking_out_color.saturation, event.data.checkout_btn_settings.checking_out_color.brightness, event.data.checkout_btn_settings.checking_out_color.alpha))
 var discountcss = `
-  background:hsl(`+event.data.discount_input.label_color.hue+`,90%,50%);
-  color:hsl(`+event.data.discount_input.label_font_color.hue+`,70%,30%);
+  background:`+hsbaToRgb( event.data.discount_input.label_color.hue, event.data.discount_input.label_color.saturation, event.data.discount_input.label_color.brightness, event.data.discount_input.label_color.alpha)+`;
+  color:`+hsbaToRgb( event.data.discount_input.label_font_color.hue, event.data.discount_input.label_font_color.saturation, event.data.discount_input.label_font_color.brightness, event.data.discount_input.label_font_color.alpha)+`;
   font-size:`+event.data.discount_input.label_font_size+`px;
   font-weight:`+event.data.discount_input.label_font_weight+`;
   width: 70%;
@@ -872,14 +910,14 @@ var discountcss = `
   padding-left: 10px;
 `;
 var disbtn = `
-  background:hsl(`+event.data.discount_input.button_color.hue+`,90%,50%);
-  color:hsl(`+event.data.discount_input.button_font_color.hue+`,70%,30%);
+  color:`+hsbaToRgb( event.data.discount_input.button_font_color.hue, event.data.discount_input.button_font_color.saturation, event.data.discount_input.button_font_color.brightness, event.data.discount_input.button_font_color.alpha)+`;
+  background:`+hsbaToRgb( event.data.discount_input.button_color.hue, event.data.discount_input.button_color.saturation, event.data.discount_input.button_color.brightness, event.data.discount_input.button_color.alpha)+`;
   font-size:`+event.data.discount_input.button_font_size+`px;
   font-weight:`+event.data.discount_input.button_font_weight+`;
 `;
 document.getElementById("upsell_prev_styl").innerHTML= `<style>
 .icon.active{
-  background:hsl(`+event.data.buy_more.button_color.hue+`,70%,30%);
+  background:`+hsbaToRgb( event.data.buy_more.button_color.hue, event.data.buy_more.button_color.saturation, event.data.buy_more.button_color.brightness, event.data.buy_more.button_color.alpha)+`;
 }
 #upsell_discinp{
   `+discountcss+`
@@ -888,42 +926,60 @@ document.getElementById("upsell_prev_styl").innerHTML= `<style>
   `+disbtn+`
 }
 #upsell_discinp::placeholder{
-  color:hsl(`+event.data.discount_input.label_font_color.hue+`,70%,30%);
+  color:`+hsbaToRgb( event.data.discount_input.label_font_color.hue, event.data.discount_input.label_font_color.saturation, event.data.discount_input.label_font_color.brightness, event.data.discount_input.label_font_color.alpha)+`;
 }
 .progress-bar .bar{
-  background:hsl(`+event.data.progress_bar_color.hue+`,70%,30%);
+  background:`+hsbaToRgb( event.data.progress_bar_color.hue, event.data.progress_bar_color.saturation, event.data.progress_bar_color.brightness, event.data.progress_bar_color.alpha)+`;
 }
 button.btn-primary{
-  background:hsl(`+event.data.checkout_btn_settings.checking_out_color.hue+`,90%,50%);
+  background:`+hsbaToRgb( event.data.checkout_btn_settings.checking_out_color.hue, event.data.checkout_btn_settings.checking_out_color.saturation, event.data.checkout_btn_settings.checking_out_color.brightness, event.data.checkout_btn_settings.checking_out_color.alpha)+`;
 }
 button.btn-secondary{
-  border: 2px solid hsl(`+event.data.checkout_btn_settings.checking_out_color.hue+`,90%,50%);
-  color: hsl(`+event.data.checkout_btn_settings.checking_out_color.hue+`,90%,50%);
+  border: 2px solid `+hsbaToRgb( event.data.checkout_btn_settings.checking_out_color.hue, event.data.checkout_btn_settings.checking_out_color.saturation, event.data.checkout_btn_settings.checking_out_color.brightness, event.data.checkout_btn_settings.checking_out_color.alpha)+`;
+  color:`+hsbaToRgb( event.data.checkout_btn_settings.checking_out_color.hue, event.data.checkout_btn_settings.checking_out_color.saturation, event.data.checkout_btn_settings.checking_out_color.brightness, event.data.checkout_btn_settings.checking_out_color.alpha)+`;
 }
 .addrecomd{
-  background:hsl(`+event.data.buy_more.button_color.hue+`,70%,30%);
+  background:`+hsbaToRgb( event.data.buy_more.button_color.hue, event.data.buy_more.button_color.saturation, event.data.buy_more.button_color.brightness, event.data.buy_more.button_color.alpha)+`;
 }
 .cart-item button{
-  background:hsl(`+event.data.buy_more.button_color.hue+`,70%,30%);
+  background:`+hsbaToRgb( event.data.buy_more.button_color.hue, event.data.buy_more.button_color.saturation, event.data.buy_more.button_color.brightness, event.data.buy_more.button_color.alpha)+`;
 }
 .upsell__cart-icon.active{
-  background:hsl(`+event.data.progress_bar_color.hue+`,70%,30%);
+  background:`+hsbaToRgb( event.data.progress_bar_color.hue, event.data.progress_bar_color.saturation, event.data.progress_bar_color.brightness, event.data.progress_bar_color.alpha)+`;
 }
 button#viewCartButton a{
-  color: hsl(`+event.data.checkout_btn_settings.checking_out_color.hue+`,90%,50%);
+  color:`+hsbaToRgb( event.data.checkout_btn_settings.checking_out_color.hue, event.data.checkout_btn_settings.checking_out_color.saturation, event.data.checkout_btn_settings.checking_out_color.brightness, event.data.checkout_btn_settings.checking_out_color.alpha)+`;
   text-decoration: none;
 }
 .upsell_announctop.deactivated{
   display:none;
 }
 div#upsell_continueshop span{
-  background: hsl(`+event.data.checkout_btn_settings.checking_out_color.hue+`,90%,50%);
+  background:`+hsbaToRgb( event.data.checkout_btn_settings.checking_out_color.hue, event.data.checkout_btn_settings.checking_out_color.saturation, event.data.checkout_btn_settings.checking_out_color.brightness, event.data.checkout_btn_settings.checking_out_color.alpha)+`;
   color: #fff;
   text-align: center;
   padding: 7px;
   margin: 10px;
   border-radius: 4px;
   cursor: pointer;
+}
+.cart-item {
+  background: #fff;
+}
+.header{
+  background:`+hsbaToRgb( event.data.general_settings.header_background.hue, event.data.general_settings.header_background.saturation, event.data.general_settings.header_background.brightness, event.data.general_settings.header_background.alpha)+`;
+}
+.footer{
+  background:`+hsbaToRgb( event.data.general_settings.footer_background.hue, event.data.general_settings.footer_background.saturation, event.data.general_settings.footer_background.brightness, event.data.general_settings.footer_background.alpha)+`;
+}
+.content{
+  background:`+hsbaToRgb(  event.data.general_settings.main_background.hue,  event.data.general_settings.main_background.saturation,  event.data.general_settings.main_background.brightness,  event.data.general_settings.main_background.alpha)+`;
+}
+.upsell{
+  background:`+hsbaToRgb(  event.data.general_settings.main_background.hue,  event.data.general_settings.main_background.saturation,  event.data.general_settings.main_background.brightness,  event.data.general_settings.main_background.alpha)+`;
+}
+.upsell2{
+  background:`+hsbaToRgb(  event.data.general_settings.main_background.hue,  event.data.general_settings.main_background.saturation,  event.data.general_settings.main_background.brightness,  event.data.general_settings.main_background.alpha)+`;
 }
 </style>`;
 }

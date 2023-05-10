@@ -51,6 +51,7 @@ function Cart() {
             hue: 120,
             brightness: 1,
             saturation: 1,
+            alpha: 0.7,
         },
         "general_settings":{
             "font_family":"Roboto",
@@ -60,17 +61,20 @@ function Cart() {
                 hue: 120,
                 brightness: 1,
                 saturation: 1,
+                alpha: 0.7,
             },
             "main_background":{
                 hue: 120,
                 brightness: 1,
                 saturation: 1,
+                alpha: 0.7,
             },
             "footer_padding":"15",
             "footer_background":{
                 hue: 120,
                 brightness: 1,
                 saturation: 1,
+                alpha: 0.7,
             }
             
         },
@@ -97,6 +101,7 @@ function Cart() {
                 hue: 120,
                 brightness: 1,
                 saturation: 1,
+                alpha: 0.7,
             },
             "discount_lang": "Buy {{quantity}} save {{discount}}",
             "discount_success": "Buy More Save More",
@@ -129,21 +134,25 @@ function Cart() {
                 hue: 120,
                 brightness: 1,
                 saturation: 1,
+                alpha: 0.7,
             },
             "button_font_color":{
                 hue: 120,
                 brightness: 1,
                 saturation: 1,
+                alpha: 0.7,
             },
             "label_color":{
                 hue: 120,
                 brightness: 1,
                 saturation: 1,
+                alpha: 0.7,
             },
             "label_font_color":{
                 hue: 120,
                 brightness: 1,
                 saturation: 1,
+                alpha: 0.7,
             },
         },
         "shopping_btn_status":false,
@@ -158,6 +167,7 @@ function Cart() {
                 hue: 25,
                 brightness: 1,
                 saturation: 1,
+                alpha: 0.7,
             },
            
         },
@@ -173,11 +183,13 @@ function Cart() {
                 hue: 25,
                 brightness: 1,
                 saturation: 1,
+                alpha: 0.7,
             },
             "color":{
                 hue: 25,
                 brightness: 1,
                 saturation: 1,
+                alpha: 0.7,
             }
         },
         "checkout_btn_status": false,
@@ -190,6 +202,7 @@ function Cart() {
                 hue: 25,
                 brightness: 1,
                 saturation: 1,
+                alpha: 0.7,
             }
         },
         "cart_btn_status": true,
@@ -218,16 +231,19 @@ function Cart() {
                 hue: 25,
                 brightness: 1,
                 saturation: 1,
+                alpha: 0.7,
             },
             "button_font_color":{
                 hue: 25,
                 brightness: 1,
                 saturation: 1,
+                alpha: 0.7,
             },
             "button_high_color":{
                 hue: 25,
                 brightness: 1,
                 saturation: 1,
+                alpha: 0.7,
             }
         },
         "custom_code_status": false,
@@ -342,7 +358,7 @@ function Cart() {
                 allpro.map(
                     (item) =>
                         ( 
-                            obj2.push({value:item.title,label:item.title,id:item.id})
+                            obj2.push({value:item.handle,label:item.title})
                         ));
                 setCol(obj2);
                 
@@ -830,6 +846,8 @@ function Cart() {
                     <ColorPicker 
                         onChange={handleField("progress_bar_color")} 
                         color={setings.progress_bar_color}
+                        allowAlpha 
+                        
                     />
                     <Stack >
                     
@@ -969,6 +987,7 @@ function Cart() {
             label="Button Color"
             onChange={handleBuyMoreFields("button_color")} 
             color={setings.buy_more.button_color}
+            allowAlpha 
         />
 
         <TextField
@@ -1111,21 +1130,25 @@ function Cart() {
         <ColorPicker 
             onChange={handleDiscountInputFields("button_color")} 
             color={setings.discount_input.button_color}
+            allowAlpha 
         />
         <DisplayText  size="small">Button font color</DisplayText >
         <ColorPicker 
             onChange={handleDiscountInputFields("button_font_color")} 
             color={setings.discount_input.button_font_color}
+            allowAlpha 
         />
         <DisplayText  size="small">Label color</DisplayText >
         <ColorPicker 
             onChange={handleDiscountInputFields("label_color")} 
             color={setings.discount_input.label_color}
+            allowAlpha 
         />
         <DisplayText  size="small">Label font color</DisplayText >
         <ColorPicker 
             onChange={handleDiscountInputFields("label_font_color")} 
             color={setings.discount_input.label_font_color}
+            allowAlpha 
         />
     </FormLayout></Card.Section>);
 
@@ -1255,11 +1278,13 @@ function Cart() {
                     <ColorPicker 
                         onChange={handleGeneralSetting("header_background")} 
                         color={setings.general_settings.header_background}
+                        allowAlpha 
                     />
                     <DisplayText  size="small">Main content background</DisplayText >
                     <ColorPicker 
                         onChange={handleGeneralSetting("main_background")} 
                         color={setings.general_settings.main_background}
+                        allowAlpha 
                     />
                    <DisplayText  size="small">Footer</DisplayText >
                    <TextField
@@ -1276,6 +1301,7 @@ function Cart() {
                     <ColorPicker 
                         onChange={handleGeneralSetting("footer_background")} 
                         color={setings.general_settings.footer_background}
+                        allowAlpha 
                     />
                 </FormLayout></Card.Section> : <p>&nbsp;</p>}
             </Card>
@@ -1342,16 +1368,19 @@ function Cart() {
                     <ColorPicker 
                         onChange={handleCartEmpty("button_font_color")} 
                         color={setings.cart_empty.button_font_color}
+                        allowAlpha 
                     />
                     <DisplayText  size="small">Button  color</DisplayText >
                     <ColorPicker 
                         onChange={handleCartEmpty("button_color")} 
                         color={setings.cart_empty.button_color}
+                        allowAlpha 
                     />
                     <DisplayText  size="small">Button Hover color</DisplayText >
                     <ColorPicker 
                         onChange={handleCartEmpty("button_high_color")} 
                         color={setings.cart_empty.button_high_color}
+                        allowAlpha 
                     />
                    
                 </FormLayout></Card.Section> : <p>&nbsp;</p>}
@@ -1519,6 +1548,7 @@ function Cart() {
                     <ColorPicker 
                         onChange={handleShoppigInput("font_color")} 
                         color={setings.continue_shopping.font_color}
+                        allowAlpha 
                     />
                    
                 </FormLayout></Card.Section> : <p>&nbsp;</p>}
@@ -1591,11 +1621,13 @@ function Cart() {
                     <ColorPicker 
                         onChange={handlenoteInputField("font_color")} 
                         color={setings.note_input.font_color}
+                        allowAlpha 
                     />
                     <DisplayText  size="small">Color</DisplayText >
                     <ColorPicker 
                         onChange={handlenoteInputField("color")} 
                         color={setings.note_input.color}
+                        allowAlpha 
                     />
                 </FormLayout></Card.Section> : <p>&nbsp;</p>}
             </Card>
@@ -1638,6 +1670,7 @@ function Cart() {
                     <ColorPicker 
                         onChange={handleCheckoutFields("checking_out_color")} 
                         color={setings.checkout_btn_settings.checking_out_color}
+                        allowAlpha 
                     />
                     {setings.checkout_btn_settings.checkout_routing == "custom" ? <TextField
                         label="Custom Checkout URL"

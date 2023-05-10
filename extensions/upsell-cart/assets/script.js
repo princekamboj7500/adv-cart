@@ -10,20 +10,7 @@ class upsellCart{
     !showViewCartButton &&
         document.getElementById("viewCartButton").classList.add("upsell__cart-hidden");
 
-    // Show/Hide Afterpay option
-    // const afterpayShow = true;
-    // const afterpayPosition = "bottom"; // 'top' or 'bottom'
-    // const afterpayText = `<img src="images/afterpay.svg" alt="" /> available for orders over $35`;
-    // if (afterpayShow) {
-    //   if (afterpayPosition === "bottom") {
-    //     document.getElementById("afterpayBottom").innerHTML = afterpayText;
-    //   }
-    //   if (afterpayPosition === "top") {
-    //     document.getElementById("afterpayTop").innerHTML = afterpayText;
-    //   }
-    // }
-
-    // Upsell show/hide options
+  
     const upsellList = true;
     const upsellCarousel = true;
     !upsellList && document.querySelector(".upsell").classList.add("upsell__cart-hidden");
@@ -161,7 +148,8 @@ class upsellCart{
           document.getElementById("newwidget").insertAdjacentHTML('afterbegin',"<div class='upwidgets' id='featured_itm'><div id='fitms'></div></div>");
           var newidget = document.getElementById("fitms");
           var self = this;
-          var cartObj = await fetch("/collections/all/products.json?limit=5");
+          console.log(window.UpsellWidget[i].coll.col_name)
+          var cartObj = await fetch("/collections/"+window.UpsellWidget[i].coll.col_name+"/products.json?limit=5");
           cartObj = await cartObj.json();
           var allpro = cartObj.products;
         
@@ -307,7 +295,7 @@ class upsellCart{
     var cart_title = document.getElementsByClassName("upsell__cart-title")[0];
     cart_title.innerHTML = window.UpsellCart.language.cart_title;
 
-    document.getElementById("chkoutbtn").style.background = "hsl("+window.UpsellCart.checkout_btn_settings.checking_out_color.hue+",90%,50%)";
+    document.getElementById("chkoutbtn").style.background = hsbaToRgb( window.UpsellCart.checkout_btn_settings.checking_out_color.hue, window.UpsellCart.checkout_btn_settings.checking_out_color.saturation, window.UpsellCart.checkout_btn_settings.checking_out_color.brightness, window.UpsellCart.checkout_btn_settings.checking_out_color.alpha);
     
   }
 
@@ -641,7 +629,7 @@ validateCode(elem){
       
     const hintContainer = document.getElementById("progressHint");
     const barContainer = document.getElementById("progressBar");
-    const btnclr = "background:hsl("+window.UpsellCart.progress_bar_color.hue+",70%,30%)";
+    const btnclr = "background:"+hsbaToRgb( window.UpsellCart.progress_bar_color.hue, window.UpsellCart.progress_bar_color.saturation, window.UpsellCart.progress_bar_color.brightness, window.UpsellCart.progress_bar_color.alpha)+"";
     if(window.UpsellCart.tiered_progress_bar == true){
        for(var k=0;k<window.UpsellCart.tiered_progress_bar_tabs.length;k++){
         if(window.country == window.UpsellCart.tiered_progress_bar_tabs[k].country){
@@ -944,14 +932,50 @@ if(drawerdirecion == 'none' || drawerdirecion == 'disabled'){
   }
 }
 
+function hsbaToRgb(h, s, br, a) {
+  // Convert HSB to RGB
+  let c = (1 - Math.abs(2 * br - 1)) * s;
+  let hp = h / 60.0;
+  let x = c * (1 - Math.abs((hp % 2) - 1));
+  let m = br - c / 2;
+  let r = 0, g = 0, b = 0;
+  if (hp >= 0 && hp < 1) {
+    r = c;
+    g = x;
+  } else if (hp >= 1 && hp < 2) {
+    r = x;
+    g = c;
+  } else if (hp >= 2 && hp < 3) {
+    g = c;
+    b = x;
+  } else if (hp >= 3 && hp < 4) {
+    g = x;
+    b = c;
+  } else if (hp >= 4 && hp < 5) {
+    r = x;
+    b = c;
+  } else if (hp >= 5 && hp < 6) {
+    r = c;
+    b = x;
+  }
+  r = Math.round((r + m) * 255);
+  g = Math.round((g + m) * 255);
+  b = Math.round((b + m) * 255);
+  // Convert alpha to decimal
+  a = parseFloat(a);
+  // Return RGB color code
+  return "rgb(" + r + ", " + g + ", " + b + ", " + a + ")";
+}
 
-var styles = 'background : hsl('+window.UpsellCart.progress_bar_color.hue+',70%,30%)';
-var viewclr = 'background : hsl('+window.UpsellCart.checkout_btn_settings.checking_out_color.hue+',90%,50%)';
+let styles = hsbaToRgb( window.UpsellCart.progress_bar_color.hue, window.UpsellCart.progress_bar_color.saturation, window.UpsellCart.progress_bar_color.brightness, window.UpsellCart.progress_bar_color.alpha);
+
+var viewclr = hsbaToRgb( window.UpsellCart.checkout_btn_settings.checking_out_color.hue, window.UpsellCart.checkout_btn_settings.checking_out_color.saturation, window.UpsellCart.checkout_btn_settings.checking_out_color.brightness, window.UpsellCart.checkout_btn_settings.checking_out_color.alpha);
+ 
 var empcart = `
  font-size:`+window.UpsellCart.cart_empty.button_font_size+`px;
  font-weight:`+window.UpsellCart.cart_empty.button_font_weight+`;
- background:hsl(`+window.UpsellCart.cart_empty.button_color.hue+`,90%,50%);
- color:hsl(`+window.UpsellCart.cart_empty.button_font_color.hue+`,70%,30%);
+ background:`+hsbaToRgb( window.UpsellCart.cart_empty.button_color.hue, window.UpsellCart.cart_empty.button_color.saturation, window.UpsellCart.cart_empty.button_color.brightness, window.UpsellCart.cart_empty.button_color.alpha)+`;
+ color:`+hsbaToRgb( window.UpsellCart.cart_empty.button_font_color.hue, window.UpsellCart.cart_empty.button_font_color.saturation, window.UpsellCart.cart_empty.button_font_color.brightness, window.UpsellCart.cart_empty.button_font_color.alpha)+`;
  margin: 15px;
  padding: 8px;
  border: 1px solid;
@@ -959,51 +983,52 @@ var empcart = `
  display: block;
  text-decoration: none;
 `;
-var empcarthover = `background:hsl(`+window.UpsellCart.cart_empty.button_high_color.hue+`,90%,50%)`;
+
+var empcarthover = hsbaToRgb( window.UpsellCart.cart_empty.button_high_color.hue, window.UpsellCart.cart_empty.button_high_color.saturation, window.UpsellCart.cart_empty.button_high_color.brightness, window.UpsellCart.cart_empty.button_high_color.alpha);
 var customcode = '';
 if(window.UpsellCart.custom_code_status == true){
   customcode = window.UpsellCart.custom_code;
 }
 var appstyle = `<style>
 .upsell__cart-icon.active{
-  `+styles+`
+  background:`+styles+`;
 }
 .empty_upsell_coll a{
   `+empcart+`
 }
 .empty_upsell_coll a:hover{
-  `+empcarthover+`
+  background:`+empcarthover+`;
 }
 #viewcart a{
-  `+viewclr+`
+  background: `+viewclr+`;
 }
 #continueshop a{
   `+viewclr+`
 }
 .addrecomd{
-  background : hsl(`+window.UpsellCart.buy_more.button_color.hue+`,70%,30%);
+  background : `+hsbaToRgb( window.UpsellCart.buy_more.button_color.hue, window.UpsellCart.buy_more.button_color.saturation, window.UpsellCart.buy_more.button_color.brightness, window.UpsellCart.buy_more.button_color.alpha)+`;
 }
 .btn-primary{
-  background : hsl(`+window.UpsellCart.checkout_btn_settings.checking_out_color.hue+`,90%,50%);
+  background : `+hsbaToRgb( window.UpsellCart.checkout_btn_settings.checking_out_color.hue, window.UpsellCart.checkout_btn_settings.checking_out_color.saturation, window.UpsellCart.checkout_btn_settings.checking_out_color.brightness, window.UpsellCart.checkout_btn_settings.checking_out_color.alpha)+`;
 }
 button#viewCartButton a{
-  color:hsl(`+window.UpsellCart.checkout_btn_settings.checking_out_color.hue+`,90%,50%);
+  color:`+hsbaToRgb( window.UpsellCart.checkout_btn_settings.checking_out_color.hue, window.UpsellCart.checkout_btn_settings.checking_out_color.saturation, window.UpsellCart.checkout_btn_settings.checking_out_color.brightness, window.UpsellCart.checkout_btn_settings.checking_out_color.alpha)+`;
   text-decoration: none;
 }
 button.btn-primary{
-  border: 2px solid hsl(`+window.UpsellCart.checkout_btn_settings.checking_out_color.hue+`,90%,50%);
+  border: 2px solid `+hsbaToRgb( window.UpsellCart.checkout_btn_settings.checking_out_color.hue, window.UpsellCart.checkout_btn_settings.checking_out_color.saturation, window.UpsellCart.checkout_btn_settings.checking_out_color.brightness, window.UpsellCart.checkout_btn_settings.checking_out_color.alpha)+`;
 }
 button.btn-secondary{
-  border: 2px solid hsl(`+window.UpsellCart.checkout_btn_settings.checking_out_color.hue+`,90%,50%);
+  border: 2px solid `+hsbaToRgb( window.UpsellCart.checkout_btn_settings.checking_out_color.hue, window.UpsellCart.checkout_btn_settings.checking_out_color.saturation, window.UpsellCart.checkout_btn_settings.checking_out_color.brightness, window.UpsellCart.checkout_btn_settings.checking_out_color.alpha)+`;
 }
 .upsell__cart-cart-item button{
-  background : hsl(`+window.UpsellCart.buy_more.button_color.hue+`,70%,30%);
+  background : `+hsbaToRgb( window.UpsellCart.buy_more.button_color.hue, window.UpsellCart.buy_more.button_color.saturation, window.UpsellCart.buy_more.button_color.brightness, window.UpsellCart.buy_more.button_color.alpha)+`;
 }
 .upsell_announctop.deactivated{
   display:none;
 }
 div#upsell_continueshop span{
-  background: hsl(`+window.UpsellCart.checkout_btn_settings.checking_out_color.hue+`,90%,50%);
+  background: `+hsbaToRgb( window.UpsellCart.checkout_btn_settings.checking_out_color.hue, window.UpsellCart.checkout_btn_settings.checking_out_color.saturation, window.UpsellCart.checkout_btn_settings.checking_out_color.brightness, window.UpsellCart.checkout_btn_settings.checking_out_color.alpha)+`;
   color: #fff;
   text-align: center;
   padding: 7px;
@@ -1014,29 +1039,29 @@ div#upsell_continueshop span{
 div#upsell_continueshop span{
   font-size:`+window.UpsellCart.continue_shopping.font_size+`px;
   font-weight:`+window.UpsellCart.continue_shopping.font_weight+`;
-  color: hsl(`+window.UpsellCart.continue_shopping.font_color.hue+`,90%,50%);
+  color:`+hsbaToRgb( window.UpsellCart.continue_shopping.font_color.hue, window.UpsellCart.continue_shopping.font_color.saturation, window.UpsellCart.continue_shopping.font_color.brightness, window.UpsellCart.continue_shopping.font_color.alpha)+`;
 }
 .upsell_disount_input input.addrecomd{
-  background:hsl(`+window.UpsellCart.discount_input.button_color.hue+`,90%,50%);
-  color:hsl(`+window.UpsellCart.discount_input.button_font_color.hue+`,90%,50%);
   font-size:`+window.UpsellCart.discount_input.button_font_size+`px;
   font-weight:`+window.UpsellCart.discount_input.button_font_weight+`;
+  background:`+hsbaToRgb( window.UpsellCart.discount_input.button_color.hue, window.UpsellCart.discount_input.button_color.saturation, window.UpsellCart.discount_input.button_color.brightness, window.UpsellCart.discount_input.button_color.alpha)+`;
+  color:`+hsbaToRgb( window.UpsellCart.discount_input.button_font_color.hue, window.UpsellCart.discount_input.button_font_color.saturation, window.UpsellCart.discount_input.button_font_color.brightness, window.UpsellCart.discount_input.button_font_color.alpha)+`;
 }
 input#upsell_discinp{
-  background:hsl(`+window.UpsellCart.discount_input.label_color.hue+`,90%,50%);
-  color:hsl(`+window.UpsellCart.discount_input.label_font_color.hue+`,90%,50%);
   font-size:`+window.UpsellCart.discount_input.label_font_size+`px;
   font-weight:`+window.UpsellCart.discount_input.label_font_weight+`;
+  background:`+hsbaToRgb( window.UpsellCart.discount_input.label_color.hue, window.UpsellCart.discount_input.label_color.saturation, window.UpsellCart.discount_input.label_color.brightness, window.UpsellCart.discount_input.label_color.alpha)+`;
+  color:`+hsbaToRgb( window.UpsellCart.discount_input.label_font_color.hue, window.UpsellCart.discount_input.label_font_color.saturation, window.UpsellCart.discount_input.label_font_color.brightness, window.UpsellCart.discount_input.label_font_color.alpha)+`;
 }
 textarea#rebuy-cart-notes{
   font-size:`+window.UpsellCart.note_input.font_size+`px;
   font-weight:`+window.UpsellCart.note_input.font_weight+`;
   height:`+window.UpsellCart.note_input.inputsize+`px;
-  color:hsl(`+window.UpsellCart.note_input.font_color.hue+`,90%,50%);
-  background:hsl(`+window.UpsellCart.note_input.color.hue+`,90%,50%);
+  color:`+hsbaToRgb( window.UpsellCart.note_input.font_color.hue, window.UpsellCart.note_input.font_color.saturation, window.UpsellCart.note_input.font_color.brightness, window.UpsellCart.note_input.font_color.alpha)+`;
+  background:`+hsbaToRgb( window.UpsellCart.note_input.color.hue, window.UpsellCart.note_input.color.saturation, window.UpsellCart.note_input.color.brightness, window.UpsellCart.note_input.color.alpha)+`;
 }
 textarea#rebuy-cart-notes::placeholder{
-  color:hsl(`+window.UpsellCart.note_input.font_color.hue+`,90%,50%);
+  color:`+hsbaToRgb( window.UpsellCart.note_input.font_color.hue, window.UpsellCart.note_input.font_color.saturation, window.UpsellCart.note_input.font_color.brightness, window.UpsellCart.note_input.font_color.alpha)+`;
 }
 .upsell--cart{
   border-radius:`+window.UpsellCart.general_settings.border_radius+`px;
@@ -1048,7 +1073,24 @@ textarea#rebuy-cart-notes::placeholder{
 .upsell__cart-footer{
   padding:`+window.UpsellCart.general_settings.footer_padding+`px;
 }
-
+.upsell__cart-cart-item {
+  background: #fff;
+}
+.upsell__cart-header{
+  background:`+hsbaToRgb( window.UpsellCart.general_settings.header_background.hue, window.UpsellCart.general_settings.header_background.saturation, window.UpsellCart.general_settings.header_background.brightness, window.UpsellCart.general_settings.header_background.alpha)+`;
+}
+.upsell__cart-content{
+  background:`+hsbaToRgb( window.UpsellCart.general_settings.main_background.hue, window.UpsellCart.general_settings.main_background.saturation, window.UpsellCart.general_settings.main_background.brightness, window.UpsellCart.general_settings.main_background.alpha)+`;
+}
+.upsell__cart-footer{
+  background:`+hsbaToRgb( window.UpsellCart.general_settings.footer_background.hue, window.UpsellCart.general_settings.footer_background.saturation, window.UpsellCart.general_settings.footer_background.brightness, window.UpsellCart.general_settings.footer_background.alpha)+`;
+}
+.upsell__cart-upsell2{
+  background:`+hsbaToRgb( window.UpsellCart.general_settings.main_background.hue, window.UpsellCart.general_settings.main_background.saturation, window.UpsellCart.general_settings.main_background.brightness, window.UpsellCart.general_settings.main_background.alpha)+`;
+}
+div#newwidget{
+  background:`+hsbaToRgb( window.UpsellCart.general_settings.main_background.hue, window.UpsellCart.general_settings.main_background.saturation, window.UpsellCart.general_settings.main_background.brightness, window.UpsellCart.general_settings.main_background.alpha)+`;
+}
 `+customcode+`
 </style>`;
 const abc = document.querySelector("body");

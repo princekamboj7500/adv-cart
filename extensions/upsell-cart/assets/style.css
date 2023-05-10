@@ -398,10 +398,7 @@ button#prev {
   cursor: pointer;
 }
 .upsell__cart-upsell2-item .upsell__cart-title-qty strong {
-  display: block;
   white-space: normal;
-  height: 20px;
-  overflow: hidden;
 }
 .upsell__cart-upsell2 {
   position: relative;
@@ -649,4 +646,12 @@ div#afterpayBottom a {
 .empty_upsell_coll {
 
   text-align: center;
+}
+.upsell__cart-upsell2-item .upsell__cart-title-qty strong {
+  font-size: 14px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
