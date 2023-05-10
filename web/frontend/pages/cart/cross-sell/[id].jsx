@@ -116,13 +116,10 @@ export default function editWidget() {
             ...collapse,
             [field]: !collapse[field],
         }));
-       
-        console.log(prodata.prodata)
+    
     };
    
-    const [prodata , setPro] = useState({
-        prodata:{}
-    })
+    const [prodata , setPro] = useState()
 
     async function loadWidget(){
         var auth = Cookies.get('auth');
@@ -135,20 +132,22 @@ export default function editWidget() {
         var widgetObj = await response.json();
         setWidget(widgetObj);
         var obj = [];
-        fetch('https://cart.brandlift.io/api/api/getcollection/'+widgetObj.store+'')
+       
+        fetch('/api/getcollection/'+widgetObj.store+'')
         .then(function (response) {
             return response.json();
         })
         .then(function (payload) {
             var allpro = payload.custom_collections;
+            console.log(allpro)
             allpro.map(
                 (item) =>
                     ( 
-                        obj.push({value:item.title,label:item.title,id:item.id})
+                        obj.push({value:item.handle,label:item.title})
                     ));
         })
-        window.allcol = obj;
-        setPro({prodata:obj});
+        
+        setPro(obj);
     } 
 
     async function saveWidget(){
@@ -611,8 +610,8 @@ export default function editWidget() {
                             <FormLayout>
                                 <Select
                                     label="Select collection"
-                                    options={window.allcol}
-                                    value={widget.coll}
+                                    options={prodata}
+                                    value={widget.coll.col_name} 
                                     onChange={handleWidget('coll.col_name')}
                                 />
                             </FormLayout>
