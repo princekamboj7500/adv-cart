@@ -561,9 +561,11 @@ function Cart() {
     );
 
     const findValue = useCallback(
-        (pId) => {
+        (pId) => {console.log(options.length)
             if(pId == null){ return "";}
-            return options.find(x => x.value == pId).label;
+            if(options != 0){ 
+                return options.find(x => x.value == pId).label;
+            }
         },
         [options], 
     );
