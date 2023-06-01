@@ -36,6 +36,7 @@ import {
 import Cookies from 'js-cookie';
 import CodeMirror from '@uiw/react-codemirror';
 import { html } from '@codemirror/lang-html';
+import { TrustPayment, Benefits, Testimonials } from '../../components';
 import { useState, useCallback, useEffect, useMemo } from 'react';
 
 
@@ -1763,6 +1764,9 @@ function Cart() {
                 </FormLayout>
             </Card>
 
+            <TrustPayment />
+            <Benefits settings={setings}  />
+            <Testimonials settings={setings}  />
             <Card>
                 <Card.Header
                     actions={[]}
