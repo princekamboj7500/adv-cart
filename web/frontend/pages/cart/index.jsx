@@ -248,7 +248,13 @@ function Cart() {
             }
         },
         "custom_code_status": false,
-        "custom_code": ""
+        "custom_code": "",
+        "trust_badge" : {
+            src: "",
+            Width: "",
+            margin: "",
+            width: ""
+        }
     });
 
     const [active, setActive] = useState(false);
@@ -1764,7 +1770,7 @@ function Cart() {
                 </FormLayout>
             </Card>
 
-            <TrustPayment />
+            <TrustPayment settings={setings} />
             <Benefits settings={setings}  />
             <Testimonials settings={setings}  />
             <Card>

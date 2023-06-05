@@ -1,5 +1,5 @@
 // @ts-check
-import { join } from "path";
+import path, { join } from "path";
 import { readFileSync } from "fs";
 import express from "express";
 import serveStatic from "serve-static";
@@ -14,6 +14,7 @@ import GDPRWebhookHandlers from "./gdpr.js";
 import { billingConfig, createSubscription } from "./billing.js";
 import axios from "axios";
 import cors from "cors";
+import multer from "multer";
 
 mongoose.Promise = global.Promise;
  
@@ -29,6 +30,15 @@ const STATIC_PATH =
 const PREVIEWSTATIC_PATH = `${process.cwd()}/preview/`;
 
 const app = express();
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname)) 
+  }
+})
+const upload = multer({ storage: storage });
 app.use(cors());
 
 // Set up Shopify authentication and webhook handling
@@ -195,6 +205,16 @@ app.use("/api/*", shopify.validateAuthenticatedSession());
 
 app.use(express.json());
 
+app.post("/api/upload", upload.single('file'), async (_req, res) => {
+  // Access the uploaded file using req.file
+  if (!_req.file) {
+    return res.status(400).send('No file uploaded.');
+  }
+  console.log(_req.file);
+  // File has been uploaded successfully
+  res.json(_req.file);
+});
+
 app.get("/api/profile", async (_req, res) => {
   var session = res.locals.shopify.session;
   const doc = await StoreModel.findOne({store: session.shop});
@@ -321,7 +341,7 @@ app.get("/api/products/create", async (_req, res) => {
 });
 
 app.use(serveStatic(STATIC_PATH, { index: false }));
-
+app.use('/api/uploads', serveStatic(`${process.cwd()}/uploads/`));
 app.use('/api/preview/',serveStatic(PREVIEWSTATIC_PATH, { index: false }));
 
 app.use("/*", shopify.validateAuthenticatedSession(), async (_req, res, _next) => {
