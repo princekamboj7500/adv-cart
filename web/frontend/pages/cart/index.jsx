@@ -251,9 +251,13 @@ function Cart() {
         "custom_code": "",
         "trust_badge" : {
             src: "",
-            Width: "",
+            padding: "",
             margin: "",
             width: ""
+        },
+        "benefit": {
+            "layout" : "stacked",
+            "benefits": []
         }
     });
 
