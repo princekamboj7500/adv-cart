@@ -6,17 +6,7 @@ import {useState, useCallback} from 'react';
 export function Benefits(props){
     var settings = props.settings.benefit;
     console.log('settings' , settings)
-    // const [benefits, setBenefits] = useState([{
-    //     image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Globe_icon.svg/420px-Globe_icon.svg.png',
-    //     size: '100',
-    //     image_padding: '',
-    //     image_margin: '',
-    //     text: 'Made in USA',
-    //     background_color: '#ffffff',
-    //     font_color: '#000000',
-    //     font_size: '16',
-    //     font_weight: '400'
-    // }]);
+
     const [benefits, setBenefits] = useState(settings);
    
     const updateValue = (idx, field, value) => {
@@ -27,17 +17,21 @@ export function Benefits(props){
             ...benefits,
             ['benefits']:benefits.benefits
         }));
-        // setBenefits(benefits => ([
-        //     ...benefits
-        // ]));
+    }
+   
+    const updateLayout = (value) => {
+        setBenefits(benefits => ({
+            ...benefits,
+            ['layout']:value
+        }));
     }
 
     const addBenefits = () => {
         var placeholder = {
-            image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Globe_icon.svg/420px-Globe_icon.svg.png',
+            image: '',
             size: '100',
-            image_padding: '',
-            image_margin: '',
+            image_padding: '10px 10px 10px 10px',
+            image_margin: '10px 10px 10px 10px',
             text: 'Made in USA',
             background_color: '#ffffff',
             font_color: '#000000',
@@ -49,21 +43,39 @@ export function Benefits(props){
             ...benefits,
             ['benefits']:benefits.benefits
         }));
-        // setBenefits(benefits => ([
-        //     ...benefits
-        // ]));
     }
 
     const removeBenefits = (index) => {
         benefits.benefits.splice(index, 1);
-        // setBenefits(benefits => ([
-        //     ...benefits
-        // ]));
         setBenefits(benefits => ({
             ...benefits,
             ['benefits']:benefits.benefits
         }));
     }
+
+    const handleDropZoneDrop = useCallback(
+        (_dropFiles, acceptedFiles, _rejectedFiles, idx) => {
+           const formData = new FormData();
+           formData.append('file', acceptedFiles[0]);
+          fetch('/api/upload', {
+            method: 'POST',
+            body: formData
+          })
+            .then(response => response.json())
+            .then(json => {
+                benefits.benefits[idx].image = json.filename;
+                setBenefits(benefits => ({
+                    ...benefits,
+                    ['benefits']:benefits.benefits
+                }));
+            })
+            .catch(error => {
+              console.error('Error uploading file:', error);
+            });
+          }
+          ,
+        [],
+      );
 
     return (<Card title="Benefits" sectioned primaryFooterAction={{content: 'Add Benefit', onAction: addBenefits, disabled: benefits.benefits.length > 3}}>
         <FormLayout>
@@ -73,6 +85,8 @@ export function Benefits(props){
                     { label: 'Stacked (1 Row for Each)', value: 'stacked' },
                     { label: 'Inline (2 Benefits Per Row)', value: 'inline' }
                 ]}
+                value={benefits.layout}
+                onChange={(ly) => updateLayout(ly)}
             />
 
             <ResourceList
@@ -92,8 +106,9 @@ export function Benefits(props){
                         media={media}
                     >
                         <div style={{width: 50, height: 80}}>
-                            <DropZone label="Icon">
-                                <DropZone.FileUpload />
+                            <DropZone label="Icon" allowMultiple={false} onDrop={(_dropFiles, acceptedFiles, _rejectedFiles) => handleDropZoneDrop(_dropFiles, acceptedFiles, _rejectedFiles, idx)}>
+                                {image == "" && (<DropZone.FileUpload />)}
+                                {image != "" && (<img src={'/api/uploads/'+image} style={{width:"50px"}} />)}
                             </DropZone>
                         </div>
                         <FormLayout>
@@ -155,11 +170,11 @@ export function Benefits(props){
                             </Stack>
                             <Stack>
                                 <p>Section Background Color: </p>
-                                <input className='colorInput' type='color'  onChange={(txt) => updateValue(idx, 'background_color', txt)} value={background_color} />
+                                <input className='colorInput' type='color'  onChange={(txt) => updateValue(idx, 'background_color', txt.target.value)} value={background_color} />
                             </Stack>
                             <Stack>
                                 <p>Font Color: </p>
-                                <input className='colorInput' onChange={(txt) => updateValue(idx, 'font_color', txt)} type='color' value={font_color} />
+                                <input className='colorInput' onChange={(txt) => updateValue(idx, 'font_color', txt.target.value)} type='color' value={font_color} />
                             </Stack>
                             <Button destructive onClick={() => removeBenefits(idx)}>Remove</Button>
                         </FormLayout>

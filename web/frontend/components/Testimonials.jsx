@@ -4,35 +4,22 @@ import {NoteMinor, StarFilledMinor} from '@shopify/polaris-icons';
 import {useState, useCallback} from 'react';
 
 export function Testimonials(props){
-    var settings = props.settings;
-    const [testimonials, setTestimonials] = useState([{
-        image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Globe_icon.svg/420px-Globe_icon.svg.png',
-        size: '100',
-        image_padding: '',
-        image_margin: '',
-        name: 'Jhon',
-        review: '',
-        star: true,
-        order_date: '',
-        background_color: '#ffffff',
-        font_color: '#000000',
-        font_size: '16',
-        font_weight: '400'
-    }]);
+    const [testimonials, setTestimonials] = useState(props.settings.testimonial);
 
     const updateValue = (idx, field, value) => {
-        testimonials[idx][field] = value;
-        setTestimonials(testimonials => ([
-            ...testimonials
-        ]));
+        testimonials.testimonials[idx][field] = value;
+        setTestimonials(testimonials => ({
+            ...testimonials,
+            ['testimonials']: testimonials.testimonials
+        }));
     }
 
     const addBenefits = () => {
         var placeholder = {
-            image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Globe_icon.svg/420px-Globe_icon.svg.png',
+            image: '',
             size: '100',
-            image_padding: '',
-            image_margin: '',
+            image_padding: '10px 10px 10px 10px',
+            image_margin: '10px 10px 10px 10px',
             name: 'Jhon',
             review: '',
             start: true,
@@ -42,18 +29,51 @@ export function Testimonials(props){
             font_size: '16',
             font_weight: '400'
         };
-        testimonials.push(placeholder);
-        setTestimonials(testimonials => ([
-            ...testimonials
-        ]));
+        testimonials.testimonials.push(placeholder);
+        setTestimonials(testimonials => ({
+            ...testimonials,
+            ['testimonials']: testimonials.testimonials
+        }));
+    }
+
+    const updateLayout = (value) => {
+        setTestimonials(testimonials => ({
+            ...testimonials,
+            ['position']: value
+        }));
     }
 
     const removeBenefits = (index) => {
-        testimonials.splice(index, 1);
-        setTestimonials(testimonials => ([
-            ...testimonials
-        ]));
+        testimonials.testimonials.splice(index, 1);
+        setTestimonials(testimonials => ({
+            ...testimonials,
+            ['testimonials']: testimonials.testimonials
+        }));
     }
+
+    const handleDropZoneDrop = useCallback(
+        (_dropFiles, acceptedFiles, _rejectedFiles, idx) => {
+           const formData = new FormData();
+           formData.append('file', acceptedFiles[0]);
+          fetch('/api/upload', {
+            method: 'POST',
+            body: formData
+          })
+            .then(response => response.json())
+            .then(json => {
+                testimonials.testimonials[idx].image = json.filename;
+                setTestimonials(testimonials => ({
+                    ...testimonials,
+                    ['testimonials']: testimonials.testimonials
+                }));
+            })
+            .catch(error => {
+              console.error('Error uploading file:', error);
+            });
+          }
+          ,
+        [],
+      );
 
     return (<Card title="Testimonials" sectioned primaryFooterAction={{content: 'Add Testimonials', onAction: addBenefits}}>
         <FormLayout>
@@ -63,11 +83,13 @@ export function Testimonials(props){
                     { label: 'Top', value: 'top' },
                     { label: 'Bottom', value: 'bottom' }
                 ]}
+                value={testimonials.position}
+                onChange={(ly) => updateLayout(ly)}
             />
 
             <ResourceList
                 resourceName={{singular: 'Testimonial', plural: 'Testimonials'}}
-                items={testimonials}
+                items={testimonials.testimonials}
                 renderItem={(item, idx) => {
                 const {image, name, review, size, background_color, font_color, font_size, font_weight, image_padding, image_margin, star, order_date} = item;
                 const media = <Thumbnail
@@ -81,8 +103,9 @@ export function Testimonials(props){
                         media={media}
                     >
                         <div style={{width: 50, height: 80}}>
-                            <DropZone label="Image">
-                                <DropZone.FileUpload />
+                            <DropZone label="Image" allowMultiple={false} onDrop={(_dropFiles, acceptedFiles, _rejectedFiles) => handleDropZoneDrop(_dropFiles, acceptedFiles, _rejectedFiles, idx)}>
+                                {image == "" && (<DropZone.FileUpload />)}
+                                {image != "" && (<img src={'/api/uploads/'+image} style={{width:"50px"}} />)}
                             </DropZone>
                         </div>
                         <FormLayout>
@@ -163,11 +186,11 @@ export function Testimonials(props){
                             </Stack>
                             <Stack>
                                 <p>Section Background Color: </p>
-                                <input className='colorInput' type='color' value={background_color} />
+                                <input className='colorInput' type='color' value={background_color}  onChange={(txt) => updateValue(idx, 'background_color', txt.target.value)} />
                             </Stack>
                             <Stack>
                                 <p>Font Color: </p>
-                                <input className='colorInput' type='color' value={font_color} />
+                                <input className='colorInput' type='color' value={font_color} onChange={(txt) => updateValue(idx, 'font_color', txt.target.value)} />
                             </Stack>
                             <Button destructive onClick={() => removeBenefits(idx)}>Remove</Button>
                         </FormLayout>

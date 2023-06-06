@@ -36,6 +36,8 @@ export function TrustPayment(props){
 
     const removeImg = () => {
       setFile('');
+      props.settings.trust_badge.src = '';
+      setPadding(props.settings.trust_badge['padding']);
     }
 
     const uploadedFile = file && (
@@ -45,7 +47,7 @@ export function TrustPayment(props){
               ? window.URL.createObjectURL(file)
               : (trust_badge.src != "" ? '/api/uploads/'+trust_badge.src : NoteMinor)
           }
-          style={{width: '95%' ,  height: '110px'}}
+          style={{width: '95%' ,  height: 'auto'}}
         />
       </Stack>
     );
@@ -116,7 +118,7 @@ export function TrustPayment(props){
                 value={props.settings.trust_badge.width}
                 onChange={(p) => updateField('width', p)}
             />
-
+            <br/>
             <Button destructive onClick={removeImg}>Remove</Button>
 
         </>)}
