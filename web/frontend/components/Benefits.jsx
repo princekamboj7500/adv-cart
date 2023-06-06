@@ -4,25 +4,32 @@ import {NoteMinor, CircleInformationMajor} from '@shopify/polaris-icons';
 import {useState, useCallback} from 'react';
 
 export function Benefits(props){
-    var settings = props.settings;
-    const [benefits, setBenefits] = useState([{
-        image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Globe_icon.svg/420px-Globe_icon.svg.png',
-        size: '100',
-        image_padding: '',
-        image_margin: '',
-        text: 'Made in USA',
-        background_color: '#ffffff',
-        font_color: '#000000',
-        font_size: '16',
-        font_weight: '400'
-    }]);
-
+    var settings = props.settings.benefit;
+    console.log('settings' , settings)
+    // const [benefits, setBenefits] = useState([{
+    //     image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Globe_icon.svg/420px-Globe_icon.svg.png',
+    //     size: '100',
+    //     image_padding: '',
+    //     image_margin: '',
+    //     text: 'Made in USA',
+    //     background_color: '#ffffff',
+    //     font_color: '#000000',
+    //     font_size: '16',
+    //     font_weight: '400'
+    // }]);
+    const [benefits, setBenefits] = useState(settings);
+   
     const updateValue = (idx, field, value) => {
-        console.log(idx, field, value);
-        benefits[idx][field] = value;
-        setBenefits(benefits => ([
-            ...benefits
-        ]));
+        console.log( idx, field, value);
+        benefits.benefits[idx][field] = value;
+        console.log("benefits:", benefits);
+        setBenefits(benefits => ({
+            ...benefits,
+            ['benefits']:benefits.benefits
+        }));
+        // setBenefits(benefits => ([
+        //     ...benefits
+        // ]));
     }
 
     const addBenefits = () => {
@@ -37,20 +44,28 @@ export function Benefits(props){
             font_size: '16',
             font_weight: '400'
         };
-        benefits.push(placeholder);
-        setBenefits(benefits => ([
-            ...benefits
-        ]));
+        benefits.benefits.push(placeholder);
+        setBenefits(benefits => ({
+            ...benefits,
+            ['benefits']:benefits.benefits
+        }));
+        // setBenefits(benefits => ([
+        //     ...benefits
+        // ]));
     }
 
     const removeBenefits = (index) => {
-        benefits.splice(index, 1);
-        setBenefits(benefits => ([
-            ...benefits
-        ]));
+        benefits.benefits.splice(index, 1);
+        // setBenefits(benefits => ([
+        //     ...benefits
+        // ]));
+        setBenefits(benefits => ({
+            ...benefits,
+            ['benefits']:benefits.benefits
+        }));
     }
 
-    return (<Card title="Benefits" sectioned primaryFooterAction={{content: 'Add Benefit', onAction: addBenefits, disabled: benefits.length > 3}}>
+    return (<Card title="Benefits" sectioned primaryFooterAction={{content: 'Add Benefit', onAction: addBenefits, disabled: benefits.benefits.length > 3}}>
         <FormLayout>
             <Select
                 label="Layout"
@@ -62,7 +77,7 @@ export function Benefits(props){
 
             <ResourceList
                 resourceName={{singular: 'Benefit', plural: 'Benefits'}}
-                items={benefits}
+                items={benefits.benefits}
                 renderItem={(item, idx) => {
                 const {image, text, size, background_color, font_color, font_size, font_weight, image_padding, image_margin} = item;
                 const media = <Thumbnail
@@ -140,11 +155,11 @@ export function Benefits(props){
                             </Stack>
                             <Stack>
                                 <p>Section Background Color: </p>
-                                <input className='colorInput' type='color' value={background_color} />
+                                <input className='colorInput' type='color'  onChange={(txt) => updateValue(idx, 'background_color', txt)} value={background_color} />
                             </Stack>
                             <Stack>
                                 <p>Font Color: </p>
-                                <input className='colorInput' type='color' value={font_color} />
+                                <input className='colorInput' onChange={(txt) => updateValue(idx, 'font_color', txt)} type='color' value={font_color} />
                             </Stack>
                             <Button destructive onClick={() => removeBenefits(idx)}>Remove</Button>
                         </FormLayout>

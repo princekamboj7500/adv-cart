@@ -43,9 +43,9 @@ export function TrustPayment(props){
         <img src={
             validImageTypes.includes(file.type)
               ? window.URL.createObjectURL(file)
-              : (trust_badge != "" ? trust_badge : NoteMinor)
+              : (trust_badge.src != "" ? '/api/uploads/'+trust_badge.src : NoteMinor)
           }
-          style={{width: '95%'}}
+          style={{width: '95%' ,  height: '110px'}}
         />
       </Stack>
     );
