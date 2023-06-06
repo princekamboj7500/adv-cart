@@ -258,6 +258,10 @@ function Cart() {
         "benefit": {
             "layout" : "stacked",
             "benefits": []
+        },
+        "testimonial": {
+            position: "bottom",
+            testimonials:[]
         }
     });
 
