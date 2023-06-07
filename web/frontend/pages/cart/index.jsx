@@ -36,7 +36,7 @@ import {
 import Cookies from 'js-cookie';
 import CodeMirror from '@uiw/react-codemirror';
 import { html } from '@codemirror/lang-html';
-import { TrustPayment, Benefits, Testimonials } from '../../components';
+import { TrustPayment, Benefits, Testimonials, CartItem } from '../../components';
 import { useState, useCallback, useEffect, useMemo } from 'react';
 
 
@@ -76,8 +76,29 @@ function Cart() {
                 brightness: 1,
                 saturation: 1,
                 alpha: 0.7,
+            },
+            subtotal_color: "#000000",
+            subtotal_font: 'Roboto',
+            price_color: '#d53600',
+            compare_price_color: '#9a9a9a',
+            price_font: 'Roboto',
+            cartitem: {
+                background_color: '#ffffff',
+                product_img_size: '100%',
+                product_img_padding: '',
+                title_size: '100%',
+                title_color: '#000000',
+                title_weight: '600',
+                variant_size: '100%',
+                variant_color: '#000000',
+                variant_weight:  '500',
+                price_size: '100%',
+                price_color: '#000000',
+                price_weight: '600',
+                discount_size: '100%',
+                discount_color: '#cccccc',
+                discount_weight: '400'
             }
-            
         },
         "tiered_progress_bar_tabs": [{
             id: 'tire-0',
@@ -1320,8 +1341,63 @@ function Cart() {
                         color={setings.general_settings.footer_background}
                         allowAlpha 
                     />
+                    <DisplayText  size="small">Footer Content</DisplayText >
+                    <Stack>
+                        <label>Subtotal Color:</label>
+                        <input type='color' value={setings.general_settings.subtotal_color} onChange={(e) => handleGeneralSetting("subtotal_color")(e.target.value)} />
+                    </Stack>
+                    <Select
+                        label="Subtotal font"
+                        options={[
+                            { label: 'Roboto', value: 'Roboto' },
+                            { label: 'Monstrate', value: 'Monstrate' },
+                            { label: 'Sofia', value: 'Sofia' },
+                            { label: 'Audiowide', value: 'Audiowide' },
+                            { label: 'Trirong', value: 'Trirong' },
+                            { label: 'serif', value: 'serif' },
+                            { label: 'Lora ', value: 'Lora ' },
+                            { label: 'Lato', value: 'Lato' },
+                            { label: 'Poppins', value: 'Poppins' },
+                            { label: 'Lobster', value: 'Lobster' },
+                            { label: 'Comfortaa', value: 'Comfortaa' },
+                            { label: 'Caveat', value: 'Caveat' },
+                        ]}
+                        value={setings.general_settings.subtotal_font}
+                        onChange={handleGeneralSetting("subtotal_font")}
+                    />
+
+                    <Stack>
+                        <label>Price Color:</label>
+                        <input type='color' value={setings.general_settings.price_color} onChange={(e) => handleGeneralSetting("price_color")(e.target.value)} />
+                    </Stack>
+                    <Stack>
+                        <label>Compare Price Color:</label>
+                        <input type='color' value={setings.general_settings.compare_price_color} onChange={(e) => handleGeneralSetting("compare_price_color")(e.target.value)} />
+                    </Stack>
+                    <Select
+                        label="Price font"
+                        options={[
+                            { label: 'Roboto', value: 'Roboto' },
+                            { label: 'Monstrate', value: 'Monstrate' },
+                            { label: 'Sofia', value: 'Sofia' },
+                            { label: 'Audiowide', value: 'Audiowide' },
+                            { label: 'Trirong', value: 'Trirong' },
+                            { label: 'serif', value: 'serif' },
+                            { label: 'Lora ', value: 'Lora ' },
+                            { label: 'Lato', value: 'Lato' },
+                            { label: 'Poppins', value: 'Poppins' },
+                            { label: 'Lobster', value: 'Lobster' },
+                            { label: 'Comfortaa', value: 'Comfortaa' },
+                            { label: 'Caveat', value: 'Caveat' },
+                        ]}
+                        value={setings.general_settings.price_font}
+                        onChange={handleGeneralSetting("price_font")}
+                    />
+
                 </FormLayout></Card.Section> : <p>&nbsp;</p>}
             </Card>
+
+            <CartItem settings={setings} />
        
             <Card>
                 <Card.Header
@@ -1807,7 +1883,7 @@ function Cart() {
 
             <p>&nbsp;</p>
         </Layout.Section>
-        <Layout.Section secondary>
+        <Layout.Section secondary style={{position:'sticky', top: '70px'}}>
             <Card title="Live Preview" sectioned>
                 {previewiframe}
             </Card>
