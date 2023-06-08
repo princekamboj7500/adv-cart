@@ -5,7 +5,6 @@ import {useState, useCallback} from 'react';
 
 export function TrustPayment(props){
     var trust_badge = props.settings.trust_badge;
-    console.log('trust_badge', trust_badge);
     const [file, setFile] = useState<File>();
     const [padding, setPadding] = useState('');
 

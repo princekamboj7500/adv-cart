@@ -24,7 +24,8 @@ import {
     ColorPicker,
     SkeletonBodyText,
     DisplayText,
-    Loading
+    Loading,
+    RangeSlider
 } from '@shopify/polaris';
 import {
     CirclePlusMinor,
@@ -38,7 +39,7 @@ import CodeMirror from '@uiw/react-codemirror';
 import { html } from '@codemirror/lang-html';
 import { TrustPayment, Benefits, Testimonials, CartItem } from '../../components';
 import { useState, useCallback, useEffect, useMemo } from 'react';
-
+import '../../assets/cart.css';
 
 function Cart() { 
     const [setings, setSettings] = useState({
@@ -46,6 +47,11 @@ function Cart() {
         "announcement_bar": false,
         "announcement_position":"topflyout",
         "announcement_bar_items": [],
+        "announcement_settings": {
+            "speed": "3000",
+            "padding": "",
+            "margin": ""
+        },
         "tiered_progress_bar": false,
         "general_settings_status":false,
         "progress_bar_color":{
@@ -1492,8 +1498,8 @@ function Cart() {
                         
                 </Card.Header>
                 <Card.Section>
-               
-                <Select
+                <FormLayout>
+                    <Select
                         label="Position"
                         options={[
                             { label: 'Top of flyout', value: 'topflyout' },
@@ -1503,6 +1509,55 @@ function Cart() {
                         value={setings.announcement_position}
                     />
 
+                    <RangeSlider
+                        output
+                        label="Speed"
+                        min={1000}
+                        step={500}
+                        max={10000}
+                        value={setings.announcement_settings.speed}
+                        onChange={(speed) => {
+                            setings.announcement_settings.speed = speed;
+                            setSettings(setings => ({
+                                ...setings
+                            }));
+                        }}
+                        suffix={
+                        <p
+                            style={{
+                            minWidth: '24px',
+                            textAlign: 'right',
+                            }}
+                        >
+                            {setings.announcement_settings.speed}ms
+                        </p>
+                        }
+                    />
+
+                    <TextField
+                        label="Padding"
+                        placeholder='10px 10px 10px 10px'
+                        value={setings.announcement_settings.padding}
+                        onChange={(pd) => {
+                            setings.announcement_settings.padding = pd;
+                            setSettings(setings => ({
+                                ...setings
+                            }));
+                        }}  
+                    />
+
+                    <TextField
+                        label="Margin"
+                        placeholder='10px 10px 10px 10px'
+                        value={setings.announcement_settings.margin}
+                        onChange={(mg) => {
+                            setings.announcement_settings.margin = mg;
+                            setSettings(setings => ({
+                                ...setings
+                            }));
+                        }}  
+                    />
+                </FormLayout>
                    </Card.Section>
                 {setings['announcement_bar'] ? announcementItemsMarkup : <p>&nbsp;</p>}
             </Card>

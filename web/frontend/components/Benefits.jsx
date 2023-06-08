@@ -5,7 +5,6 @@ import {useState, useCallback} from 'react';
 
 export function Benefits(props){
     var settings = props.settings.benefit;
-    console.log('settings' , settings)
 
     const [benefits, setBenefits] = useState(settings);
    

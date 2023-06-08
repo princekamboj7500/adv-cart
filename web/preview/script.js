@@ -688,6 +688,28 @@ if(event.data.checkout_btn_status == false){
 if(event.data.payment_installments_status == true){
   document.getElementById("afterpayBottom").innerHTML = '<p>or '+event.data.payment_installments_settings.payment_count+' interest-free installments by <a href="'+event.data.payment_installments_settings.terms_url+'">'+event.data.payment_installments_settings.provider+'</a></p>'
 }
+
+if(event.data.trust_badge.src != ""){
+  const trustElement = document.createElement('div');
+  trustElement.style=`padding:${event.data.trust_badge.padding};margin:${event.data.trust_badge.margin};`;
+  trustElement.className='cart__trusted-payment';
+  trustElement.innerHTML = `<img src="/api/uploads/${event.data.trust_badge.src}" style="width:${event.data.trust_badge.width}%;" />`;
+  document.getElementById("afterpayBottom").insertAdjacentElement('afterend', trustElement);
+}
+
+// if(event.data.benefit.benefits.length){
+//   const benefitsElement = document.createElement('div');
+//   benefitsElement.style=``;
+//   benefitsElement.className='cart-benefits';
+//   benefitsElement.innerHTML = event.data.benefit.benefits.map(function(benefit){
+//     return `<div class="cart-benefits_item">
+//       <img src="/api/uploads/${benefit.image}" />
+//       <div>${benefit.text}</div>
+//     </di>`;
+//   });
+//   document.querySelector(".footer").insertAdjacentElement('afterbegin', benefitsElement);
+// }
+
 if(event.data.note_status == true){
   if(event.data.note_input.position == "above_subtotal"){
     document.querySelector(".upsell_note_input2").innerHTML = `<div class="upsell_notediv"><label>`+event.data.note_input.note_label+`</label><textarea id='rebuy-cart-notes' placeholder='Your notes...' class='rebuy-textarea rebuy-cart__flyout-note-textarea'></textarea>`;
