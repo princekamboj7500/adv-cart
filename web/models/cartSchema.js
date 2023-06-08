@@ -34,6 +34,7 @@ var CartSchema = new Schema({
     trust_badge:{type: Object},
     benefit:{type: Object},
     testimonial:{type: Object},
+    announcement_settings:{type: Object},
     custom_code:{type: String},
 	created_date:{
         type: Date,

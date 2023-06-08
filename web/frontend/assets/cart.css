@@ -1,0 +1,8 @@
+.Polaris-Layout__Section.Polaris-Layout__Section--secondary {
+    position: sticky;
+    top: 70px;
+}
+.Polaris-TextField__Input[type=color] {
+    width: 70px;
+    padding: 1px 4px;
+}
