@@ -5,8 +5,8 @@ import {useState, useCallback} from 'react';
 
 export function Benefits(props){
     var settings = props.settings.benefit;
-
-    const [benefits, setBenefits] = useState(settings);
+    console.log(settings);
+    const [benefits, setBenefits] = useState(props.settings.benefit);
    
     const updateValue = (idx, field, value) => {
         console.log( idx, field, value);
@@ -18,10 +18,11 @@ export function Benefits(props){
         }));
     }
    
-    const updateLayout = (value) => {
+    const updateLayout = (index, value) => {
+        props.settings.benefit[index] = value;
         setBenefits(benefits => ({
             ...benefits,
-            ['layout']:value
+            [index]:value
         }));
     }
 
@@ -85,7 +86,20 @@ export function Benefits(props){
                     { label: 'Inline (2 Benefits Per Row)', value: 'inline' }
                 ]}
                 value={benefits.layout}
-                onChange={(ly) => updateLayout(ly)}
+                onChange={(ly) => updateLayout('layout', ly)}
+            />
+
+            <TextField
+                type='color'
+                label="Section Background Color"
+                onChange={(ly) => updateLayout('background_color', ly)}
+                value={benefits.background_color}
+            />
+
+            <TextField
+                label="Section Padding"
+                onChange={(ly) => updateLayout('section_padding', ly)}
+                value={benefits.section_padding}
             />
 
             <ResourceList
@@ -114,7 +128,7 @@ export function Benefits(props){
                             <RangeSlider
                                 output
                                 label="Icon Size"
-                                min={0}
+                                min={20}
                                 max={100}
                                 value={size}
                                 onChange={(txt) => updateValue(idx, 'size', txt)}
@@ -125,7 +139,7 @@ export function Benefits(props){
                                     textAlign: 'right',
                                     }}
                                 >
-                                    {size}
+                                    {size}PX
                                 </p>
                                 }
                             />
@@ -157,6 +171,7 @@ export function Benefits(props){
                                     onChange={(txt) => updateValue(idx, 'font_size', txt)}
                                     placeholder='10px'
                                     autoComplete="off"
+                                    suffix="px"
                                     value={font_size}
                                 />
                                 <TextField
@@ -166,10 +181,6 @@ export function Benefits(props){
                                     autoComplete="off"
                                     value={font_weight}
                                 />
-                            </Stack>
-                            <Stack>
-                                <p>Section Background Color: </p>
-                                <input className='colorInput' type='color'  onChange={(txt) => updateValue(idx, 'background_color', txt.target.value)} value={background_color} />
                             </Stack>
                             <Stack>
                                 <p>Font Color: </p>
