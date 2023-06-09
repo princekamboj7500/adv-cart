@@ -690,6 +690,7 @@ if(event.data.payment_installments_status == true){
 }
 
 if(event.data.trust_badge.src != ""){
+  document.querySelector('.cart__trusted-payment') && document.querySelector('.cart__trusted-payment').remove()
   const trustElement = document.createElement('div');
   trustElement.style=`padding:${event.data.trust_badge.padding};margin:${event.data.trust_badge.margin};`;
   trustElement.className='cart__trusted-payment';
@@ -697,18 +698,45 @@ if(event.data.trust_badge.src != ""){
   document.getElementById("afterpayBottom").insertAdjacentElement('afterend', trustElement);
 }
 
-// if(event.data.benefit.benefits.length){
-//   const benefitsElement = document.createElement('div');
-//   benefitsElement.style=``;
-//   benefitsElement.className='cart-benefits';
-//   benefitsElement.innerHTML = event.data.benefit.benefits.map(function(benefit){
-//     return `<div class="cart-benefits_item">
-//       <img src="/api/uploads/${benefit.image}" />
-//       <div>${benefit.text}</div>
-//     </di>`;
-//   });
-//   document.querySelector(".footer").insertAdjacentElement('afterbegin', benefitsElement);
-// }
+if(event.data.benefit.benefits.length){
+  document.querySelector('.cart-benefits') && document.querySelector('.cart-benefits').remove();
+  const benefitsElement = document.createElement('div');
+  benefitsElement.style=`background-color:${event.data.benefit.background_color};padding:${event.data.benefit.section_padding};${event.data.benefit.layout == 'inline' ? 'grid-template-columns: 1fr 1fr;' : 'grid-template-columns: 1fr 1fr 1fr 1fr;'}`;
+  benefitsElement.className='cart-benefits';
+  benefitsElement.innerHTML = event.data.benefit.benefits.map(function(benefit){
+    return `<div class="cart-benefits_item">
+      <img src="/api/uploads/${benefit.image}" style="width:${benefit.size}px;padding:${benefit.image_padding};margin:${benefit.image_margin};" />
+      <div style="font-size: ${benefit.font_size}px;font-weight: ${benefit.font_weight};color:${benefit.font_color};">${benefit.text}</div>
+    </div>`;
+  }).join('');
+  document.querySelector(".content").appendChild(benefitsElement);
+}
+
+if(event.data.testimonial.testimonials.length){
+  document.querySelector('.cart-testimonials') && document.querySelector('.cart-testimonials').remove();
+  const testimonialsElement = document.createElement('div');
+  testimonialsElement.style=`background-color:${event.data.testimonial.background_color};padding:${event.data.testimonial.section_padding};`;
+  testimonialsElement.className='cart-testimonials';
+  testimonialsElement.innerHTML = event.data.testimonial.testimonials.map(function(testimonial){
+    return `<div class="cart-testimonials_item">
+      <div class="cart-testimonials_item_inner">
+        <img src="/api/uploads/${testimonial.image}" style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};" />
+        <div class="cart-testimonials_content">
+          <p style="font-size: ${testimonial.font_size}px;font-weight: ${testimonial.font_weight};color:${testimonial.font_color};">${testimonial.review}</p>
+          <b class="cart-testimonials_name" style="color:${testimonial.font_color};">${testimonial.name}</b>
+          <div class="cart-testimonials_date" style="font-size: ${testimonial.font_size}px;color:${testimonial.font_color};">Verified Purchase ${testimonial.order_date}</div>
+          ${ testimonial.star? `<img src="https://ucarecdn.com/865b5d7a-31d3-4e8c-9e24-129571a604c0/-/format/auto/-/preview/120x120/-/quality/lightest/" />` : '' }
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  if(event.data.testimonial.position == "top"){
+    document.querySelector(".content").prepend(testimonialsElement);
+  }else{
+    document.querySelector(".content").appendChild(testimonialsElement);
+  }
+  
+}
 
 if(event.data.note_status == true){
   if(event.data.note_input.position == "above_subtotal"){
@@ -1003,6 +1031,10 @@ div#upsell_continueshop span{
 .upsell2{
   background:`+hsbaToRgb(  event.data.general_settings.main_background.hue,  event.data.general_settings.main_background.saturation,  event.data.general_settings.main_background.brightness,  event.data.general_settings.main_background.alpha)+`;
 }
+.subtotal .subtotal-items{color:${event.data.general_settings.subtotal_color};font-family:${event.data.general_settings.subtotal_font};}
+div#subtotalPrice{font-family:${event.data.general_settings.price_font};}
+.subtotal .discount{color:${event.data.general_settings.price_color};}
+div#subtotalPrice s{color:${event.data.general_settings.compare_price_color};}
 </style>`;
 }
 window.addEventListener('message', function(event) {

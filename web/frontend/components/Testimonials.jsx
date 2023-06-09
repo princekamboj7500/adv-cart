@@ -36,7 +36,8 @@ export function Testimonials(props){
         }));
     }
 
-    const updateLayout = (value) => {
+    const updateLayout = (index, value) => {
+        props.settings.testimonial[index] = value;
         setTestimonials(testimonials => ({
             ...testimonials,
             ['position']: value
@@ -84,7 +85,20 @@ export function Testimonials(props){
                     { label: 'Bottom', value: 'bottom' }
                 ]}
                 value={testimonials.position}
-                onChange={(ly) => updateLayout(ly)}
+                onChange={(ly) => updateLayout('position',  ly)}
+            />
+
+            <TextField
+                type='color'
+                label="Section Background Color"
+                onChange={(ly) => updateLayout('background_color',  ly)}
+                value={testimonials.background_color}
+            />
+
+            <TextField
+                label="Section Padding"
+                onChange={(ly) => updateLayout('section_padding',  ly)}
+                value={testimonials.section_padding}
             />
 
             <ResourceList
@@ -183,10 +197,6 @@ export function Testimonials(props){
                                     autoComplete="off"
                                     value={font_weight}
                                 />
-                            </Stack>
-                            <Stack>
-                                <p>Section Background Color: </p>
-                                <input className='colorInput' type='color' value={background_color}  onChange={(txt) => updateValue(idx, 'background_color', txt.target.value)} />
                             </Stack>
                             <Stack>
                                 <p>Font Color: </p>

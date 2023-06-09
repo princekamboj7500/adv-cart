@@ -284,10 +284,14 @@ function Cart() {
         },
         "benefit": {
             "layout" : "stacked",
+            "background_color": "#ffffff",
+            "section_padding": '10px 10px 10px 10px',
             "benefits": []
         },
         "testimonial": {
             position: "bottom",
+            background_color: "#ffffff",
+            section_padding: "10px 10px 10px 10px",
             testimonials:[]
         }
     });
