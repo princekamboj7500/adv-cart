@@ -5,6 +5,48 @@
   opacity: 1;
 }
 
+.cart-benefits {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 10px;
+}
+.cart-benefits_item {
+  display: flex;
+  gap: 7px;
+  justify-content: center;
+  align-items: flex-start;
+}
+.cart-benefits_item img {
+  width: 35px;
+}
+.cart-testimonials {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+}
+.cart-testimonials_item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 100%;
+}
+.cart-testimonials_item_inner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 80%;
+}
+.cart-testimonials_content img {
+  width: 100px;
+  margin-top: 10px;
+}
+.cart-testimonials_item_inner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 80%;
+}
+
 #upsell_mslide {
   display: flex;
   width: 100%;
