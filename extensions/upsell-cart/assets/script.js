@@ -1103,3 +1103,70 @@ const abc = document.querySelector("body");
 abc.insertAdjacentHTML('afterbegin',appstyle);
   
 window.__upsellCart = new upsellCart();
+
+console.log(' data:' , window.UpsellCart.benefit.background_color);
+
+if(window.UpsellCart.trust_badge.src != ""){
+  document.querySelector('.cart__trusted-payment') && document.querySelector('.cart__trusted-payment').remove()
+  const trustElement = document.createElement('div');
+  trustElement.style=`padding:${window.UpsellCart.trust_badge.padding};margin:${window.UpsellCart.trust_badge.margin};`;
+  trustElement.className='cart__trusted-payment';
+//   var imageUrl = 'https://d991-2405-201-5802-4c37-3d3d-fcd5-fc61-e95f.ngrok-free.app/api/uploads/1686054316876.png'; // Replace with the URL of your image
+
+// var imgElement = document.createElement('img');
+// imgElement.src = imageUrl;
+
+
+// var containerElement = document.getElementById('ccnntt'); // Replace 'container' with the ID of the element where you want to insert the image
+// containerElement.innerHTML = ''; // Clear the container if needed
+// containerElement.appendChild(imgElement);
+
+
+   trustElement.innerHTML = `<img src="https://cdn.shopify.com/s/files/1/0735/6062/1332/files/1686054316876.jpg?v=1686565475" style="width:${window.UpsellCart.trust_badge.width}%;" />`;
+
+
+  document.getElementById("afterpayBottom").insertAdjacentElement('afterend', trustElement);
+}
+
+
+
+if(window.UpsellCart.benefit.benefits.length){
+  document.querySelector('.cart-benefits') && document.querySelector('.cart-benefits').remove();
+  const benefitsElement = document.createElement('div');
+  benefitsElement.style=`background-color:${window.UpsellCart.benefit.background_color};padding:${window.UpsellCart.benefit.section_padding};${window.UpsellCart.benefit.layout == 'inline' ? 'grid-template-columns: 1fr 1fr;' : 'grid-template-columns: 1fr 1fr 1fr 1fr;'}`;
+  benefitsElement.className='cart-benefits';
+  benefitsElement.innerHTML = window.UpsellCart.benefit.benefits.map(function(benefit){
+    return `<div class="cart-benefits_item">
+      <img src="https://cdn.shopify.com/s/files/1/0735/6062/1332/files/1686051217479.png?v=1686566023" style="width:${benefit.size}px;padding:${benefit.image_padding};margin:${benefit.image_margin};" />
+      <div style="font-size: ${benefit.font_size}px;font-weight: ${benefit.font_weight};color:${benefit.font_color};">${benefit.text}</div>
+    </div>`;
+  }).join('');
+  document.querySelector(".upsell2").appendChild(benefitsElement);
+}
+
+
+if(window.UpsellCart.testimonial.testimonials.length){
+  document.querySelector('.cart-testimonials') && document.querySelector('.cart-testimonials').remove();
+  const testimonialsElement = document.createElement('div');
+  testimonialsElement.style=`background-color:${window.UpsellCart.testimonial.background_color};padding:${window.UpsellCart.testimonial.section_padding};`;
+  testimonialsElement.className='cart-testimonials';
+  testimonialsElement.innerHTML = window.UpsellCart.testimonial.testimonials.map(function(testimonial){
+    return `<div class="cart-testimonials_item">
+      <div class="cart-testimonials_item_inner">
+        <img src="https://cdn.shopify.com/s/files/1/0735/6062/1332/files/1686054159898.jpg?v=1686565921" style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};" />
+        <div class="cart-testimonials_content">
+          <p style="font-size: ${testimonial.font_size}px;  line-height: 16px; font-weight: ${testimonial.font_weight};color:${testimonial.font_color};">${testimonial.review}</p>
+          <b class="cart-testimonials_name" style="color:${testimonial.font_color};">${testimonial.name}</b>
+          <div class="cart-testimonials_date" style="font-size: ${testimonial.font_size}px;color:${testimonial.font_color};  ">Verified Purchase ${testimonial.order_date}</div>
+          ${ testimonial.star? `<img src="https://ucarecdn.com/865b5d7a-31d3-4e8c-9e24-129571a604c0/-/format/auto/-/preview/120x120/-/quality/lightest/" />` : '' }
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  if(window.UpsellCart.testimonial.position == "top"){
+    document.querySelector(".upsell2").prepend(testimonialsElement);
+  }else{
+    document.querySelector(".upsell2").appendChild(testimonialsElement);
+  }
+  
+}
