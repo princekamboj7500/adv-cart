@@ -230,7 +230,6 @@ div#upsell_continueshop span {
 }
 
 .upsell__cart-cart-item .upsell__cart-discount {
-  color: var(--red);
   font-size: 12px;
   font-weight: 700;
 }
@@ -271,8 +270,7 @@ div#upsell_continueshop span {
 
 .upsell__cart-cart-item .upsell__cart-price {
   color: var(--dark-grey);
-  font-size: 13px;
-  font-weight: 700;
+
 }
 .upsell__cart-cart-item .upsell__cart-price s {
   color: var(--grey);
@@ -344,6 +342,11 @@ div#upsell_continueshop span {
 .upsell__cart-subtotal .upsell__cart-discount {
   color: var(--red);
   margin-right: 10px;
+}
+
+
+.subtotal .discount {
+    margin-right: 10px;
 }
 
 .upsell__cart-checkout {
@@ -456,9 +459,7 @@ button#prev {
   color: var(--grey);
 }
 
-.upsell__cart-upsell2-item .upsell__cart-discount {
-  color: var(--red);
-}
+
 
 .upsell__cart-upsell2-item button {
   color: var(--white);
