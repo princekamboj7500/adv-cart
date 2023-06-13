@@ -4,6 +4,8 @@ import {NoteMinor, CircleInformationMajor} from '@shopify/polaris-icons';
 import {useState, useCallback} from 'react';
 
 export function CartItem(props){
+    var cartitem = props.settings.general_settings.cartitem.background_color;
+    console.log('cartitemcartitem' , cartitem)
 
     const [padding, setPadding] = useState('');
 
@@ -12,7 +14,7 @@ export function CartItem(props){
         setPadding(val);
     }
 
-    return (<Card title="Cart Items" sectioned>
+    return (<Card title="Cart Items " sectioned>
         <TextField 
             type='color'
             label="Background Color"

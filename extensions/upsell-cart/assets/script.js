@@ -75,8 +75,9 @@ class upsellCart{
                 </div>
                 <div class="upsell__cart-title-qty">
                     <div>
-                        <strong>${item.title}</strong>
+                        <strong class="strong">${item.title}</strong>
                     </div>
+                    
                     <div class="upsell__cart-price">`+window.money+` ${item.variants[0].price}</div>
                 </div>
                 <div class="upsell_variants">
@@ -162,13 +163,12 @@ class upsellCart{
                 newidget.insertAdjacentHTML('afterbegin', `<div class="item upsell__cart-upsell2-item">
               <div class="upsell__cart-image">
               ${item.images.length ? `<img src="${item.images[0].src}" alt="" width="auto" height="auto" loading="lazy" />` : noimg}
-                  
               </div>
               <div class="upsell__cart-title-qty">
                   <div>
-                      <strong>${item.title}</strong>
+                      <strong class="strong">${item.title}</strong>
                   </div>
-                  <div class="upsell__cart-price">`+window.money+` ${item.variants[0].price}</div>
+                  <div class="upsell__cart-price ">`+window.money+` ${item.variants[0].price}</div>
               </div>
               <div class="upsell_variants">
                  ${ item.variants[1] ? ` <select class="upsell_voptions" onchange="window.__upsellCart.upsellVoptn(this)">
@@ -226,9 +226,9 @@ class upsellCart{
               </div>
               <div class="upsell__cart-title-qty">
                   <div>
-                      <strong>`+recpro[j].title+`</strong>
+                      <strong class="strong">`+recpro[j].title+`</strong>
                   </div>
-                  <div class="upsell__cart-price">`+window.money+` `+recpro[j].price+`</div>
+                  <div class="upsell__cart-price abagba">`+window.money+` `+recpro[j].price+`</div>
               </div>
               
               <div class="upsell__cart-clear-price">
@@ -451,8 +451,59 @@ validateCode(elem){
       `;
     } else {
       var self = this;
+      var lent= this.items;
+      var comp_length=lent.length;
+      // for (let i = 1; i <= comp_length; i++) {
+        console.log('aaaabbbb',this.items);
+        let comp_data=this.items[0].handle;
+        let cmp_qnt=this.items[0].quantity;
+        var comp_url='http://127.0.0.1:9292/products/'+ comp_data +'.json'
+        fetch(comp_url)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          const compare_price_data = data.product.variants[0].compare_at_price * cmp_qnt;
+          if (compare_price_data != 0){
+            document.getElementById("ccmmpp").innerHTML = '$'+ compare_price_data;
+          }
+          // document.getElementById("ccmmpp").innerHTML = '$'+ compare_price_data;
+          console.log(compare_price_data,'compare_price_data');
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+        
+      // }
+      // var comp_data=this.items[0].handle;
+      // console.log('comp_datacomp_data',lent.length);
+      // var comp_url='http://127.0.0.1:9292/products/'+ comp_data +'.json'
+      // console.log('thisthis',comp_url);
+      // fetch(comp_url)
+      // .then((response) => {
+      //   if (!response.ok) {
+      //     throw new Error('Network response was not ok');
+      //   }
+      //   return response.json();
+      // })
+      // .then((data) => {
+      //   // Process the retrieved data
+      //   const compare_price_data = data.product.variants[0].compare_at_price;
+      //   // window.comp = compare_price_data;
+      //   document.getElementById("ccmmpp").innerHTML = '$'+ compare_price_data;
+      //   console.log(compare_price_data,'compare_price_data');
+      //   // console.log(data.product.variants[0].compare_at_price,'datata');
+      // })
+      // .catch((error) => {
+      //   console.error('Error:', error);
+      // });
+     
       this.items.map(
         (item) =>
+        
         
           (this.cartContainer.innerHTML += `
             <div class="upsell__cart-cart-item">
@@ -461,7 +512,7 @@ validateCode(elem){
               </div>
               <div class="upsell__cart-title-qty">
                 <div>
-                  <strong>${item.title}</strong>
+                  <strong class="strong">${item.title}</strong>
                 </div>
                 ${item.color ? `<div class="color">${item.color}</div>` : ""}
                 ${
@@ -483,20 +534,21 @@ validateCode(elem){
                 <div class="clear">
                   <button onclick="window.__upsellCart.removeItem(${item.id})"></button>
                 </div>
-                ${
-                  item.discount === true
-                    ? `<div class="upsell__cart-discount">`+window.money+` ${self.roundPrice(
-                        item.quantity * item.price/100
-                      )}</div>`
-                    : ""
-                }
-                <div class="upsell__cart-price">
+                
+                <div class="upsell__cart-price_1">
                   ${
                     item.discount === true
                       ? `<s>`+window.money+`${ self.roundPrice(item.quantity * item.discounted_price/100) }</s>`
                       : window.money+`${ self.roundPrice(item.quantity * item.price/100) }`
                   }
                 </div>
+                ${
+                  item.discount === true
+                    ? `<div class="upsell__cart-discount">`+window.money+` ${self.roundPrice(
+                        item.quantity * item.price/100
+                      )}</div>`
+                    : ` <del class="upsell__cart-discount_1" id="ccmmpp"></del>`
+                }
               </div>
             </div>
         `)
@@ -624,10 +676,10 @@ validateCode(elem){
     itemsContainer.innerHTML = `${
         this.subtotalItems === 1 ? singleitm.replace('{{ item_count }}',qty) : manyitms.replace('{{ item_count }}',qty)
     }`;
-    priceContainer.innerHTML = `<span class="discount">`+window.money+` ${ this.roundPrice(
+    priceContainer.innerHTML = `<span class="discount">`+window.money+`${this.roundPrice(
         this.subtotalPrice
-    )}</span> <s>`+window.money+` ${ this.roundPrice(this.subtotalPrice  * 1.2) }</s>`;
-    document.querySelector(".discount").style.color = "hsl("+window.UpsellCart.checkout_btn_settings.checking_out_color.hue+",90%,50%)";
+    )}</span> <s>${ this.roundPrice(this.subtotalPrice  * 1.2) }</s>`;
+    // document.querySelector(".discount").style.color = "hsl("+window.UpsellCart.checkout_btn_settings.checking_out_color.hue+",90%,50%)";
   }
   
   countTiers(subtotalPrice, tiers) {
@@ -1168,5 +1220,20 @@ if(window.UpsellCart.testimonial.testimonials.length){
   }else{
     document.querySelector(".upsell2").appendChild(testimonialsElement);
   }
-  
+
+
+
+  document.getElementById("upsell_prev_styl").innerHTML= `<style>
+  .subtotal .subtotal-items{color:${window.UpsellCart.general_settings.subtotal_color};font-family:${window.UpsellCart.general_settings.subtotal_font};}
+  div#subtotalPrice{font-family:${window.UpsellCart.general_settings.price_font};}
+  .subtotal .discount{color:${window.UpsellCart.general_settings.price_color};}
+  div#subtotalPrice s{color:${window.UpsellCart.general_settings.compare_price_color};}
+  .upsell__cart-title-qty .strong{color:${window.UpsellCart.general_settings.cartitem.title_color}; font-size:${window.UpsellCart.general_settings.cartitem.title_size}; font-weight: ${window.UpsellCart.general_settings.cartitem.title_weight};}
+  .upsell__cart-price{font-size:${window.UpsellCart.general_settings.cartitem.price_size}; font-weight: ${window.UpsellCart.general_settings.cartitem.price_weight};}
+.upsell__cart-price_1{font-size:${window.UpsellCart.general_settings.cartitem.price_size}; color:${window.UpsellCart.general_settings.cartitem.price_color};  font-weight: ${window.UpsellCart.general_settings.cartitem.price_weight};}
+.upsell__cart-discount_1{font-size:${window.UpsellCart.general_settings.cartitem.discount_size}; color:${window.UpsellCart.general_settings.cartitem.discount_color};  font-weight: ${window.UpsellCart.general_settings.cartitem.discount_weight};}
+  </style>`;
 }
+
+
+console.log('aaaaaa',window.UpsellCart.general_settings.cartitem)
