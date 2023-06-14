@@ -76,6 +76,7 @@ class upsellCart{
                 <div class="upsell__cart-title-qty">
                     <div>
                         <strong class="strong">${item.title}</strong>
+                       
                     </div>
                     
                     <div class="upsell__cart-price">`+window.money+` ${item.variants[0].price}</div>
@@ -167,6 +168,7 @@ class upsellCart{
               <div class="upsell__cart-title-qty">
                   <div>
                       <strong class="strong">${item.title}</strong>
+                      
                   </div>
                   <div class="upsell__cart-price ">`+window.money+` ${item.variants[0].price}</div>
               </div>
@@ -227,6 +229,7 @@ class upsellCart{
               <div class="upsell__cart-title-qty">
                   <div>
                       <strong class="strong">`+recpro[j].title+`</strong>
+                     
                   </div>
                   <div class="upsell__cart-price abagba">`+window.money+` `+recpro[j].price+`</div>
               </div>
@@ -453,31 +456,47 @@ validateCode(elem){
       var self = this;
       var lent= this.items;
       var comp_length=lent.length;
-      // for (let i = 1; i <= comp_length; i++) {
-        console.log('aaaabbbb',this.items);
-        let comp_data=this.items[0].handle;
-        let cmp_qnt=this.items[0].quantity;
+  for (let i = 0; i < comp_length; i++) {
+        
+       
+       
+        let comp_data=this.items[i].handle;
+        let cmp_qnt=this.items[i].quantity;
+        let comp_id=this.items[i].id;
         var comp_url='http://127.0.0.1:9292/products/'+ comp_data +'.json'
         fetch(comp_url)
         .then((response) => {
+          
           if (!response.ok) {
+            
             throw new Error('Network response was not ok');
           }
+         
           return response.json();
         })
+        
         .then((data) => {
           const compare_price_data = data.product.variants[0].compare_at_price * cmp_qnt;
+          
           if (compare_price_data != 0){
-            document.getElementById("ccmmpp").innerHTML = '$'+ compare_price_data;
+            var inst_dis=comp_id+'instant_discount'
+            // console.log('cmpcmp', cmp)
+            document.getElementById(inst_dis).innerHTML = "Instant discount! ";
+            document.getElementById(comp_id).innerHTML = '$'+ compare_price_data;
           }
+          // else{
+          //   console.log('aaaabbbb',i);
+          //   document.getElementById('ccmmpp').innerHTML = "dsgdsgdf";
+          // }
           // document.getElementById("ccmmpp").innerHTML = '$'+ compare_price_data;
-          console.log(compare_price_data,'compare_price_data');
+          
         })
         .catch((error) => {
           console.error('Error:', error);
-        });
+        })
+       
         
-      // }
+ }
       // var comp_data=this.items[0].handle;
       // console.log('comp_datacomp_data',lent.length);
       // var comp_url='http://127.0.0.1:9292/products/'+ comp_data +'.json'
@@ -504,15 +523,18 @@ validateCode(elem){
       this.items.map(
         (item) =>
         
-        
+        // console.log('item',item)
           (this.cartContainer.innerHTML += `
-            <div class="upsell__cart-cart-item">
+            <div class="upsell__cart-cart-item upsell__cart-cart-item_back">
               <div class="upsell__cart-image">
                 <img src="${item.image}" alt="" />
               </div>
               <div class="upsell__cart-title-qty">
                 <div>
                   <strong class="strong">${item.title}</strong>
+                  ${item.variant_title ? `<span class="varient_tittle_backend">${item.variant_title}</span>` : ""}
+                  <span class="upsell__cart-price_1 instant_discount" id="${item.id}instant_discount"><span>
+                  
                 </div>
                 ${item.color ? `<div class="color">${item.color}</div>` : ""}
                 ${
@@ -543,11 +565,12 @@ validateCode(elem){
                   }
                 </div>
                 ${
+                 
                   item.discount === true
                     ? `<div class="upsell__cart-discount">`+window.money+` ${self.roundPrice(
                         item.quantity * item.price/100
                       )}</div>`
-                    : ` <del class="upsell__cart-discount_1" id="ccmmpp"></del>`
+                    : ` <del class="upsell__cart-discount_1" id="${item.id}"></del>`
                 }
               </div>
             </div>
@@ -1161,7 +1184,7 @@ console.log(' data:' , window.UpsellCart.benefit.background_color);
 if(window.UpsellCart.trust_badge.src != ""){
   document.querySelector('.cart__trusted-payment') && document.querySelector('.cart__trusted-payment').remove()
   const trustElement = document.createElement('div');
-  trustElement.style=`padding:${window.UpsellCart.trust_badge.padding};margin:${window.UpsellCart.trust_badge.margin};`;
+  // trustElement.style=`padding:${window.UpsellCart.trust_badge.padding};margin:${window.UpsellCart.trust_badge.margin};`;
   trustElement.className='cart__trusted-payment';
 //   var imageUrl = 'https://d991-2405-201-5802-4c37-3d3d-fcd5-fc61-e95f.ngrok-free.app/api/uploads/1686054316876.png'; // Replace with the URL of your image
 
@@ -1180,7 +1203,7 @@ if(window.UpsellCart.trust_badge.src != ""){
   document.getElementById("afterpayBottom").insertAdjacentElement('afterend', trustElement);
 }
 
-
+console.log('benfitssss',window.UpsellCart.benefit)
 
 if(window.UpsellCart.benefit.benefits.length){
   document.querySelector('.cart-benefits') && document.querySelector('.cart-benefits').remove();
@@ -1189,10 +1212,11 @@ if(window.UpsellCart.benefit.benefits.length){
   benefitsElement.className='cart-benefits';
   benefitsElement.innerHTML = window.UpsellCart.benefit.benefits.map(function(benefit){
     return `<div class="cart-benefits_item">
-      <img src="https://cdn.shopify.com/s/files/1/0735/6062/1332/files/1686051217479.png?v=1686566023" style="width:${benefit.size}px;padding:${benefit.image_padding};margin:${benefit.image_margin};" />
+      <img src="https://e4d4-2405-201-5802-4c37-b15d-cd-db11-d085.ngrok-free.app/api/uploads/${benefit.image}" style="width:${benefit.size}px;padding:${benefit.image_padding};margin:${benefit.image_margin};" />
       <div style="font-size: ${benefit.font_size}px;font-weight: ${benefit.font_weight};color:${benefit.font_color};">${benefit.text}</div>
     </div>`;
   }).join('');
+  // <img src="https://cdn.shopify.com/s/files/1/0735/6062/1332/files/1686051217479.png?v=1686566023"
   document.querySelector(".upsell2").appendChild(benefitsElement);
 }
 
@@ -1202,15 +1226,17 @@ if(window.UpsellCart.testimonial.testimonials.length){
   const testimonialsElement = document.createElement('div');
   testimonialsElement.style=`background-color:${window.UpsellCart.testimonial.background_color};padding:${window.UpsellCart.testimonial.section_padding};`;
   testimonialsElement.className='cart-testimonials';
+  // ${testimonial.image? `<img src="https://cdn.shopify.com/s/files/1/0735/6062/1332/files/1686054159898.jpg?v=1686565921" style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};" />${item.color}</div>` : ""}
   testimonialsElement.innerHTML = window.UpsellCart.testimonial.testimonials.map(function(testimonial){
     return `<div class="cart-testimonials_item">
+    
       <div class="cart-testimonials_item_inner">
-        <img src="https://cdn.shopify.com/s/files/1/0735/6062/1332/files/1686054159898.jpg?v=1686565921" style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};" />
+      ${ testimonial.image? `<img src="https://cdn.shopify.com/s/files/1/0735/6062/1332/files/1686054159898.jpg?v=1686565921" style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};" />` : `<span style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};"></span>` }
         <div class="cart-testimonials_content">
-          <p style="font-size: ${testimonial.font_size}px;  line-height: 16px; font-weight: ${testimonial.font_weight};color:${testimonial.font_color};">${testimonial.review}</p>
-          <b class="cart-testimonials_name" style="color:${testimonial.font_color};">${testimonial.name}</b>
-          <div class="cart-testimonials_date" style="font-size: ${testimonial.font_size}px;color:${testimonial.font_color};  ">Verified Purchase ${testimonial.order_date}</div>
-          ${ testimonial.star? `<img src="https://ucarecdn.com/865b5d7a-31d3-4e8c-9e24-129571a604c0/-/format/auto/-/preview/120x120/-/quality/lightest/" />` : '' }
+          <p >${testimonial.review}</p>
+          <b class="cart-testimonials_name" >${testimonial.name}</b>
+          <div class="cart-testimonials_date">Verified Purchase ${testimonial.order_date}</div>
+          ${ testimonial.star? `<img src="https://ucarecdn.com/865b5d7a-31d3-4e8c-9e24-129571a604c0/-/format/auto/-/preview/120x120/-/quality/lightest/"  />` : '' }
         </div>
       </div>
     </div>`;
@@ -1232,8 +1258,14 @@ if(window.UpsellCart.testimonial.testimonials.length){
   .upsell__cart-price{font-size:${window.UpsellCart.general_settings.cartitem.price_size}; font-weight: ${window.UpsellCart.general_settings.cartitem.price_weight};}
 .upsell__cart-price_1{font-size:${window.UpsellCart.general_settings.cartitem.price_size}; color:${window.UpsellCart.general_settings.cartitem.price_color};  font-weight: ${window.UpsellCart.general_settings.cartitem.price_weight};}
 .upsell__cart-discount_1{font-size:${window.UpsellCart.general_settings.cartitem.discount_size}; color:${window.UpsellCart.general_settings.cartitem.discount_color};  font-weight: ${window.UpsellCart.general_settings.cartitem.discount_weight};}
-  </style>`;
+.upsell__cart-cart-item_back{background:${window.UpsellCart.general_settings.cartitem.background_color};  }
+.varient_tittle_backend{font-size:${window.UpsellCart.general_settings.cartitem.variant_size}; color:${window.UpsellCart.general_settings.cartitem.variant_color};  font-weight: ${window.UpsellCart.general_settings.cartitem.variant_weight};}
+.cart__trusted-payment{width:100%; float:left; margin:${window.UpsellCart.trust_badge.margin}; padding:${window.UpsellCart.trust_badge.padding}; text-align:${window.UpsellCart.trust_badge.position};}
+.cart-testimonials_content p{color:${window.UpsellCart.testimonial.review_font_color}; font-size:${window.UpsellCart.testimonial.review_font_size} ; font-weight:${window.UpsellCart.testimonial.review_font_weight} ; font-style:${window.UpsellCart.testimonial.review_font_style} ;}
+.cart-testimonials_content b{color:${window.UpsellCart.testimonial.customer_font_color}; font-size:${window.UpsellCart.testimonial.customer_font_size} ; font-weight:${window.UpsellCart.testimonial.customer_font_weight} ; font-style:${window.UpsellCart.testimonial.customer_font_style} ;}
+.cart-testimonials_content .cart-testimonials_date{color:${window.UpsellCart.testimonial.order_font_color}; font-size:${window.UpsellCart.testimonial.order_font_size} ; font-weight:${window.UpsellCart.testimonial.order_font_weight} ; font-style:${window.UpsellCart.testimonial.order_font_style} ;}
+</style>`;
 }
 
 
-console.log('aaaaaa',window.UpsellCart.general_settings.cartitem)
+console.log('aaaaaa',window.UpsellCart.testimonial)

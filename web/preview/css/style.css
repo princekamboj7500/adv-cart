@@ -557,6 +557,12 @@ div#afterpayBottom p {
   justify-content: center;
   gap: 10px;
 }
+.cart-testimonials_content p{
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 700;
+  color: #000000;
+}
 
 .cart-benefits {
   display: grid;
@@ -566,7 +572,7 @@ div#afterpayBottom p {
 .cart-benefits_item {
   display: flex;
   gap: 7px;
-  justify-content: center;
+  justify-content: left;
   align-items: flex-start;
 }
 .cart-benefits_item img {

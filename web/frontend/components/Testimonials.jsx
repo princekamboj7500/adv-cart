@@ -40,7 +40,7 @@ export function Testimonials(props){
         props.settings.testimonial[index] = value;
         setTestimonials(testimonials => ({
             ...testimonials,
-            ['position']: value
+            [index]: value
         }));
     }
 
@@ -100,6 +100,93 @@ export function Testimonials(props){
                 onChange={(ly) => updateLayout('section_padding',  ly)}
                 value={testimonials.section_padding}
             />
+
+ {/* \\\\\\\\\\\\\\\Review FONT\\\\\\\\\\\\\\\\\\\\  */}
+
+
+            <TextField
+                type='color'
+                label="Review text color"
+                onChange={(ly) => updateLayout('review_font_color',  ly)}
+                value={testimonials.review_font_color}
+            />
+            <TextField
+                label="Review font size"
+                onChange={(ly) => updateLayout('review_font_size',  ly)}
+                value={testimonials.review_font_size}
+            />
+            <TextField
+                label="Review font weight"
+                onChange={(ly) => updateLayout('review_font_weight',  ly)}
+                value={testimonials.review_font_weight}
+            />
+            <Select
+                label="Review font style"
+                options={[
+                    { label: 'normal', value: 'normal' },
+                    { label: 'italic', value: 'italic' }
+                ]}
+                value={testimonials.review_font_style}
+                onChange={(ly) => updateLayout('review_font_style',  ly)}
+            />
+
+ {/* \\\\\\\\\\\\\\\CUSTOMER FONT\\\\\\\\\\\\\\\\\\\\  */}
+
+            <TextField
+                type='color'
+                label="Customer text color"
+                onChange={(ly) => updateLayout('customer_font_color',  ly)}
+                value={testimonials.customer_font_color}
+            />
+            <TextField
+                label="Customer font size"
+                onChange={(ly) => updateLayout('customer_font_size',  ly)}
+                value={testimonials.customer_font_size}
+            />
+            <TextField
+                label="Customer font weight"
+                onChange={(ly) => updateLayout('customer_font_weight',  ly)}
+                value={testimonials.customer_font_weight}
+            />
+            <Select
+                label="Customer font style"
+                options={[
+                    { label: 'normal', value: 'normal' },
+                    { label: 'italic', value: 'italic' }
+                ]}
+                value={testimonials.customer_font_style}
+                onChange={(ly) => updateLayout('customer_font_style',  ly)}
+            />
+            
+            
+ {/* \\\\\\\\\\\\\\\ORDER FONT\\\\\\\\\\\\\\\\\\\\  */}
+
+ <TextField
+                type='color'
+                label="Order text color"
+                onChange={(ly) => updateLayout('order_font_color',  ly)}
+                value={testimonials.order_font_color}
+            />
+            <TextField
+                label="Order font size"
+                onChange={(ly) => updateLayout('order_font_size',  ly)}
+                value={testimonials.order_font_size}
+            />
+            <TextField
+                label="Order font weight"
+                onChange={(ly) => updateLayout('order_font_weight',  ly)}
+                value={testimonials.order_font_weight}
+            />
+            <Select
+                label="Order font style"
+                options={[
+                    { label: 'normal', value: 'normal' },
+                    { label: 'italic', value: 'italic' }
+                ]}
+                value={testimonials.order_font_style}
+                onChange={(ly) => updateLayout('order_font_style',  ly)}
+            />
+            
 
             <ResourceList
                 resourceName={{singular: 'Testimonial', plural: 'Testimonials'}}

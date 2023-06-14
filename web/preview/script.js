@@ -692,7 +692,7 @@ if(event.data.payment_installments_status == true){
 if(event.data.trust_badge.src != ""){
   document.querySelector('.cart__trusted-payment') && document.querySelector('.cart__trusted-payment').remove()
   const trustElement = document.createElement('div');
-  trustElement.style=`padding:${event.data.trust_badge.padding};margin:${event.data.trust_badge.margin};`;
+  // trustElement.style=`padding:${event.data.trust_badge.padding};margin:${event.data.trust_badge.margin};`;
   trustElement.className='cart__trusted-payment';
   trustElement.innerHTML = `<img src="/api/uploads/${event.data.trust_badge.src}" style="width:${event.data.trust_badge.width}%;" />`;
   document.getElementById("afterpayBottom").insertAdjacentElement('afterend', trustElement);
@@ -715,12 +715,14 @@ if(event.data.benefit.benefits.length){
 if(event.data.testimonial.testimonials.length){
   document.querySelector('.cart-testimonials') && document.querySelector('.cart-testimonials').remove();
   const testimonialsElement = document.createElement('div');
+  // /${testimonial.image} <img src="/api/uploads/${testimonial.image}" style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};" />
   testimonialsElement.style=`background-color:${event.data.testimonial.background_color};padding:${event.data.testimonial.section_padding};`;
   testimonialsElement.className='cart-testimonials';
   testimonialsElement.innerHTML = event.data.testimonial.testimonials.map(function(testimonial){
     return `<div class="cart-testimonials_item">
       <div class="cart-testimonials_item_inner">
-        <img src="/api/uploads/${testimonial.image}" style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};" />
+      ${ testimonial.image? `<img src="/api/uploads/${testimonial.image}" style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};" />` : `<span style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};"></span>`  }
+
         <div class="cart-testimonials_content">
           <p style="font-size: ${testimonial.font_size}px;font-weight: ${testimonial.font_weight};color:${testimonial.font_color};">${testimonial.review}</p>
           <b class="cart-testimonials_name" style="color:${testimonial.font_color};">${testimonial.name}</b>
@@ -1035,6 +1037,8 @@ div#upsell_continueshop span{
 div#subtotalPrice{font-family:${event.data.general_settings.price_font};}
 .subtotal .discount{color:${event.data.general_settings.price_color};}
 div#subtotalPrice s{color:${event.data.general_settings.compare_price_color};}
+.cart__trusted-payment{width:100%; float:left; margin:${event.data.trust_badge.margin}; padding:${event.data.trust_badge.padding}; text-align:${event.data.trust_badge.position};}
+
 </style>`;
 }
 window.addEventListener('message', function(event) {

@@ -117,6 +117,16 @@ export function TrustPayment(props){
                 value={props.settings.trust_badge.width}
                 onChange={(p) => updateField('width', p)}
             />
+            <Select
+                label="Position"
+                options={[
+                    { label: 'left', value: 'left' },
+                    { label: 'center', value: 'center' },
+                    { label: 'right', value: 'right' }
+                ]}
+                value={props.settings.trust_badge.position}
+                onChange={(p) => updateField('position', p)}
+            />
             <br/>
             <Button destructive onClick={removeImg}>Remove</Button>
 

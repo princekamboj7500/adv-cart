@@ -280,7 +280,8 @@ function Cart() {
             src: "",
             padding: "",
             margin: "",
-            width: ""
+            width: "",
+            position:""
         },
         "benefit": {
             "layout" : "stacked",
@@ -292,6 +293,18 @@ function Cart() {
             position: "bottom",
             background_color: "#ffffff",
             section_padding: "10px 10px 10px 10px",
+            review_font_color:"#000",
+            review_font_size:"14px",
+            review_font_weight:"400",
+            review_font_style:"normal",
+            customer_font_color:"#000",
+            customer_font_size:"14px",
+            customer_font_weight:"500",
+            customer_font_style:"normal",
+            order_font_color:"#000",
+            order_font_size:"14px",
+            order_font_weight:"400",
+            order_font_style:"normal",
             testimonials:[]
         }
     });
