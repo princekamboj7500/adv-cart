@@ -724,9 +724,9 @@ if(event.data.testimonial.testimonials.length){
       ${ testimonial.image? `<img src="/api/uploads/${testimonial.image}" style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};" />` : `<span style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};"></span>`  }
 
         <div class="cart-testimonials_content">
-          <p style="font-size: ${testimonial.font_size}px;font-weight: ${testimonial.font_weight};color:${testimonial.font_color};">${testimonial.review}</p>
-          <b class="cart-testimonials_name" style="color:${testimonial.font_color};">${testimonial.name}</b>
-          <div class="cart-testimonials_date" style="font-size: ${testimonial.font_size}px;color:${testimonial.font_color};">Verified Purchase ${testimonial.order_date}</div>
+          <p>${testimonial.review}</p>
+          <b class="cart-testimonials_name">${testimonial.name}</b>
+          <div class="cart-testimonials_date">Verified Purchase ${testimonial.order_date}</div>
           ${ testimonial.star? `<img src="https://ucarecdn.com/865b5d7a-31d3-4e8c-9e24-129571a604c0/-/format/auto/-/preview/120x120/-/quality/lightest/" />` : '' }
         </div>
       </div>
@@ -887,7 +887,7 @@ tiers();
 function announSlide(){
   const slideContainer = document.querySelector('#upsell_announcement');
   const slide = document.querySelector('#upsell_mslide');
-  const interval = 2000;
+  const interval = (event.data.announcement_settings.speed);
 
   let slides = document.querySelectorAll('#upsell_mslide .slide');
   let index = 1;
@@ -1038,6 +1038,14 @@ div#subtotalPrice{font-family:${event.data.general_settings.price_font};}
 .subtotal .discount{color:${event.data.general_settings.price_color};}
 div#subtotalPrice s{color:${event.data.general_settings.compare_price_color};}
 .cart__trusted-payment{width:100%; float:left; margin:${event.data.trust_badge.margin}; padding:${event.data.trust_badge.padding}; text-align:${event.data.trust_badge.position};}
+.cart-testimonials_content p{color:${event.data.testimonial.review_font_color}; font-size:${event.data.testimonial.review_font_size} ; font-weight:${event.data.testimonial.review_font_weight} ; font-style:${event.data.testimonial.review_font_style} ;}
+.cart-testimonials_content b{color:${event.data.testimonial.customer_font_color}; font-size:${event.data.testimonial.customer_font_size} ; font-weight:${event.data.testimonial.customer_font_weight} ; font-style:${event.data.testimonial.customer_font_style} ;}
+.cart-testimonials_content .cart-testimonials_date{color:${event.data.testimonial.order_font_color}; font-size:${event.data.testimonial.order_font_size} ; font-weight:${event.data.testimonial.order_font_weight} ; font-style:${event.data.testimonial.order_font_style} ;}
+.upsell_announctop{padding:${event.data.announcement_settings.padding}; margin:${event.data.announcement_settings.margin};}
+
+
+
+
 
 </style>`;
 }

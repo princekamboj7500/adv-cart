@@ -483,6 +483,8 @@ validateCode(elem){
             // console.log('cmpcmp', cmp)
             document.getElementById(inst_dis).innerHTML = "Instant discount! ";
             document.getElementById(comp_id).innerHTML = '$'+ compare_price_data;
+            document.getElementById('subtotal_dis_id').innerHTML =  compare_price_data;
+            
           }
           // else{
           //   console.log('aaaabbbb',i);
@@ -544,12 +546,15 @@ validateCode(elem){
                 }
                 <div class="qty">
                   <input
+                  class="input_number"
                     type="number"
                     name=""
                     id=""
                     value="${item.quantity}"
                     onchange="window.__upsellCart.changeQty(this, ${item.id})"
                   />
+               
+
                 </div>
               </div>
               <div class="upsell__cart-clear-price">
@@ -686,8 +691,9 @@ validateCode(elem){
       window.location.href = window.UpsellCart.continue_shopping.redirect_url;
     }
 }
-
+  
   countSubtotal(items) {
+    console.log('itemsss',this.items);
     const itemsContainer = document.getElementById("subtotalItems");
     const priceContainer = document.getElementById("subtotalPrice");
     const singleitm = window.UpsellCart.language.subtotal_text_one_item;
@@ -701,7 +707,8 @@ validateCode(elem){
     }`;
     priceContainer.innerHTML = `<span class="discount">`+window.money+`${this.roundPrice(
         this.subtotalPrice
-    )}</span> <s>${ this.roundPrice(this.subtotalPrice  * 1.2) }</s>`;
+    )}</span> <del id="subtotal_dis_id"></del>`;
+    // <s>${ this.roundPrice(this.subtotalPrice  * 1.2) } </s>
     // document.querySelector(".discount").style.color = "hsl("+window.UpsellCart.checkout_btn_settings.checking_out_color.hue+",90%,50%)";
   }
   
@@ -761,19 +768,27 @@ validateCode(elem){
           for(var m=0;m<alltiers;m++){
             const free = window.UpsellCart.tiered_progress_bar_tabs[k].tier[m].type;
             const minprice = window.UpsellCart.tiered_progress_bar_tabs[k].tier[m].min_price;
+            const label_1 = '<span id="label_font_weight">' + window.UpsellCart.tiered_progress_bar_tabs[k].tier[m].label+'</span>';
+            const label_font_weight = window.UpsellCart.tiered_progress_bar_tabs[k].tier[m].label_font_weight;
+            
+            // document.getElementById("upsell_prev_styl").innerHTML= `<style>
+
+            // </style>`
+            console.log('free',free , minprice ,label_1, subtotalPrice)
             if(minprice-subtotalPrice > 0){
              
               if(free == "free_shipping" && subtotalPrice < minprice){
-                  hintContainer.innerHTML = "You are "+(minprice - subtotalPrice ).toFixed(2)+" away from free shipping";
+                  hintContainer.innerHTML = "You are "+(minprice - subtotalPrice ).toFixed(2)+" away from <b>"+ (label_1) + " </b>";
+                  
                   break;
               }
               else if(free == "product" && subtotalPrice < minprice){
-                  hintContainer.innerHTML = "You are "+(minprice - subtotalPrice ).toFixed(2)+" away from free gift";
+                  hintContainer.innerHTML = "You are $"+(minprice - subtotalPrice ).toFixed(2)+" away from"+ (label_1) ;
                   break;
               }
              
             }else{
-              hintContainer.innerHTML = "You unlock all free gift";
+              hintContainer.innerHTML = "You unlock all <b>FREE GIFT<b\>";
             }
 
           }
@@ -787,7 +802,7 @@ validateCode(elem){
 announSlide(){
     const slideContainer = document.querySelector('.upsell__cart-message');
     const slide = document.querySelector('#upsell_mslide');
-    const interval = 2000;
+    const interval = (window.UpsellCart.announcement_settings.speed);
 
     let slides = document.querySelectorAll('#upsell_mslide .slide');
     let index = 1;
@@ -1169,6 +1184,7 @@ textarea#rebuy-cart-notes::placeholder{
 .upsell__cart-upsell2{
   background:`+hsbaToRgb( window.UpsellCart.general_settings.main_background.hue, window.UpsellCart.general_settings.main_background.saturation, window.UpsellCart.general_settings.main_background.brightness, window.UpsellCart.general_settings.main_background.alpha)+`;
 }
+
 div#newwidget{
   background:`+hsbaToRgb( window.UpsellCart.general_settings.main_background.hue, window.UpsellCart.general_settings.main_background.saturation, window.UpsellCart.general_settings.main_background.brightness, window.UpsellCart.general_settings.main_background.alpha)+`;
 }
@@ -1249,13 +1265,13 @@ if(window.UpsellCart.testimonial.testimonials.length){
 
 
 
-  document.getElementById("upsell_prev_styl").innerHTML= `<style>
-  .subtotal .subtotal-items{color:${window.UpsellCart.general_settings.subtotal_color};font-family:${window.UpsellCart.general_settings.subtotal_font};}
-  div#subtotalPrice{font-family:${window.UpsellCart.general_settings.price_font};}
-  .subtotal .discount{color:${window.UpsellCart.general_settings.price_color};}
-  div#subtotalPrice s{color:${window.UpsellCart.general_settings.compare_price_color};}
-  .upsell__cart-title-qty .strong{color:${window.UpsellCart.general_settings.cartitem.title_color}; font-size:${window.UpsellCart.general_settings.cartitem.title_size}; font-weight: ${window.UpsellCart.general_settings.cartitem.title_weight};}
-  .upsell__cart-price{font-size:${window.UpsellCart.general_settings.cartitem.price_size}; font-weight: ${window.UpsellCart.general_settings.cartitem.price_weight};}
+document.getElementById("upsell_prev_styl").innerHTML= `<style>
+.subtotal .subtotal-items{color:${window.UpsellCart.general_settings.subtotal_color};font-family:${window.UpsellCart.general_settings.subtotal_font};}
+div#subtotalPrice{font-family:${window.UpsellCart.general_settings.price_font};}
+.subtotal .discount{color:${window.UpsellCart.general_settings.price_color};}
+div#subtotalPrice s{color:${window.UpsellCart.general_settings.compare_price_color};}
+.upsell__cart-title-qty .strong{color:${window.UpsellCart.general_settings.cartitem.title_color}; font-size:${window.UpsellCart.general_settings.cartitem.title_size}; font-weight: ${window.UpsellCart.general_settings.cartitem.title_weight};}
+.upsell__cart-price{font-size:${window.UpsellCart.general_settings.cartitem.price_size}; font-weight: ${window.UpsellCart.general_settings.cartitem.price_weight};}
 .upsell__cart-price_1{font-size:${window.UpsellCart.general_settings.cartitem.price_size}; color:${window.UpsellCart.general_settings.cartitem.price_color};  font-weight: ${window.UpsellCart.general_settings.cartitem.price_weight};}
 .upsell__cart-discount_1{font-size:${window.UpsellCart.general_settings.cartitem.discount_size}; color:${window.UpsellCart.general_settings.cartitem.discount_color};  font-weight: ${window.UpsellCart.general_settings.cartitem.discount_weight};}
 .upsell__cart-cart-item_back{background:${window.UpsellCart.general_settings.cartitem.background_color};  }
@@ -1264,8 +1280,17 @@ if(window.UpsellCart.testimonial.testimonials.length){
 .cart-testimonials_content p{color:${window.UpsellCart.testimonial.review_font_color}; font-size:${window.UpsellCart.testimonial.review_font_size} ; font-weight:${window.UpsellCart.testimonial.review_font_weight} ; font-style:${window.UpsellCart.testimonial.review_font_style} ;}
 .cart-testimonials_content b{color:${window.UpsellCart.testimonial.customer_font_color}; font-size:${window.UpsellCart.testimonial.customer_font_size} ; font-weight:${window.UpsellCart.testimonial.customer_font_weight} ; font-style:${window.UpsellCart.testimonial.customer_font_style} ;}
 .cart-testimonials_content .cart-testimonials_date{color:${window.UpsellCart.testimonial.order_font_color}; font-size:${window.UpsellCart.testimonial.order_font_size} ; font-weight:${window.UpsellCart.testimonial.order_font_weight} ; font-style:${window.UpsellCart.testimonial.order_font_style} ;}
+.upsell_announctop{padding:${window.UpsellCart.announcement_settings.padding}; margin:${window.UpsellCart.announcement_settings.margin};}
+
+
+
+
 </style>`;
 }
+// .upsell_announctop{
+
+console.log('aaaaaa',window.UpsellCart.tiered_progress_bar_tabs)
 
 
-console.log('aaaaaa',window.UpsellCart.testimonial)
+
+

@@ -518,8 +518,6 @@ button#chkoutbtn a {
   border: 1px solid var(--light-grey);
   color: var(--blue);
   font-size: 14px;
-  padding: 5px 10px;
-  margin: 5px 0;
   border-radius: 3px;
   text-align: center;
   height: 25px;

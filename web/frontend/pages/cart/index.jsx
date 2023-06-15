@@ -114,6 +114,8 @@ function Cart() {
             tier: [{
                 name: 'Tire 1',
                 type: 'free_shipping',
+                label: '',
+                label_font_weight: '',
                 min_price: 50,
                 free_shipping_all_products: false,
                 free_shipping_all_sub_products: false,
@@ -552,6 +554,25 @@ function Cart() {
         }));
         contentRef.contentWindow.postMessage(setings, "*");
     }
+    const handleTierLabel = (index) => (e) => {
+        console.log(index, e);
+        setings['tiered_progress_bar_tabs'][selected]['tier'][index]["label"] = e;
+        setSettings(setings => ({
+            ...setings,
+            ['tiered_progress_bar_tabs']: setings['tiered_progress_bar_tabs'],
+        }));
+        contentRef.contentWindow.postMessage(setings, "*");
+    }
+    const handleTierFont_weight = (index) => (e) => {
+        console.log(index, e);
+        setings['tiered_progress_bar_tabs'][selected]['tier'][index]["label_font_weight"] = e;
+        setSettings(setings => ({
+            ...setings,
+            ['tiered_progress_bar_tabs']: setings['tiered_progress_bar_tabs'],
+        }));
+        contentRef.contentWindow.postMessage(setings, "*");
+    }
+
 
     const handleTierToggle = (indx) => (e) => {
         setings['tiered_progress_bar_tabs'][selected]['tier'][indx]['open'] = !setings['tiered_progress_bar_tabs'][selected]['tier'][indx]['open'];
@@ -800,7 +821,7 @@ function Cart() {
                 onSelectionChange={setSelectedTierItems}
                 selectable
                 renderItem={(item, idx) => {
-                    const { name, type, min_price, free_shipping_all_products, free_shipping_all_sub_products, presentment_currencies, product_id } = item;
+                    const { name, type, min_price, label, label_font_weight , free_shipping_all_products, free_shipping_all_sub_products, presentment_currencies, product_id } = item;
                     return (
                         <ResourceItem
                             id={idx}
@@ -862,6 +883,15 @@ function Cart() {
                                             />
                                         </Stack> : AutocompleteExample(idx)}
                                         <TextField
+                                            label="label"
+                                            type="text"
+                                            autoComplete="off"
+                                          value={item.label}
+                                            
+                                            // autoComplete="off"
+                                            onChange={handleTierLabel(idx)}
+                                        />
+                                        <TextField
                                             label="Unlock Price"
                                             type="number"
                                             value={item.min_price}
@@ -869,6 +899,16 @@ function Cart() {
                                             autoComplete="off"
                                             onChange={handleTierMinPrice(idx)}
                                         />
+                                        <TextField
+                                            label=" label Font weight"
+                                            type="text"
+                                            autoComplete="off"
+                                          value={item.label_font_weight}
+                                            
+                                            // autoComplete="off"
+                                            onChange={handleTierFont_weight(idx)}
+                                        />
+                                        
                                     </Stack> : ''}
                             </Collapsible>
                         </ResourceItem>
@@ -883,6 +923,8 @@ function Cart() {
             name: 'Tire',
             type: null,
             min_price: 0,
+            label: '',
+            label_font_weight: '',
             free_shipping_all_products: false,
             free_shipping_all_sub_products: false,
             presentment_currencies: false,
