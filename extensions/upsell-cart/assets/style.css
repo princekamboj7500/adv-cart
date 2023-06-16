@@ -19,11 +19,7 @@
 .cart-benefits_item img {
   width: 35px;
 }
-.cart-testimonials {
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-x: scroll;
-}
+
 .cart-testimonials_content p {
   line-height: 17px;
 }
@@ -191,7 +187,7 @@ div#upsell_announcement {
 }
 
 .upsell__cart-content {
-  height: calc(100% - 350px);
+  height: 43vh;
   overflow-y: scroll;
 }
 div#upsell_continueshop span {
@@ -242,7 +238,7 @@ div#upsell_continueshop span {
 }
 
 .upsell__cart-cart-item .qty input {
-  width: 60px;
+  width: 100px;
   height: 28px;
   line-height: 28px;
   border: 1px solid var(--light-grey);
@@ -760,4 +756,168 @@ div#dec-button {
 
 .plus-btn {
   margin-left: 5px;
+}
+
+
+
+
+
+.number-wrapper {
+  position: relative;
+}
+
+.number-wrapper:after,
+.number-wrapper:before {
+  position: absolute;
+  right: 5px;
+  width: 1.6em;
+  height: .9em;
+  font-size: 10px;
+  pointer-events: none;
+  background: #fff;
+}
+
+.number-wrapper:after {
+  color: #000;
+  content: "+";
+  margin-top: 0px;
+  font-size: 18px;
+  font-weight: 600;
+  margin-right: -18px;
+  background: transparent;
+}
+
+.number-wrapper:before {
+  color: #000;
+  content: "-";
+  margin-bottom: 16px;
+  bottom: -.5em;
+  font-size: 18px;
+  font-weight: 600;
+  margin-right: -4px;
+  background: transparent;
+}
+
+
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  rotate: 90deg; padding: 10px; -webkit-appearance: none; }
+  input[type=number]{
+    width: 100%;
+  }
+
+
+/* 
+  .cart-testimonials::-webkit-scrollbar {
+    background-color: #fff;
+  height: 22px;
+  position: absolute;
+            right: 0;
+
+  }
+
+  .cart-testimonials::-webkit-scrollbar-track {
+    border-radius: 0;
+    background: #fff;
+
+  }
+
+
+  .cart-testimonials::-webkit-scrollbar-thumb {
+    border-radius: 0;
+    background: #fcfafa;
+  }
+
+.cart-testimonials::-webkit-scrollbar-button:single-button {
+    background-color: rgb(245, 240, 240);
+    background-size: 12px;
+    background-repeat: no-repeat;
+    display: block;
+} 
+
+
+
+.cart-testimonials::-webkit-scrollbar-button:single-button:horizontal:decrement {
+  height: 12px;
+  width: 12px;
+  background-position: 3px 3px;
+  background-image: url("https://toppng.com/uploads/preview/left-right-arrow-button-png-left-arrow-icon-sv-11562991530uuomzdoifr.png");
+  background-size: 12px 14px;
+}
+
+
+
+.cart-testimonials::-webkit-scrollbar-button:single-button:horizontal:increment {
+  height: 12px;
+  width: 12px;
+  /* background-position: 3px 3px; */
+  /* background-image: url("https://upload.wikimedia.org/wikipedia/commons/f/f9/Antu_arrow-right.svg");
+  background-size: 17px 30px;
+} */ 
+
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  margin: 5% 0%;
+  width: 100%;
+}
+.mini-container{
+  display: inherit;
+  align-items: center;
+  justify-content: space-between;
+  width: 80%;
+}
+.button {
+  width: 120px;
+  height: 50px;
+  font-size: 18px;
+}
+.slide-images{
+    width: 40%;
+    height: 40%;
+    object-fit: contain;
+}
+
+
+
+.mySlides .mySlides_img{width: 20%;
+  float: left;}
+
+
+.mySlides .cart-testimonials_content{    width: 80%; float: left; padding-left: 45px;}
+    
+    
+a.prev {
+  position: absolute;
+  top: 40%;
+  left: 10px;
+  padding: 0px 10px;
+  font-size: 18px;
+  color: #fff;
+  border-radius: 50%;
+  background: #bcbcbc;
+  cursor: pointer;
+}
+  a.next {
+    position: absolute; top: 40%;
+    right: 10px;
+    cursor: pointer;
+    padding: 0px 10px;
+  font-size: 18px;
+  color: #fff;
+  border-radius: 50%;
+  background: #bcbcbc;
+
+}
+.mySlides.cart-testimonials_item_inner {
+  float: left;
+  width: 100%;
+}
+.cart-testimonials {
+  float: left; width: 100%; position: relative;
+
 }

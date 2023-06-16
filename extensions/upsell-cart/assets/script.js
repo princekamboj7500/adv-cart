@@ -4,7 +4,12 @@ class upsellCart{
     this.subtotalPrice = 0;
     this.cart = {};
     this.tiers = [100, 200, 300];
+
+    //this.domain = "https://cart.brandlift.io/"   lINE 1205  ;
     
+   
+
+
     // Show/Hide "View Cart" Button
     const showViewCartButton = false;
     !showViewCartButton &&
@@ -545,6 +550,7 @@ validateCode(elem){
                     : ""
                 }
                 <div class="qty">
+                <span class='number-wrapper'>
                   <input
                   class="input_number"
                     type="number"
@@ -553,7 +559,8 @@ validateCode(elem){
                     value="${item.quantity}"
                     onchange="window.__upsellCart.changeQty(this, ${item.id})"
                   />
-               
+                  </span>
+                  
 
                 </div>
               </div>
@@ -770,7 +777,7 @@ validateCode(elem){
             const minprice = window.UpsellCart.tiered_progress_bar_tabs[k].tier[m].min_price;
             const label_1 = '<span id="label_font_weight">' + window.UpsellCart.tiered_progress_bar_tabs[k].tier[m].label+'</span>';
             const label_font_weight = window.UpsellCart.tiered_progress_bar_tabs[k].tier[m].label_font_weight;
-            
+            // label_1.style.fontWeight = window.UpsellCart.tiered_progress_bar_tabs[k].tier[m].label_font_weight;
             // document.getElementById("upsell_prev_styl").innerHTML= `<style>
 
             // </style>`
@@ -778,12 +785,12 @@ validateCode(elem){
             if(minprice-subtotalPrice > 0){
              
               if(free == "free_shipping" && subtotalPrice < minprice){
-                  hintContainer.innerHTML = "You are "+(minprice - subtotalPrice ).toFixed(2)+" away from <b>"+ (label_1) + " </b>";
+                  hintContainer.innerHTML = "You are "+(minprice - subtotalPrice ).toFixed(2)+" away from <b style= "  + "font-weight:" + (label_font_weight) +" >" + (label_1) + " </b>";
                   
                   break;
               }
               else if(free == "product" && subtotalPrice < minprice){
-                  hintContainer.innerHTML = "You are $"+(minprice - subtotalPrice ).toFixed(2)+" away from"+ (label_1) ;
+                  hintContainer.innerHTML = "You are $"+(minprice - subtotalPrice ).toFixed(2)+" away from <b style= "  + "font-weight:" + (label_font_weight) +" >"+ (label_1) + " </b>" ;
                   break;
               }
              
@@ -1197,6 +1204,14 @@ window.__upsellCart = new upsellCart();
 
 console.log(' data:' , window.UpsellCart.benefit.background_color);
 
+
+
+// const domain_url= "https://62ef-2405-201-5802-4c37-bc77-b206-fce8-6e07.ngrok-free.app/";
+
+const domain_url = "https://cart.brandlift.io/";
+
+
+
 if(window.UpsellCart.trust_badge.src != ""){
   document.querySelector('.cart__trusted-payment') && document.querySelector('.cart__trusted-payment').remove()
   const trustElement = document.createElement('div');
@@ -1211,9 +1226,9 @@ if(window.UpsellCart.trust_badge.src != ""){
 // var containerElement = document.getElementById('ccnntt'); // Replace 'container' with the ID of the element where you want to insert the image
 // containerElement.innerHTML = ''; // Clear the container if needed
 // containerElement.appendChild(imgElement);
+    
 
-
-   trustElement.innerHTML = `<img src="https://cdn.shopify.com/s/files/1/0735/6062/1332/files/1686054316876.jpg?v=1686565475" style="width:${window.UpsellCart.trust_badge.width}%;" />`;
+   trustElement.innerHTML = `<img src="${domain_url}api/uploads/${window.UpsellCart.trust_badge.src}" style="width:${window.UpsellCart.trust_badge.width}%;" />`;
 
 
   document.getElementById("afterpayBottom").insertAdjacentElement('afterend', trustElement);
@@ -1221,14 +1236,16 @@ if(window.UpsellCart.trust_badge.src != ""){
 
 console.log('benfitssss',window.UpsellCart.benefit)
 
+
 if(window.UpsellCart.benefit.benefits.length){
+ 
   document.querySelector('.cart-benefits') && document.querySelector('.cart-benefits').remove();
   const benefitsElement = document.createElement('div');
   benefitsElement.style=`background-color:${window.UpsellCart.benefit.background_color};padding:${window.UpsellCart.benefit.section_padding};${window.UpsellCart.benefit.layout == 'inline' ? 'grid-template-columns: 1fr 1fr;' : 'grid-template-columns: 1fr 1fr 1fr 1fr;'}`;
   benefitsElement.className='cart-benefits';
   benefitsElement.innerHTML = window.UpsellCart.benefit.benefits.map(function(benefit){
     return `<div class="cart-benefits_item">
-      <img src="https://e4d4-2405-201-5802-4c37-b15d-cd-db11-d085.ngrok-free.app/api/uploads/${benefit.image}" style="width:${benefit.size}px;padding:${benefit.image_padding};margin:${benefit.image_margin};" />
+      <img src="${domain_url}/api/uploads/${benefit.image}" style="width:${benefit.size}px;padding:${benefit.image_padding};margin:${benefit.image_margin};" />
       <div style="font-size: ${benefit.font_size}px;font-weight: ${benefit.font_weight};color:${benefit.font_color};">${benefit.text}</div>
     </div>`;
   }).join('');
@@ -1243,11 +1260,12 @@ if(window.UpsellCart.testimonial.testimonials.length){
   testimonialsElement.style=`background-color:${window.UpsellCart.testimonial.background_color};padding:${window.UpsellCart.testimonial.section_padding};`;
   testimonialsElement.className='cart-testimonials';
   // ${testimonial.image? `<img src="https://cdn.shopify.com/s/files/1/0735/6062/1332/files/1686054159898.jpg?v=1686565921" style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};" />${item.color}</div>` : ""}
-  testimonialsElement.innerHTML = window.UpsellCart.testimonial.testimonials.map(function(testimonial){
-    return `<div class="cart-testimonials_item">
+  var testimonial_map = window.UpsellCart.testimonial.testimonials.map(function(testimonial){
+    return `
     
-      <div class="cart-testimonials_item_inner">
-      ${ testimonial.image? `<img src="https://cdn.shopify.com/s/files/1/0735/6062/1332/files/1686054159898.jpg?v=1686565921" style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};" />` : `<span style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};"></span>` }
+
+      <div class="mySlides cart-testimonials_item_inner">
+      ${ testimonial.image? `<div class="mySlides_img"><img src="${domain_url}api/uploads/${testimonial.image}" style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};" /></div>` : `<span style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};"></span>` }
         <div class="cart-testimonials_content">
           <p >${testimonial.review}</p>
           <b class="cart-testimonials_name" >${testimonial.name}</b>
@@ -1255,14 +1273,20 @@ if(window.UpsellCart.testimonial.testimonials.length){
           ${ testimonial.star? `<img src="https://ucarecdn.com/865b5d7a-31d3-4e8c-9e24-129571a604c0/-/format/auto/-/preview/120x120/-/quality/lightest/"  />` : '' }
         </div>
       </div>
-    </div>`;
+
+    
+    `;
+
+    
   }).join('');
+  testimonialsElement.innerHTML = testimonial_map + `<a class="prev" onclick="plusSlides(-1)">❮</a><a class="next" onclick="plusSlides(1)">❯</a>`
   if(window.UpsellCart.testimonial.position == "top"){
     document.querySelector(".upsell2").prepend(testimonialsElement);
   }else{
     document.querySelector(".upsell2").appendChild(testimonialsElement);
   }
 
+  // document.getElementByClassName("cart-testimonials").innerHTML +=`<a class="prev" onclick="plusSlides(-1)">❮</a> <a class="next" onclick="plusSlides(1)">❯</a>`;
 
 
 document.getElementById("upsell_prev_styl").innerHTML= `<style>
@@ -1290,7 +1314,28 @@ div#subtotalPrice s{color:${window.UpsellCart.general_settings.compare_price_col
 // .upsell_announctop{
 
 console.log('aaaaaa',window.UpsellCart.tiered_progress_bar_tabs)
+let slideIndex = 1;
+showSlides(slideIndex);
 
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  let i;
+  let slides = document.getElementsByClassName("mySlides");
+  if (n > slides.length) {slideIndex = 1}    
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";  
+  }
+ 
+  slides[slideIndex-1].style.display = "block";  
+}
 
 
 
