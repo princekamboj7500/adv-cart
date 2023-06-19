@@ -1248,7 +1248,7 @@ if(window.UpsellCart.benefit.benefits.length){
   benefitsElement.className='cart-benefits';
   benefitsElement.innerHTML = window.UpsellCart.benefit.benefits.map(function(benefit){
     return `<div class="cart-benefits_item">
-      <img src="${domain_url}/api/uploads/${benefit.image}" style="width:${benefit.size}px;padding:${benefit.image_padding};margin:${benefit.image_margin};" />
+      <img src="${domain_url}api/uploads/${benefit.image}" style="width:${benefit.size}px;padding:${benefit.image_padding};margin:${benefit.image_margin};" />
       <div style="font-size: ${benefit.font_size}px;font-weight: ${benefit.font_weight};color:${benefit.font_color};">${benefit.text}</div>
     </div>`;
   }).join('');
