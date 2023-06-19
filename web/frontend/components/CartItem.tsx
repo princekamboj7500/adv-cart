@@ -4,7 +4,7 @@ import {NoteMinor, CircleInformationMajor} from '@shopify/polaris-icons';
 import {useState, useCallback} from 'react';
 
 export function CartItem(props){
-    var cartitem = props.settings.general_settings.cartitem.background_color;
+    var cartitem = props.settings.general_settings.cartitem;
     console.log('cartitemcartitem' , cartitem)
 
     const [padding, setPadding] = useState('');

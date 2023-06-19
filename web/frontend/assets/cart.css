@@ -6,3 +6,8 @@
     width: 70px;
     padding: 1px 4px;
 }
+
+.review_font_setting {
+    float: left;
+    width: 30%;
+}

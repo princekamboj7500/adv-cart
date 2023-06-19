@@ -105,6 +105,7 @@ app.post(
 
 // If you are adding routes outside of the /api path, remember to
 // also add a proxy rule for them in web/frontend/vite.config.js
+app.use('/api/uploads', serveStatic(`${process.cwd()}/uploads/`));
 app.get("/api/prevwidget/:shop",  async (_req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     var widgets = await storeController.widgets(_req.params.shop);
@@ -341,7 +342,6 @@ app.get("/api/products/create", async (_req, res) => {
 });
 
 app.use(serveStatic(STATIC_PATH, { index: false }));
-app.use('/api/uploads', serveStatic(`${process.cwd()}/uploads/`));
 app.use('/api/preview/',serveStatic(PREVIEWSTATIC_PATH, { index: false }));
 
 app.use("/*", shopify.validateAuthenticatedSession(), async (_req, res, _next) => {

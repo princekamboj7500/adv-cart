@@ -4,7 +4,12 @@ class upsellCart{
     this.subtotalPrice = 0;
     this.cart = {};
     this.tiers = [100, 200, 300];
+
+    //this.domain = "https://cart.brandlift.io/"   lINE 1205  ;
     
+   
+
+
     // Show/Hide "View Cart" Button
     const showViewCartButton = false;
     !showViewCartButton &&
@@ -76,6 +81,7 @@ class upsellCart{
                 <div class="upsell__cart-title-qty">
                     <div>
                         <strong class="strong">${item.title}</strong>
+                       
                     </div>
                     
                     <div class="upsell__cart-price">`+window.money+` ${item.variants[0].price}</div>
@@ -123,7 +129,7 @@ class upsellCart{
                         }
                       
                     }else{
-                      upselstyle += "div#upsell__cart-upsell2-container{overflow-x: scroll;}.upsell__cart-upsell2 button.upsell_crausalbtn{display:none;}";
+                      upselstyle += "div#upsell__cart-upsell2-container{overflow-x: scroll;}.upsell__cart-upsell2 button.upsell_crausalbtn{display:block;}";
                     }
                     var custcss = window.UpsellWidget[i].style;
                     upselstyle += custcss;
@@ -167,6 +173,7 @@ class upsellCart{
               <div class="upsell__cart-title-qty">
                   <div>
                       <strong class="strong">${item.title}</strong>
+                      
                   </div>
                   <div class="upsell__cart-price ">`+window.money+` ${item.variants[0].price}</div>
               </div>
@@ -227,6 +234,7 @@ class upsellCart{
               <div class="upsell__cart-title-qty">
                   <div>
                       <strong class="strong">`+recpro[j].title+`</strong>
+                     
                   </div>
                   <div class="upsell__cart-price abagba">`+window.money+` `+recpro[j].price+`</div>
               </div>
@@ -453,31 +461,49 @@ validateCode(elem){
       var self = this;
       var lent= this.items;
       var comp_length=lent.length;
-      // for (let i = 1; i <= comp_length; i++) {
-        console.log('aaaabbbb',this.items);
-        let comp_data=this.items[0].handle;
-        let cmp_qnt=this.items[0].quantity;
+  for (let i = 0; i < comp_length; i++) {
+        
+       
+       
+        let comp_data=this.items[i].handle;
+        let cmp_qnt=this.items[i].quantity;
+        let comp_id=this.items[i].id;
         var comp_url='http://127.0.0.1:9292/products/'+ comp_data +'.json'
         fetch(comp_url)
         .then((response) => {
+          
           if (!response.ok) {
+            
             throw new Error('Network response was not ok');
           }
+         
           return response.json();
         })
+        
         .then((data) => {
           const compare_price_data = data.product.variants[0].compare_at_price * cmp_qnt;
+          
           if (compare_price_data != 0){
-            document.getElementById("ccmmpp").innerHTML = '$'+ compare_price_data;
+            var inst_dis=comp_id+'instant_discount'
+            // console.log('cmpcmp', cmp)
+            document.getElementById(inst_dis).innerHTML = "Instant discount! ";
+            document.getElementById(comp_id).innerHTML = '$'+ compare_price_data;
+            document.getElementById('subtotal_dis_id').innerHTML =  compare_price_data + this.subtotalPrice;
+            
           }
+          // else{
+          //   console.log('aaaabbbb',i);
+          //   document.getElementById('ccmmpp').innerHTML = "dsgdsgdf";
+          // }
           // document.getElementById("ccmmpp").innerHTML = '$'+ compare_price_data;
-          console.log(compare_price_data,'compare_price_data');
+          
         })
         .catch((error) => {
           console.error('Error:', error);
-        });
+        })
+       
         
-      // }
+ }
       // var comp_data=this.items[0].handle;
       // console.log('comp_datacomp_data',lent.length);
       // var comp_url='http://127.0.0.1:9292/products/'+ comp_data +'.json'
@@ -504,15 +530,18 @@ validateCode(elem){
       this.items.map(
         (item) =>
         
-        
+        // console.log('item',item)
           (this.cartContainer.innerHTML += `
-            <div class="upsell__cart-cart-item">
+            <div class="upsell__cart-cart-item upsell__cart-cart-item_back">
               <div class="upsell__cart-image">
                 <img src="${item.image}" alt="" />
               </div>
               <div class="upsell__cart-title-qty">
                 <div>
                   <strong class="strong">${item.title}</strong>
+                  ${item.variant_title ? `<span class="varient_tittle_backend">${item.variant_title}</span>` : ""}
+                  <span class="upsell__cart-price_1 instant_discount" id="${item.id}instant_discount"><span>
+                  
                 </div>
                 ${item.color ? `<div class="color">${item.color}</div>` : ""}
                 ${
@@ -521,13 +550,18 @@ validateCode(elem){
                     : ""
                 }
                 <div class="qty">
+                <span class='number-wrapper'>
                   <input
+                  class="input_number"
                     type="number"
                     name=""
                     id=""
                     value="${item.quantity}"
                     onchange="window.__upsellCart.changeQty(this, ${item.id})"
                   />
+                  </span>
+                  
+
                 </div>
               </div>
               <div class="upsell__cart-clear-price">
@@ -543,11 +577,12 @@ validateCode(elem){
                   }
                 </div>
                 ${
+                 
                   item.discount === true
                     ? `<div class="upsell__cart-discount">`+window.money+` ${self.roundPrice(
                         item.quantity * item.price/100
                       )}</div>`
-                    : ` <del class="upsell__cart-discount_1" id="ccmmpp"></del>`
+                    : ` <del class="upsell__cart-discount_1" id="${item.id}"></del>`
                 }
               </div>
             </div>
@@ -663,22 +698,27 @@ validateCode(elem){
       window.location.href = window.UpsellCart.continue_shopping.redirect_url;
     }
 }
-
+  
   countSubtotal(items) {
+    console.log('itemsss',this.items);
+    const ddcct = document.getElementById('subtotal_dis_id');
+    console.log('ddcct', ddcct)
     const itemsContainer = document.getElementById("subtotalItems");
     const priceContainer = document.getElementById("subtotalPrice");
     const singleitm = window.UpsellCart.language.subtotal_text_one_item;
     const manyitms = window.UpsellCart.language.subtotal_text_many_item;
-
+    
     const qty = this.subtotalItems = this.items.reduce((acc, item) => acc + item.quantity, 0);
     this.subtotalPrice = this.items.reduce((acc, item) => acc + item.quantity * item.price/100, 0);
     
     itemsContainer.innerHTML = `${
         this.subtotalItems === 1 ? singleitm.replace('{{ item_count }}',qty) : manyitms.replace('{{ item_count }}',qty)
     }`;
+    
     priceContainer.innerHTML = `<span class="discount">`+window.money+`${this.roundPrice(
         this.subtotalPrice
-    )}</span> <s>${ this.roundPrice(this.subtotalPrice  * 1.2) }</s>`;
+    )}</span> <del id="subtotal_dis_id"></del>`;
+    // <s>${ this.roundPrice(this.subtotalPrice  * 1.2) } </s>
     // document.querySelector(".discount").style.color = "hsl("+window.UpsellCart.checkout_btn_settings.checking_out_color.hue+",90%,50%)";
   }
   
@@ -738,19 +778,27 @@ validateCode(elem){
           for(var m=0;m<alltiers;m++){
             const free = window.UpsellCart.tiered_progress_bar_tabs[k].tier[m].type;
             const minprice = window.UpsellCart.tiered_progress_bar_tabs[k].tier[m].min_price;
+            const label_1 = '<span id="label_font_weight">' + window.UpsellCart.tiered_progress_bar_tabs[k].tier[m].label+'</span>';
+            const label_font_weight = window.UpsellCart.tiered_progress_bar_tabs[k].tier[m].label_font_weight;
+            // label_1.style.fontWeight = window.UpsellCart.tiered_progress_bar_tabs[k].tier[m].label_font_weight;
+            // document.getElementById("upsell_prev_styl").innerHTML= `<style>
+
+            // </style>`
+            console.log('free',free , minprice ,label_1, subtotalPrice)
             if(minprice-subtotalPrice > 0){
              
               if(free == "free_shipping" && subtotalPrice < minprice){
-                  hintContainer.innerHTML = "You are "+(minprice - subtotalPrice ).toFixed(2)+" away from free shipping";
+                  hintContainer.innerHTML = "You are "+(minprice - subtotalPrice ).toFixed(2)+" away from <b style= "  + "font-weight:" + (label_font_weight) +" >" + (label_1) + " </b>";
+                  
                   break;
               }
               else if(free == "product" && subtotalPrice < minprice){
-                  hintContainer.innerHTML = "You are "+(minprice - subtotalPrice ).toFixed(2)+" away from free gift";
+                  hintContainer.innerHTML = "You are $"+(minprice - subtotalPrice ).toFixed(2)+" away from <b style= "  + "font-weight:" + (label_font_weight) +" >"+ (label_1) + " </b>" ;
                   break;
               }
              
             }else{
-              hintContainer.innerHTML = "You unlock all free gift";
+              hintContainer.innerHTML = "You unlock all <b>FREE GIFT<b\>";
             }
 
           }
@@ -764,7 +812,7 @@ validateCode(elem){
 announSlide(){
     const slideContainer = document.querySelector('.upsell__cart-message');
     const slide = document.querySelector('#upsell_mslide');
-    const interval = 2000;
+    const interval = (window.UpsellCart.announcement_settings.speed);
 
     let slides = document.querySelectorAll('#upsell_mslide .slide');
     let index = 1;
@@ -1146,6 +1194,7 @@ textarea#rebuy-cart-notes::placeholder{
 .upsell__cart-upsell2{
   background:`+hsbaToRgb( window.UpsellCart.general_settings.main_background.hue, window.UpsellCart.general_settings.main_background.saturation, window.UpsellCart.general_settings.main_background.brightness, window.UpsellCart.general_settings.main_background.alpha)+`;
 }
+
 div#newwidget{
   background:`+hsbaToRgb( window.UpsellCart.general_settings.main_background.hue, window.UpsellCart.general_settings.main_background.saturation, window.UpsellCart.general_settings.main_background.brightness, window.UpsellCart.general_settings.main_background.alpha)+`;
 }
@@ -1158,10 +1207,18 @@ window.__upsellCart = new upsellCart();
 
 console.log(' data:' , window.UpsellCart.benefit.background_color);
 
+
+
+const domain_url= "https://01cd-2405-201-5802-4c37-7c05-a35b-36e3-e191.ngrok-free.app/";
+
+// const domain_url = "https://cart.brandlift.io/";
+
+
+
 if(window.UpsellCart.trust_badge.src != ""){
   document.querySelector('.cart__trusted-payment') && document.querySelector('.cart__trusted-payment').remove()
   const trustElement = document.createElement('div');
-  trustElement.style=`padding:${window.UpsellCart.trust_badge.padding};margin:${window.UpsellCart.trust_badge.margin};`;
+  // trustElement.style=`padding:${window.UpsellCart.trust_badge.padding};margin:${window.UpsellCart.trust_badge.margin};`;
   trustElement.className='cart__trusted-payment';
 //   var imageUrl = 'https://d991-2405-201-5802-4c37-3d3d-fcd5-fc61-e95f.ngrok-free.app/api/uploads/1686054316876.png'; // Replace with the URL of your image
 
@@ -1172,27 +1229,30 @@ if(window.UpsellCart.trust_badge.src != ""){
 // var containerElement = document.getElementById('ccnntt'); // Replace 'container' with the ID of the element where you want to insert the image
 // containerElement.innerHTML = ''; // Clear the container if needed
 // containerElement.appendChild(imgElement);
+    
 
-
-   trustElement.innerHTML = `<img src="https://cdn.shopify.com/s/files/1/0735/6062/1332/files/1686054316876.jpg?v=1686565475" style="width:${window.UpsellCart.trust_badge.width}%;" />`;
+   trustElement.innerHTML = `<img src="${domain_url}api/uploads/${window.UpsellCart.trust_badge.src}" style="width:${window.UpsellCart.trust_badge.width}%;" />`;
 
 
   document.getElementById("afterpayBottom").insertAdjacentElement('afterend', trustElement);
 }
 
+console.log('benfitssss',window.UpsellCart.benefit)
 
 
 if(window.UpsellCart.benefit.benefits.length){
+ 
   document.querySelector('.cart-benefits') && document.querySelector('.cart-benefits').remove();
   const benefitsElement = document.createElement('div');
   benefitsElement.style=`background-color:${window.UpsellCart.benefit.background_color};padding:${window.UpsellCart.benefit.section_padding};${window.UpsellCart.benefit.layout == 'inline' ? 'grid-template-columns: 1fr 1fr;' : 'grid-template-columns: 1fr 1fr 1fr 1fr;'}`;
   benefitsElement.className='cart-benefits';
   benefitsElement.innerHTML = window.UpsellCart.benefit.benefits.map(function(benefit){
     return `<div class="cart-benefits_item">
-      <img src="https://cdn.shopify.com/s/files/1/0735/6062/1332/files/1686051217479.png?v=1686566023" style="width:${benefit.size}px;padding:${benefit.image_padding};margin:${benefit.image_margin};" />
+      <img src="${domain_url}/api/uploads/${benefit.image}" style="width:${benefit.size}px;padding:${benefit.image_padding};margin:${benefit.image_margin};" />
       <div style="font-size: ${benefit.font_size}px;font-weight: ${benefit.font_weight};color:${benefit.font_color};">${benefit.text}</div>
     </div>`;
   }).join('');
+  // <img src="https://cdn.shopify.com/s/files/1/0735/6062/1332/files/1686051217479.png?v=1686566023"
   document.querySelector(".upsell2").appendChild(benefitsElement);
 }
 
@@ -1202,38 +1262,355 @@ if(window.UpsellCart.testimonial.testimonials.length){
   const testimonialsElement = document.createElement('div');
   testimonialsElement.style=`background-color:${window.UpsellCart.testimonial.background_color};padding:${window.UpsellCart.testimonial.section_padding};`;
   testimonialsElement.className='cart-testimonials';
-  testimonialsElement.innerHTML = window.UpsellCart.testimonial.testimonials.map(function(testimonial){
-    return `<div class="cart-testimonials_item">
-      <div class="cart-testimonials_item_inner">
-        <img src="https://cdn.shopify.com/s/files/1/0735/6062/1332/files/1686054159898.jpg?v=1686565921" style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};" />
+  // ${testimonial.image? `<img src="https://cdn.shopify.com/s/files/1/0735/6062/1332/files/1686054159898.jpg?v=1686565921" style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};" />${item.color}</div>` : ""}
+ 
+
+
+  // \\\\\\19 june\\\\\\\
+
+  // <div class="mySlides cart-testimonials_item_inner">
+  // ${ testimonial.image? `<div class="mySlides_img"><img src="${domain_url}api/uploads/${testimonial.image}" style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};" /></div>` : `<span style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};"></span>` }
+  //   <div class="cart-testimonials_content">
+  //     <p >${testimonial.review}</p>
+  //     <b class="cart-testimonials_name" >${testimonial.name}</b>
+  //     <div class="cart-testimonials_date">Verified Purchase ${testimonial.order_date}</div>
+  //     ${ testimonial.star? `<img src="https://ucarecdn.com/865b5d7a-31d3-4e8c-9e24-129571a604c0/-/format/auto/-/preview/120x120/-/quality/lightest/"  />` : '' }
+  //   </div>
+  // </div>
+
+ 
+ 
+ 
+ 
+ 
+  var testimonial_map = window.UpsellCart.testimonial.testimonials.map(function(testimonial){
+    return `
+    
+<div class="slider-content__item ">
+      
+      ${ testimonial.image? `<div class="mySlides_img"><img src="${domain_url}api/uploads/${testimonial.image}" style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};" /></div>` : `<span style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};"></span>` }
         <div class="cart-testimonials_content">
-          <p style="font-size: ${testimonial.font_size}px;  line-height: 16px; font-weight: ${testimonial.font_weight};color:${testimonial.font_color};">${testimonial.review}</p>
-          <b class="cart-testimonials_name" style="color:${testimonial.font_color};">${testimonial.name}</b>
-          <div class="cart-testimonials_date" style="font-size: ${testimonial.font_size}px;color:${testimonial.font_color};  ">Verified Purchase ${testimonial.order_date}</div>
-          ${ testimonial.star? `<img src="https://ucarecdn.com/865b5d7a-31d3-4e8c-9e24-129571a604c0/-/format/auto/-/preview/120x120/-/quality/lightest/" />` : '' }
-        </div>
+          <p >${testimonial.review}</p>
+          <b class="cart-testimonials_name" >${testimonial.name}</b>
+          <div class="cart-testimonials_date">Verified Purchase ${testimonial.order_date}</div>
+          ${ testimonial.star? `<img src="https://ucarecdn.com/865b5d7a-31d3-4e8c-9e24-129571a604c0/-/format/auto/-/preview/120x120/-/quality/lightest/"  />` : '' }
       </div>
-    </div>`;
+    </div>
+    
+    `;
+
+    
   }).join('');
+  testimonialsElement.innerHTML = `
+	<div id="slider" class="slider">
+		<div class="slider-content">
+			<div class="slider-content-wrapper">`+ testimonial_map + `	</div>
+      </div>
+    </div>`
+
+{/* <a class="prev" onclick="plusSlides(-1)">❮</a><a class="next" onclick="plusSlides(1)">❯</a> */}
+
   if(window.UpsellCart.testimonial.position == "top"){
     document.querySelector(".upsell2").prepend(testimonialsElement);
   }else{
     document.querySelector(".upsell2").appendChild(testimonialsElement);
   }
 
+  // document.getElementByClassName("cart-testimonials").innerHTML +=`<a class="prev" onclick="plusSlides(-1)">❮</a> <a class="next" onclick="plusSlides(1)">❯</a>`;
 
 
-  document.getElementById("upsell_prev_styl").innerHTML= `<style>
-  .subtotal .subtotal-items{color:${window.UpsellCart.general_settings.subtotal_color};font-family:${window.UpsellCart.general_settings.subtotal_font};}
-  div#subtotalPrice{font-family:${window.UpsellCart.general_settings.price_font};}
-  .subtotal .discount{color:${window.UpsellCart.general_settings.price_color};}
-  div#subtotalPrice s{color:${window.UpsellCart.general_settings.compare_price_color};}
-  .upsell__cart-title-qty .strong{color:${window.UpsellCart.general_settings.cartitem.title_color}; font-size:${window.UpsellCart.general_settings.cartitem.title_size}; font-weight: ${window.UpsellCart.general_settings.cartitem.title_weight};}
-  .upsell__cart-price{font-size:${window.UpsellCart.general_settings.cartitem.price_size}; font-weight: ${window.UpsellCart.general_settings.cartitem.price_weight};}
+document.getElementById("upsell_prev_styl").innerHTML= `<style>
+.subtotal .subtotal-items{color:${window.UpsellCart.general_settings.subtotal_color};font-family:${window.UpsellCart.general_settings.subtotal_font};}
+div#subtotalPrice{font-family:${window.UpsellCart.general_settings.price_font};}
+.subtotal .discount{color:${window.UpsellCart.general_settings.price_color};}
+div#subtotalPrice s{color:${window.UpsellCart.general_settings.compare_price_color};}
+.upsell__cart-title-qty .strong{color:${window.UpsellCart.general_settings.cartitem.title_color}; font-size:${window.UpsellCart.general_settings.cartitem.title_size}; font-weight: ${window.UpsellCart.general_settings.cartitem.title_weight};}
+.upsell__cart-price{font-size:${window.UpsellCart.general_settings.cartitem.price_size}; font-weight: ${window.UpsellCart.general_settings.cartitem.price_weight};}
 .upsell__cart-price_1{font-size:${window.UpsellCart.general_settings.cartitem.price_size}; color:${window.UpsellCart.general_settings.cartitem.price_color};  font-weight: ${window.UpsellCart.general_settings.cartitem.price_weight};}
 .upsell__cart-discount_1{font-size:${window.UpsellCart.general_settings.cartitem.discount_size}; color:${window.UpsellCart.general_settings.cartitem.discount_color};  font-weight: ${window.UpsellCart.general_settings.cartitem.discount_weight};}
-  </style>`;
+.upsell__cart-cart-item_back{background:${window.UpsellCart.general_settings.cartitem.background_color};  }
+.varient_tittle_backend{font-size:${window.UpsellCart.general_settings.cartitem.variant_size}; color:${window.UpsellCart.general_settings.cartitem.variant_color};  font-weight: ${window.UpsellCart.general_settings.cartitem.variant_weight};}
+.cart__trusted-payment{width:100%; float:left; margin:${window.UpsellCart.trust_badge.margin}; padding:${window.UpsellCart.trust_badge.padding}; text-align:${window.UpsellCart.trust_badge.position};}
+.cart-testimonials_content p{color:${window.UpsellCart.testimonial.review_font_color}; font-size:${window.UpsellCart.testimonial.review_font_size} ; font-weight:${window.UpsellCart.testimonial.review_font_weight} ; font-style:${window.UpsellCart.testimonial.review_font_style} ;}
+.cart-testimonials_content b{color:${window.UpsellCart.testimonial.customer_font_color}; font-size:${window.UpsellCart.testimonial.customer_font_size} ; font-weight:${window.UpsellCart.testimonial.customer_font_weight} ; font-style:${window.UpsellCart.testimonial.customer_font_style} ;}
+.cart-testimonials_content .cart-testimonials_date{color:${window.UpsellCart.testimonial.order_font_color}; font-size:${window.UpsellCart.testimonial.order_font_size} ; font-weight:${window.UpsellCart.testimonial.order_font_weight} ; font-style:${window.UpsellCart.testimonial.order_font_style} ;}
+.upsell_announctop{padding:${window.UpsellCart.announcement_settings.padding}; margin:${window.UpsellCart.announcement_settings.margin};}
+
+
+
+
+</style>`;
 }
 
 
-console.log('aaaaaa',window.UpsellCart.general_settings.cartitem)
+
+
+// .upsell_announctop{
+
+// console.log('aaaaaa',window.UpsellCart.tiered_progress_bar_tabs)
+// let slideIndex = 1;
+// showSlides(slideIndex);
+
+// function plusSlides(n) {
+//   showSlides(slideIndex += n);
+// }
+
+// function currentSlide(n) {
+//   showSlides(slideIndex = n);
+// }
+
+// function showSlides(n) {
+//   let i;
+//   let slides = document.getElementsByClassName("mySlides");
+//   if (n > slides.length) {slideIndex = 1}    
+//   if (n < 1) {slideIndex = slides.length}
+//   for (i = 0; i < slides.length; i++) {
+//     slides[i].style.display = "none";  
+//   }
+ 
+//   slides[slideIndex-1].style.display = "block";  
+// }
+
+
+
+
+const slider = (function(){
+	
+	//const
+	const slider = document.getElementById("slider"); // основная обертка
+	console.log(slider);
+	const sliderContent = document.querySelector(".slider-content"); // обертка для контейнера слайдов и контролов
+	console.log(sliderContent);
+	const sliderWrapper = document.querySelector(".slider-content-wrapper"); // контейнер для слайдов
+	const elements = document.querySelectorAll(".slider-content__item"); // обертка для слайда
+	const sliderContentControls = createHTMLElement("div", "slider-content__controls"); // блок контролов внутри sliderContent
+	let dotsWrapper = null; // Обертка dots
+	let prevButton = null; // Кнопки
+	let nextButton = null;
+	let autoButton = null;
+	let leftArrow = null; // Стрелки
+	let rightArrow = null;
+	let intervalId = null; //идентификатор setInterval
+	
+	// data
+	const itemsInfo = {
+		offset: 0, // смещение контейнера со слайдами относительно начальной точки (первый слайд)
+		position: {
+			current: 0, // номер текущего слайда
+			min: 0, // первый слайд
+			max: elements.length - 1 // последний слайд	
+		},
+		intervalSpeed: 2000, // Скорость смены слайдов в авторежиме
+
+		update: function(value) {
+			this.position.current = value;
+			this.offset = -value;
+		},
+		reset: function() {
+			this.position.current = 0;
+			this.offset = 0;
+		}	
+	};
+
+	const controlsInfo = {
+		buttonsEnabled: false,
+		dotsEnabled: false,
+		prevButtonDisabled: true,
+		nextButtonDisabled: false
+	};
+
+	// Инициализация слайдера
+	function init(props) {
+		// let {buttonsEnabled, dotsEnabled} = controlsInfo;
+		let {intervalSpeed, position, offset} = itemsInfo;
+		
+		// Проверка наличия элементов разметки
+		if (slider && sliderContent && sliderWrapper && elements) {
+			// Проверка входных параметров
+			if (props && props.intervalSpeed) {
+				intervalSpeed = props.intervalSpeed;
+			}
+			if (props && props.currentItem) {
+				if ( parseInt(props.currentItem) >= position.min && parseInt(props.currentItem) <= position.max ) {
+					position.current = props.currentItem;
+					offset = - props.currentItem;	
+				}
+			}
+			if (props && props.buttons) {
+				controlsInfo.buttonsEnabled = true;
+			}
+			if (props && props.dots) {
+				controlsInfo.dotsEnabled = true;
+			}
+			
+			_updateControlsInfo();
+			_createControls(controlsInfo.dotsEnabled, controlsInfo.buttonsEnabled);
+			_render();	
+		} else {
+			console.log("Разметка слайдера задана неверно. Проверьте наличие всех необходимых классов 'slider/slider-content/slider-wrapper/slider-content__item'");
+		}
+	}
+
+	// Обновить свойства контролов
+	function _updateControlsInfo() {
+		const {current, min, max} = itemsInfo.position;
+		controlsInfo.prevButtonDisabled = current > min ? false : true;
+		controlsInfo.nextButtonDisabled = current < max ? false : true;
+	}
+
+	// Создание элементов разметки
+	function _createControls(dots = false, buttons = false) {
+		
+		//Обертка для контролов
+		sliderContent.append(sliderContentControls);
+
+		// Контролы
+		createArrows();
+		buttons ? createButtons() : null;
+		dots ? createDots() : null;
+		
+		// Arrows function
+		function createArrows() {
+			const dValueLeftArrow = "M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z";
+			const dValueRightArrow = "M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z";
+			const leftArrowSVG = createSVG(dValueLeftArrow);
+			const rightArrowSVG = createSVG(dValueRightArrow);
+			
+			leftArrow = createHTMLElement("div", "prev-arrow");
+			leftArrow.append(leftArrowSVG);
+			leftArrow.addEventListener("click", () => updateItemsInfo(itemsInfo.position.current - 1))
+			
+			rightArrow = createHTMLElement("div", "next-arrow");
+			rightArrow.append(rightArrowSVG);
+			rightArrow.addEventListener("click", () => updateItemsInfo(itemsInfo.position.current + 1))
+
+			sliderContentControls.append(leftArrow, rightArrow);
+			
+			// SVG function
+			function createSVG(dValue, color="currentColor") {
+				const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+				svg.setAttribute("viewBox", "0 0 16 16");
+				const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+				path.setAttribute("fill", color);
+				path.setAttribute("d", dValue);
+				svg.appendChild(path);	
+				return svg;
+			}
+		}
+
+		// Dots function
+		function createDots() {
+			dotsWrapper = createHTMLElement("div", "dots");			
+			for(let i = 0; i < itemsInfo.position.max + 1; i++) {
+				const dot = document.createElement("div");
+				dot.className = "dot";
+				dot.addEventListener("click", function() {
+					updateItemsInfo(i);
+				})
+				dotsWrapper.append(dot);		
+			}
+			sliderContentControls.append(dotsWrapper);	
+		}
+		
+		// Buttons function
+		// function createButtons() {
+		// 	const controlsWrapper = createHTMLElement("div", "slider-controls");
+		// 	prevButton = createHTMLElement("button", "prev-control", "Prev");
+		// 	prevButton.addEventListener("click", () => updateItemsInfo(itemsInfo.position.current - 1))
+			
+		// 	autoButton = createHTMLElement("button", "auto-control", "Auto");
+		// 	autoButton.addEventListener("click", () => {
+		// 		intervalId = setInterval(function(){
+		// 			if (itemsInfo.position.current < itemsInfo.position.max) {
+		// 				itemsInfo.update(itemsInfo.position.current + 1);
+		// 			} else {
+		// 				itemsInfo.reset();
+		// 			}
+		// 			_slideItem();
+		// 		}, itemsInfo.intervalSpeed)
+		// 	})
+
+		// 	nextButton = createHTMLElement("button", "next-control", "Next");
+		// 	nextButton.addEventListener("click", () => updateItemsInfo(itemsInfo.position.current + 1))
+
+		// 	controlsWrapper.append(prevButton, autoButton, nextButton);
+		// 	slider.append(controlsWrapper);
+		// }
+	}
+
+	// Задать класс для контролов (buttons, arrows)
+	function setClass(options) {
+		if (options) {
+			options.forEach(({element, className, disabled}) => {
+				if (element) {
+					disabled ? element.classList.add(className) : element.classList.remove(className)	
+				} else {
+					console.log("Error: function setClass(): element = ", element);
+				}
+			})
+		}
+	}
+
+	// Обновить значения слайдера
+	function updateItemsInfo(value) {
+		itemsInfo.update(value);
+		_slideItem(true);	
+	}
+
+	// Отобразить элементы
+	function _render() {
+		const {prevButtonDisabled, nextButtonDisabled} = controlsInfo;
+		let controlsArray = [
+			{element: leftArrow, className: "d-none", disabled: prevButtonDisabled},
+			{element: rightArrow, className: "d-none", disabled: nextButtonDisabled}
+		];
+		if (controlsInfo.buttonsEnabled) {
+			controlsArray = [
+				...controlsArray, 
+				{element:prevButton, className: "disabled", disabled: prevButtonDisabled},
+				{element:nextButton, className: "disabled", disabled: nextButtonDisabled}
+			];
+		}
+		
+		// Отображаем/скрываем контроллы
+		setClass(controlsArray);
+
+		// Передвигаем слайдер
+		sliderWrapper.style.transform = `translateX(${itemsInfo.offset*100}%)`;	
+		
+		// Задаем активный элемент для точек (dot)
+		if (controlsInfo.dotsEnabled) {
+			if (document.querySelector(".dot--active")) {
+				document.querySelector(".dot--active").classList.remove("dot--active");	
+			}
+			dotsWrapper.children[itemsInfo.position.current].classList.add("dot--active");
+		}
+	}
+
+	// Переместить слайд
+	function _slideItem(autoMode = false) {
+		if (autoMode && intervalId) {
+			clearInterval(intervalId);
+		}
+		_updateControlsInfo();
+		_render();
+	}
+
+	// Создать HTML разметку для элемента
+	function createHTMLElement(tagName="div", className, innerHTML) {
+		const element = document.createElement(tagName);
+		className ? element.className = className : null;
+		innerHTML ? element.innerHTML = innerHTML : null;
+		return element;
+	}
+
+	// Доступные методы
+	return {init};
+}())
+
+slider.init({
+	// intervalSpeed: 1000,
+	currentItem: 0,
+	buttons: true,
+	dots: true
+});
