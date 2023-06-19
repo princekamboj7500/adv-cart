@@ -87,7 +87,6 @@ export function Testimonials(props){
                 value={testimonials.position}
                 onChange={(ly) => updateLayout('position',  ly)}
             />
-
             <TextField
                 type='color'
                 label="Section Background Color"
@@ -100,11 +99,10 @@ export function Testimonials(props){
                 onChange={(ly) => updateLayout('section_padding',  ly)}
                 value={testimonials.section_padding}
             />
-
  {/* \\\\\\\\\\\\\\\Review FONT\\\\\\\\\\\\\\\\\\\\  */}
+            <h2  className='head_review_font_setting'  style={{ fontSize: '16px', fontWeight: '500', }} >Review font settings</h2>
 
-
-            <TextField
+            <TextField className="review_font_setting"
                 type='color'
                 label="Review text color"
                 onChange={(ly) => updateLayout('review_font_color',  ly)}
@@ -131,7 +129,7 @@ export function Testimonials(props){
             />
 
  {/* \\\\\\\\\\\\\\\CUSTOMER FONT\\\\\\\\\\\\\\\\\\\\  */}
-
+ <h2  className='head_review_font_setting'  style={{ fontSize: '16px', fontWeight: '500', }} >Customer font settings</h2>
             <TextField
                 type='color'
                 label="Customer text color"
@@ -160,6 +158,7 @@ export function Testimonials(props){
             
             
  {/* \\\\\\\\\\\\\\\ORDER FONT\\\\\\\\\\\\\\\\\\\\  */}
+ <h2  className='head_review_font_setting'  style={{ fontSize: '16px', fontWeight: '500', }} >Order font settings</h2>
 
  <TextField
                 type='color'

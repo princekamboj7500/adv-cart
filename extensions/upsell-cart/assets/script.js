@@ -129,7 +129,7 @@ class upsellCart{
                         }
                       
                     }else{
-                      upselstyle += "div#upsell__cart-upsell2-container{overflow-x: scroll;}.upsell__cart-upsell2 button.upsell_crausalbtn{display:none;}";
+                      upselstyle += "div#upsell__cart-upsell2-container{overflow-x: scroll;}.upsell__cart-upsell2 button.upsell_crausalbtn{display:block;}";
                     }
                     var custcss = window.UpsellWidget[i].style;
                     upselstyle += custcss;
@@ -488,7 +488,7 @@ validateCode(elem){
             // console.log('cmpcmp', cmp)
             document.getElementById(inst_dis).innerHTML = "Instant discount! ";
             document.getElementById(comp_id).innerHTML = '$'+ compare_price_data;
-            document.getElementById('subtotal_dis_id').innerHTML =  compare_price_data;
+            document.getElementById('subtotal_dis_id').innerHTML =  compare_price_data + this.subtotalPrice;
             
           }
           // else{
@@ -701,17 +701,20 @@ validateCode(elem){
   
   countSubtotal(items) {
     console.log('itemsss',this.items);
+    const ddcct = document.getElementById('subtotal_dis_id');
+    console.log('ddcct', ddcct)
     const itemsContainer = document.getElementById("subtotalItems");
     const priceContainer = document.getElementById("subtotalPrice");
     const singleitm = window.UpsellCart.language.subtotal_text_one_item;
     const manyitms = window.UpsellCart.language.subtotal_text_many_item;
-
+    
     const qty = this.subtotalItems = this.items.reduce((acc, item) => acc + item.quantity, 0);
     this.subtotalPrice = this.items.reduce((acc, item) => acc + item.quantity * item.price/100, 0);
     
     itemsContainer.innerHTML = `${
         this.subtotalItems === 1 ? singleitm.replace('{{ item_count }}',qty) : manyitms.replace('{{ item_count }}',qty)
     }`;
+    
     priceContainer.innerHTML = `<span class="discount">`+window.money+`${this.roundPrice(
         this.subtotalPrice
     )}</span> <del id="subtotal_dis_id"></del>`;
@@ -1206,9 +1209,9 @@ console.log(' data:' , window.UpsellCart.benefit.background_color);
 
 
 
-// const domain_url= "https://62ef-2405-201-5802-4c37-bc77-b206-fce8-6e07.ngrok-free.app/";
+const domain_url= "https://01cd-2405-201-5802-4c37-7c05-a35b-36e3-e191.ngrok-free.app/";
 
-const domain_url = "https://cart.brandlift.io/";
+// const domain_url = "https://cart.brandlift.io/";
 
 
 
@@ -1260,26 +1263,53 @@ if(window.UpsellCart.testimonial.testimonials.length){
   testimonialsElement.style=`background-color:${window.UpsellCart.testimonial.background_color};padding:${window.UpsellCart.testimonial.section_padding};`;
   testimonialsElement.className='cart-testimonials';
   // ${testimonial.image? `<img src="https://cdn.shopify.com/s/files/1/0735/6062/1332/files/1686054159898.jpg?v=1686565921" style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};" />${item.color}</div>` : ""}
+ 
+
+
+  // \\\\\\19 june\\\\\\\
+
+  // <div class="mySlides cart-testimonials_item_inner">
+  // ${ testimonial.image? `<div class="mySlides_img"><img src="${domain_url}api/uploads/${testimonial.image}" style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};" /></div>` : `<span style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};"></span>` }
+  //   <div class="cart-testimonials_content">
+  //     <p >${testimonial.review}</p>
+  //     <b class="cart-testimonials_name" >${testimonial.name}</b>
+  //     <div class="cart-testimonials_date">Verified Purchase ${testimonial.order_date}</div>
+  //     ${ testimonial.star? `<img src="https://ucarecdn.com/865b5d7a-31d3-4e8c-9e24-129571a604c0/-/format/auto/-/preview/120x120/-/quality/lightest/"  />` : '' }
+  //   </div>
+  // </div>
+
+ 
+ 
+ 
+ 
+ 
   var testimonial_map = window.UpsellCart.testimonial.testimonials.map(function(testimonial){
     return `
     
-
-      <div class="mySlides cart-testimonials_item_inner">
+<div class="slider-content__item ">
+      
       ${ testimonial.image? `<div class="mySlides_img"><img src="${domain_url}api/uploads/${testimonial.image}" style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};" /></div>` : `<span style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};"></span>` }
         <div class="cart-testimonials_content">
           <p >${testimonial.review}</p>
           <b class="cart-testimonials_name" >${testimonial.name}</b>
           <div class="cart-testimonials_date">Verified Purchase ${testimonial.order_date}</div>
           ${ testimonial.star? `<img src="https://ucarecdn.com/865b5d7a-31d3-4e8c-9e24-129571a604c0/-/format/auto/-/preview/120x120/-/quality/lightest/"  />` : '' }
-        </div>
       </div>
-
+    </div>
     
     `;
 
     
   }).join('');
-  testimonialsElement.innerHTML = testimonial_map + `<a class="prev" onclick="plusSlides(-1)">❮</a><a class="next" onclick="plusSlides(1)">❯</a>`
+  testimonialsElement.innerHTML = `
+	<div id="slider" class="slider">
+		<div class="slider-content">
+			<div class="slider-content-wrapper">`+ testimonial_map + `	</div>
+      </div>
+    </div>`
+
+{/* <a class="prev" onclick="plusSlides(-1)">❮</a><a class="next" onclick="plusSlides(1)">❯</a> */}
+
   if(window.UpsellCart.testimonial.position == "top"){
     document.querySelector(".upsell2").prepend(testimonialsElement);
   }else{
@@ -1311,31 +1341,276 @@ div#subtotalPrice s{color:${window.UpsellCart.general_settings.compare_price_col
 
 </style>`;
 }
+
+
+
+
 // .upsell_announctop{
 
-console.log('aaaaaa',window.UpsellCart.tiered_progress_bar_tabs)
-let slideIndex = 1;
-showSlides(slideIndex);
+// console.log('aaaaaa',window.UpsellCart.tiered_progress_bar_tabs)
+// let slideIndex = 1;
+// showSlides(slideIndex);
 
-function plusSlides(n) {
-  showSlides(slideIndex += n);
-}
+// function plusSlides(n) {
+//   showSlides(slideIndex += n);
+// }
 
-function currentSlide(n) {
-  showSlides(slideIndex = n);
-}
+// function currentSlide(n) {
+//   showSlides(slideIndex = n);
+// }
 
-function showSlides(n) {
-  let i;
-  let slides = document.getElementsByClassName("mySlides");
-  if (n > slides.length) {slideIndex = 1}    
-  if (n < 1) {slideIndex = slides.length}
-  for (i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";  
-  }
+// function showSlides(n) {
+//   let i;
+//   let slides = document.getElementsByClassName("mySlides");
+//   if (n > slides.length) {slideIndex = 1}    
+//   if (n < 1) {slideIndex = slides.length}
+//   for (i = 0; i < slides.length; i++) {
+//     slides[i].style.display = "none";  
+//   }
  
-  slides[slideIndex-1].style.display = "block";  
-}
+//   slides[slideIndex-1].style.display = "block";  
+// }
 
 
 
+
+const slider = (function(){
+	
+	//const
+	const slider = document.getElementById("slider"); // основная обертка
+	console.log(slider);
+	const sliderContent = document.querySelector(".slider-content"); // обертка для контейнера слайдов и контролов
+	console.log(sliderContent);
+	const sliderWrapper = document.querySelector(".slider-content-wrapper"); // контейнер для слайдов
+	const elements = document.querySelectorAll(".slider-content__item"); // обертка для слайда
+	const sliderContentControls = createHTMLElement("div", "slider-content__controls"); // блок контролов внутри sliderContent
+	let dotsWrapper = null; // Обертка dots
+	let prevButton = null; // Кнопки
+	let nextButton = null;
+	let autoButton = null;
+	let leftArrow = null; // Стрелки
+	let rightArrow = null;
+	let intervalId = null; //идентификатор setInterval
+	
+	// data
+	const itemsInfo = {
+		offset: 0, // смещение контейнера со слайдами относительно начальной точки (первый слайд)
+		position: {
+			current: 0, // номер текущего слайда
+			min: 0, // первый слайд
+			max: elements.length - 1 // последний слайд	
+		},
+		intervalSpeed: 2000, // Скорость смены слайдов в авторежиме
+
+		update: function(value) {
+			this.position.current = value;
+			this.offset = -value;
+		},
+		reset: function() {
+			this.position.current = 0;
+			this.offset = 0;
+		}	
+	};
+
+	const controlsInfo = {
+		buttonsEnabled: false,
+		dotsEnabled: false,
+		prevButtonDisabled: true,
+		nextButtonDisabled: false
+	};
+
+	// Инициализация слайдера
+	function init(props) {
+		// let {buttonsEnabled, dotsEnabled} = controlsInfo;
+		let {intervalSpeed, position, offset} = itemsInfo;
+		
+		// Проверка наличия элементов разметки
+		if (slider && sliderContent && sliderWrapper && elements) {
+			// Проверка входных параметров
+			if (props && props.intervalSpeed) {
+				intervalSpeed = props.intervalSpeed;
+			}
+			if (props && props.currentItem) {
+				if ( parseInt(props.currentItem) >= position.min && parseInt(props.currentItem) <= position.max ) {
+					position.current = props.currentItem;
+					offset = - props.currentItem;	
+				}
+			}
+			if (props && props.buttons) {
+				controlsInfo.buttonsEnabled = true;
+			}
+			if (props && props.dots) {
+				controlsInfo.dotsEnabled = true;
+			}
+			
+			_updateControlsInfo();
+			_createControls(controlsInfo.dotsEnabled, controlsInfo.buttonsEnabled);
+			_render();	
+		} else {
+			console.log("Разметка слайдера задана неверно. Проверьте наличие всех необходимых классов 'slider/slider-content/slider-wrapper/slider-content__item'");
+		}
+	}
+
+	// Обновить свойства контролов
+	function _updateControlsInfo() {
+		const {current, min, max} = itemsInfo.position;
+		controlsInfo.prevButtonDisabled = current > min ? false : true;
+		controlsInfo.nextButtonDisabled = current < max ? false : true;
+	}
+
+	// Создание элементов разметки
+	function _createControls(dots = false, buttons = false) {
+		
+		//Обертка для контролов
+		sliderContent.append(sliderContentControls);
+
+		// Контролы
+		createArrows();
+		buttons ? createButtons() : null;
+		dots ? createDots() : null;
+		
+		// Arrows function
+		function createArrows() {
+			const dValueLeftArrow = "M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z";
+			const dValueRightArrow = "M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z";
+			const leftArrowSVG = createSVG(dValueLeftArrow);
+			const rightArrowSVG = createSVG(dValueRightArrow);
+			
+			leftArrow = createHTMLElement("div", "prev-arrow");
+			leftArrow.append(leftArrowSVG);
+			leftArrow.addEventListener("click", () => updateItemsInfo(itemsInfo.position.current - 1))
+			
+			rightArrow = createHTMLElement("div", "next-arrow");
+			rightArrow.append(rightArrowSVG);
+			rightArrow.addEventListener("click", () => updateItemsInfo(itemsInfo.position.current + 1))
+
+			sliderContentControls.append(leftArrow, rightArrow);
+			
+			// SVG function
+			function createSVG(dValue, color="currentColor") {
+				const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+				svg.setAttribute("viewBox", "0 0 16 16");
+				const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+				path.setAttribute("fill", color);
+				path.setAttribute("d", dValue);
+				svg.appendChild(path);	
+				return svg;
+			}
+		}
+
+		// Dots function
+		function createDots() {
+			dotsWrapper = createHTMLElement("div", "dots");			
+			for(let i = 0; i < itemsInfo.position.max + 1; i++) {
+				const dot = document.createElement("div");
+				dot.className = "dot";
+				dot.addEventListener("click", function() {
+					updateItemsInfo(i);
+				})
+				dotsWrapper.append(dot);		
+			}
+			sliderContentControls.append(dotsWrapper);	
+		}
+		
+		// Buttons function
+		// function createButtons() {
+		// 	const controlsWrapper = createHTMLElement("div", "slider-controls");
+		// 	prevButton = createHTMLElement("button", "prev-control", "Prev");
+		// 	prevButton.addEventListener("click", () => updateItemsInfo(itemsInfo.position.current - 1))
+			
+		// 	autoButton = createHTMLElement("button", "auto-control", "Auto");
+		// 	autoButton.addEventListener("click", () => {
+		// 		intervalId = setInterval(function(){
+		// 			if (itemsInfo.position.current < itemsInfo.position.max) {
+		// 				itemsInfo.update(itemsInfo.position.current + 1);
+		// 			} else {
+		// 				itemsInfo.reset();
+		// 			}
+		// 			_slideItem();
+		// 		}, itemsInfo.intervalSpeed)
+		// 	})
+
+		// 	nextButton = createHTMLElement("button", "next-control", "Next");
+		// 	nextButton.addEventListener("click", () => updateItemsInfo(itemsInfo.position.current + 1))
+
+		// 	controlsWrapper.append(prevButton, autoButton, nextButton);
+		// 	slider.append(controlsWrapper);
+		// }
+	}
+
+	// Задать класс для контролов (buttons, arrows)
+	function setClass(options) {
+		if (options) {
+			options.forEach(({element, className, disabled}) => {
+				if (element) {
+					disabled ? element.classList.add(className) : element.classList.remove(className)	
+				} else {
+					console.log("Error: function setClass(): element = ", element);
+				}
+			})
+		}
+	}
+
+	// Обновить значения слайдера
+	function updateItemsInfo(value) {
+		itemsInfo.update(value);
+		_slideItem(true);	
+	}
+
+	// Отобразить элементы
+	function _render() {
+		const {prevButtonDisabled, nextButtonDisabled} = controlsInfo;
+		let controlsArray = [
+			{element: leftArrow, className: "d-none", disabled: prevButtonDisabled},
+			{element: rightArrow, className: "d-none", disabled: nextButtonDisabled}
+		];
+		if (controlsInfo.buttonsEnabled) {
+			controlsArray = [
+				...controlsArray, 
+				{element:prevButton, className: "disabled", disabled: prevButtonDisabled},
+				{element:nextButton, className: "disabled", disabled: nextButtonDisabled}
+			];
+		}
+		
+		// Отображаем/скрываем контроллы
+		setClass(controlsArray);
+
+		// Передвигаем слайдер
+		sliderWrapper.style.transform = `translateX(${itemsInfo.offset*100}%)`;	
+		
+		// Задаем активный элемент для точек (dot)
+		if (controlsInfo.dotsEnabled) {
+			if (document.querySelector(".dot--active")) {
+				document.querySelector(".dot--active").classList.remove("dot--active");	
+			}
+			dotsWrapper.children[itemsInfo.position.current].classList.add("dot--active");
+		}
+	}
+
+	// Переместить слайд
+	function _slideItem(autoMode = false) {
+		if (autoMode && intervalId) {
+			clearInterval(intervalId);
+		}
+		_updateControlsInfo();
+		_render();
+	}
+
+	// Создать HTML разметку для элемента
+	function createHTMLElement(tagName="div", className, innerHTML) {
+		const element = document.createElement(tagName);
+		className ? element.className = className : null;
+		innerHTML ? element.innerHTML = innerHTML : null;
+		return element;
+	}
+
+	// Доступные методы
+	return {init};
+}())
+
+slider.init({
+	// intervalSpeed: 1000,
+	currentItem: 0,
+	buttons: true,
+	dots: true
+});
