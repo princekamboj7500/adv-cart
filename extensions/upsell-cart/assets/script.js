@@ -1209,9 +1209,9 @@ console.log(' data:' , window.UpsellCart.benefit.background_color);
 
 
 
-const domain_url= "https://01cd-2405-201-5802-4c37-7c05-a35b-36e3-e191.ngrok-free.app/";
+// const domain_url= "https://01cd-2405-201-5802-4c37-7c05-a35b-36e3-e191.ngrok-free.app/";
 
-// const domain_url = "https://cart.brandlift.io/";
+const domain_url = "https://cart.brandlift.io/";
 
 
 
@@ -1248,7 +1248,7 @@ if(window.UpsellCart.benefit.benefits.length){
   benefitsElement.className='cart-benefits';
   benefitsElement.innerHTML = window.UpsellCart.benefit.benefits.map(function(benefit){
     return `<div class="cart-benefits_item">
-      <img src="${domain_url}/api/uploads/${benefit.image}" style="width:${benefit.size}px;padding:${benefit.image_padding};margin:${benefit.image_margin};" />
+      <img src="${domain_url}api/uploads/${benefit.image}" style="width:${benefit.size}px;padding:${benefit.image_padding};margin:${benefit.image_margin};" />
       <div style="font-size: ${benefit.font_size}px;font-weight: ${benefit.font_weight};color:${benefit.font_color};">${benefit.text}</div>
     </div>`;
   }).join('');
