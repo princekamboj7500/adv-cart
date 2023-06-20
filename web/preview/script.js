@@ -69,18 +69,20 @@ function drawCartItems(items) {
     items.map(
       (item) =>
         (cartContainer.innerHTML += `
-          <div class="cart-item">
+          <div class="cart-item cart-item_back">
             <div class="image">
               <img src="${item.imageSrc}" alt="" />
             </div>
             <div class="title-qty">
               <div>
-                <strong>${item.title}</strong>
+                <strong class="strong">${item.title}</strong>
+                ${item.variant_title ? `<span class="varient_tittle_backend">${item.variant_title}</span>` : ""}
+                  <span class="upsell__cart-price_1 instant_discount" id="${item.id}instant_discount"><span>
               </div>
-              ${item.color ? `<div class="color">${item.color}</div>` : ""}
+              ${item.color ? `<div class="color color_varient">${item.color}</div>` : ""}
               ${
                 item.discount === true
-                  ? `<div class="discount">Instant discount!</div>`
+                  ? `<div class="discount instant_discount">Instant discount!</div>`
                   : ""
               }
               <div class="qty">
@@ -99,15 +101,15 @@ function drawCartItems(items) {
               </div>
               ${
                 item.discount === true
-                  ? `<div class="discount">$${roundPrice(
+                  ? `<div class="discount discount_1">$${roundPrice(
                       item.qty * item.price
                     )}</div>`
                   : ""
               }
-              <div class="price">
+              <div class="price discount_1">
                 ${
                   item.discount === true
-                    ? `<s>$${roundPrice(item.qty * item.oldPrice)}</s>`
+                    ? `<s class="price_1">$${roundPrice(item.qty * item.oldPrice)}</s>`
                     : `$${roundPrice(item.qty * item.price)}`
                 }
               </div>
@@ -231,16 +233,28 @@ function showOptions(el) {
 function countSubtotal(items) {
   const itemsContainer = document.getElementById("subtotalItems");
   const priceContainer = document.getElementById("subtotalPrice");
-
+console.log('itemssss', items)
   subtotalItems = items.reduce((acc, item) => acc + item.qty, 0);
   subtotalPrice = items.reduce((acc, item) => acc + item.qty * item.price, 0);
+  // tem.qty * (item.oldPrice-item.price)
+  var ct=0
+  var ppp = items.map(function(item) {
+    if (item.oldPrice > 0) {
+      ct=ct+item.oldPrice-item.price
+      console.log( 'ctt',ct)
+    }
+   
+  });
+
+  compare_item_price= subtotalPrice+ct;
+  console.log('compare_item_price', subtotalPrice , compare_item_price)
 
   itemsContainer.innerHTML = `Subtotal (${subtotalItems} item${
     subtotalItems === 1 ? "" : "s"
   })`;
   priceContainer.innerHTML = `<span class="discount">$${roundPrice(
     subtotalPrice
-  )}</span><s>${roundPrice(subtotalPrice * 1.2)}</s>`;
+  )}</span><s>${roundPrice(compare_item_price)}</s>`;
 }
 
 function roundPrice(num) {
@@ -718,6 +732,7 @@ if(event.data.testimonial.testimonials.length){
   // /${testimonial.image} <img src="/api/uploads/${testimonial.image}" style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};" />
   testimonialsElement.style=`background-color:${event.data.testimonial.background_color};padding:${event.data.testimonial.section_padding};`;
   testimonialsElement.className='cart-testimonials';
+  
   testimonialsElement.innerHTML = event.data.testimonial.testimonials.map(function(testimonial){
     return `<div class="cart-testimonials_item">
       <div class="cart-testimonials_item_inner">
@@ -1042,9 +1057,13 @@ div#subtotalPrice s{color:${event.data.general_settings.compare_price_color};}
 .cart-testimonials_content b{color:${event.data.testimonial.customer_font_color}; font-size:${event.data.testimonial.customer_font_size} ; font-weight:${event.data.testimonial.customer_font_weight} ; font-style:${event.data.testimonial.customer_font_style} ;}
 .cart-testimonials_content .cart-testimonials_date{color:${event.data.testimonial.order_font_color}; font-size:${event.data.testimonial.order_font_size} ; font-weight:${event.data.testimonial.order_font_weight} ; font-style:${event.data.testimonial.order_font_style} ;}
 .upsell_announctop{padding:${event.data.announcement_settings.padding}; margin:${event.data.announcement_settings.margin};}
+.cart-item_back{background:${event.data.general_settings.cartitem.background_color};  }
 
-
-
+.color_varient{font-size:${event.data.general_settings.cartitem.variant_size}; color:${event.data.general_settings.cartitem.variant_color};  font-weight: ${event.data.general_settings.cartitem.variant_weight};}
+.discount_1{font-size:${event.data.general_settings.cartitem.price_size}; color:${event.data.general_settings.cartitem.price_color};  font-weight: ${event.data.general_settings.cartitem.price_weight};}
+.price_1{font-size:${event.data.general_settings.cartitem.discount_size}; color:${event.data.general_settings.cartitem.discount_color};  font-weight: ${event.data.general_settings.cartitem.discount_weight};}
+.instant_discount{font-size:${event.data.general_settings.cartitem.price_size}; color:${event.data.general_settings.cartitem.price_color};  font-weight: ${event.data.general_settings.cartitem.price_weight};}
+strong.strong{color:${event.data.general_settings.cartitem.title_color}; font-size:${event.data.general_settings.cartitem.title_size}; font-weight: ${event.data.general_settings.cartitem.title_weight};}
 
 
 </style>`;
