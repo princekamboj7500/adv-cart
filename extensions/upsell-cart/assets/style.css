@@ -799,10 +799,10 @@ div#dec-button {
 }
 
 
-
+/* -webkit-appearance: none; */
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
-  rotate: 90deg; padding: 10px; -webkit-appearance: none; }
+  rotate: 90deg; padding: 10px; }
   input[type=number]{
     width: 100%;
   }
@@ -1087,3 +1087,12 @@ button:focus {outline: none;}
 .cart-testimonials_content img {
 float: left;
 }
+
+
+
+
+/* \\\\\\\\type number style\\\\\\ */
+
+.quantity_increase_decrease{    float: left; width: 100%;}
+.quantity_increase_decrease button { width: 30px; height: 30px; color: #000; font-size: 20px; background: transparent !important; padding: 2px;     margin: 0px; border: 1px solid var(--light-grey); }
+.quantity_increase_decrease input{ width: 50px !important; padding-left: 3px; font-weight: 500;}

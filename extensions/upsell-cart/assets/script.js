@@ -440,11 +440,14 @@ validateCode(elem){
   });
   
 }
+
   drawerClose(){
     this.cartMainContainer.classList.add("upsell__cart-close");
     document.querySelector('body').classList.remove('upsell_draw')
   }
   
+
+
   drawCartItems(items) {
    
     this.cartContainer.innerHTML = "";
@@ -463,7 +466,7 @@ validateCode(elem){
       var comp_length=lent.length;
   for (let i = 0; i < comp_length; i++) {
         
-       
+
        
         let comp_data=this.items[i].handle;
         let cmp_qnt=this.items[i].quantity;
@@ -534,10 +537,20 @@ validateCode(elem){
       // .catch((error) => {
       //   console.error('Error:', error);
       // });
-     
+      
+      // 
       this.items.map(
         (item) =>
         
+//         <div class="input-wrapper">
+//   <input type="number" id="dd" value="0" />
+// </div>
+
+//                   <div class="quantity_increase_decrease">
+//                   <button id="decrementButton" onclick="test_click_decrease()">-</button>
+//                   <input name="" type="number" id="numberInput" onchange="window.__upsellCart.changeQty(this, ${item.id})" value="${item.quantity}"/>
+//                   <button id="incrementButton" onclick="test_click_increase()">+</button>
+//                 </div>
         // console.log('item',item)
           (this.cartContainer.innerHTML += `
             <div class="upsell__cart-cart-item upsell__cart-cart-item_back">
@@ -558,18 +571,25 @@ validateCode(elem){
                     : ""
                 }
                 <div class="qty">
-                <span class='number-wrapper'>
+               
+                <div class="quantity_increase_decrease">
+                      <button id="decrementButton" onclick="test_click_decrease()">-</button>
+                 
                   <input
                   class="input_number"
                     type="number"
+                    min="1" max="10"
                     name=""
-                    id=""
+                    id="numberInput1"
                     value="${item.quantity}"
                     onchange="window.__upsellCart.changeQty(this, ${item.id})"
                   />
-                  </span>
-                  
+                 
+                  <button id="incrementButton" onclick="test_click_increase()">+</button>
+               </div>
+                 
 
+                  
                 </div>
               </div>
               <div class="upsell__cart-clear-price">
@@ -595,7 +615,9 @@ validateCode(elem){
               </div>
             </div>
         `)
+        
       );
+      const ab = 0
     }
     
     this.countSubtotal(items);
@@ -645,6 +667,7 @@ validateCode(elem){
     .then(function (payload) {
       window.country = payload.country_code;
     });
+    
   }
   removeItem(id) {
     const filteredItems = this.items.filter((item) => item.id !== id);
@@ -742,14 +765,15 @@ validateCode(elem){
   
   countTiers(subtotalPrice, tiers) {
       var amt = [];
-      
+     
     const hintContainer = document.getElementById("progressHint");
     const barContainer = document.getElementById("progressBar");
     const btnclr = "background:"+hsbaToRgb( window.UpsellCart.progress_bar_color.hue, window.UpsellCart.progress_bar_color.saturation, window.UpsellCart.progress_bar_color.brightness, window.UpsellCart.progress_bar_color.alpha)+"";
     if(window.UpsellCart.tiered_progress_bar == true){
        for(var k=0;k<window.UpsellCart.tiered_progress_bar_tabs.length;k++){
+       
         if(window.country == window.UpsellCart.tiered_progress_bar_tabs[k].country){
-          
+          console.log('window.country',window.country)
           const layout = window.UpsellCart.tiered_progress_bar_tabs[k].layout_type;
           const alltiers = window.UpsellCart.tiered_progress_bar_tabs[k].tier.length;
           const gifts = document.querySelector(".upsell__cart-gifts");
@@ -1226,7 +1250,6 @@ window.__upsellCart = new upsellCart();
 console.log(' data:' , window.UpsellCart.benefit.background_color);
 
 
-
 // const domain_url= "https://01cd-2405-201-5802-4c37-7c05-a35b-36e3-e191.ngrok-free.app/";
 
 const domain_url = "https://cart.brandlift.io/";
@@ -1365,7 +1388,31 @@ div#subtotalPrice s{color:${window.UpsellCart.general_settings.compare_price_col
 
 // .upsell_announctop{
 
-// console.log('aaaaaa',window.UpsellCart.tiered_progress_bar_tabs)
+console.log('aaaaaa',window.UpsellCart )
+
+
+function test_click_decrease(){
+  const numberInput = document.getElementById('numberInput1');
+  let currentValue = parseInt(numberInput.value)
+  if (currentValue > 1 ){
+  numberInput.value = currentValue - 1;}
+  console.log('test click' ,currentValue)
+}
+
+function test_click_increase(){
+
+  const numberInput = document.getElementById('numberInput1');
+  let currentValue = parseInt(numberInput.value)
+  if (currentValue < 11 ){
+  numberInput.value = currentValue + 1;}
+  console.log('test click' ,currentValue)
+}
+
+
+
+console.log('ttttttttttttttttttttttttttttttttttttttt', this.items.length)
+
+
 // let slideIndex = 1;
 // showSlides(slideIndex);
 
@@ -1632,3 +1679,4 @@ slider.init({
 	buttons: true,
 	dots: true
 });
+
