@@ -101,51 +101,46 @@ export function Testimonials(props){
             />
  {/* \\\\\\\\\\\\\\\Review FONT\\\\\\\\\\\\\\\\\\\\  */}
             <h2  className='head_review_font_setting'  style={{ fontSize: '16px', fontWeight: '500', }} >Review font settings</h2>
-
-            <TextField className="review_font_setting"
-                type='color'
-                label="Review text color"
-                onChange={(ly) => updateLayout('review_font_color',  ly)}
-                value={testimonials.review_font_color}
-            />
-            <TextField
-                label="Review font size"
-                onChange={(ly) => updateLayout('review_font_size',  ly)}
-                value={testimonials.review_font_size}
-            />
-            <TextField
-                label="Review font weight"
-                onChange={(ly) => updateLayout('review_font_weight',  ly)}
-                value={testimonials.review_font_weight}
-            />
-            <Select
-                label="Review font style"
-                options={[
-                    { label: 'normal', value: 'normal' },
-                    { label: 'italic', value: 'italic' }
-                ]}
-                value={testimonials.review_font_style}
-                onChange={(ly) => updateLayout('review_font_style',  ly)}
-            />
-
+            <div  style={{ float: 'left', width: '100%', paddingBottom: '15px'}}>
+                <div style={{ float: 'left', width: '31%', paddingRight: '15px' }} >
+                <Select
+                    label="Review font style"
+                    options={[
+                        { label: 'normal', value: 'normal' },
+                        { label: 'italic', value: 'italic' }
+                    ]}
+                    value={testimonials.review_font_style}
+                    onChange={(ly) => updateLayout('review_font_style',  ly)}
+                />
+                    
+                </div>
+                <div style={{ float: 'left', width: '31%',  paddingRight: '15px'}} >
+                <TextField
+                    label="Review font size"
+                    onChange={(ly) => updateLayout('review_font_size',  ly)}
+                    value={testimonials.review_font_size}
+                />
+                </div>
+                <div style={{ float: 'left', width: '31%', paddingRight: '15px'}} >
+                <TextField
+                    label="Review font weight"
+                    onChange={(ly) => updateLayout('review_font_weight',  ly)}
+                    value={testimonials.review_font_weight}
+                />
+                </div>
+                <div style={{ float: 'left', width: '31%',paddingRight: '15px' , paddingTop: '10px'}} >
+                <TextField className="review_font_setting"
+                        type='color'
+                        label="Review text color"
+                        onChange={(ly) => updateLayout('review_font_color',  ly)}
+                        value={testimonials.review_font_color}
+                    />
+                </div>  
+            </div>
  {/* \\\\\\\\\\\\\\\CUSTOMER FONT\\\\\\\\\\\\\\\\\\\\  */}
- <h2  className='head_review_font_setting'  style={{ fontSize: '16px', fontWeight: '500', }} >Customer font settings</h2>
-            <TextField
-                type='color'
-                label="Customer text color"
-                onChange={(ly) => updateLayout('customer_font_color',  ly)}
-                value={testimonials.customer_font_color}
-            />
-            <TextField
-                label="Customer font size"
-                onChange={(ly) => updateLayout('customer_font_size',  ly)}
-                value={testimonials.customer_font_size}
-            />
-            <TextField
-                label="Customer font weight"
-                onChange={(ly) => updateLayout('customer_font_weight',  ly)}
-                value={testimonials.customer_font_weight}
-            />
+ <h2  className='head_review_font_setting'  style={{ fontSize: '16px', fontWeight: '500',  }} >Customer font settings</h2>
+ <div  style={{ float: 'left', width: '100%', paddingBottom: '15px'}}>
+            <div style={{ float: 'left', width: '31%',paddingRight: '15px'}} >     
             <Select
                 label="Customer font style"
                 options={[
@@ -155,27 +150,35 @@ export function Testimonials(props){
                 value={testimonials.customer_font_style}
                 onChange={(ly) => updateLayout('customer_font_style',  ly)}
             />
-            
+            </div>
+            <div style={{ float: 'left', width: '31%',paddingRight: '15px'}} >     
+            <TextField
+                label="Customer font size"
+                onChange={(ly) => updateLayout('customer_font_size',  ly)}
+                value={testimonials.customer_font_size}
+            />
+            </div>
+            <div style={{ float: 'left', width: '31%',paddingRight: '15px'}} >     
+            <TextField
+                label="Customer font weight"
+                onChange={(ly) => updateLayout('customer_font_weight',  ly)}
+                value={testimonials.customer_font_weight}
+            />
+            </div>
+            <div style={{ float: 'left', width: '31%',paddingRight: '15px'  , paddingTop: '10px'}} >  
+            <TextField
+                    type='color'
+                    label="Customer text color"
+                    onChange={(ly) => updateLayout('customer_font_color',  ly)}
+                    value={testimonials.customer_font_color}
+                />   
+           
+            </div>
+        </div>      
             
  {/* \\\\\\\\\\\\\\\ORDER FONT\\\\\\\\\\\\\\\\\\\\  */}
  <h2  className='head_review_font_setting'  style={{ fontSize: '16px', fontWeight: '500', }} >Order font settings</h2>
-
- <TextField
-                type='color'
-                label="Order text color"
-                onChange={(ly) => updateLayout('order_font_color',  ly)}
-                value={testimonials.order_font_color}
-            />
-            <TextField
-                label="Order font size"
-                onChange={(ly) => updateLayout('order_font_size',  ly)}
-                value={testimonials.order_font_size}
-            />
-            <TextField
-                label="Order font weight"
-                onChange={(ly) => updateLayout('order_font_weight',  ly)}
-                value={testimonials.order_font_weight}
-            />
+ <div style={{ float: 'left', width: '31%',paddingRight: '15px'}} >  
             <Select
                 label="Order font style"
                 options={[
@@ -185,7 +188,41 @@ export function Testimonials(props){
                 value={testimonials.order_font_style}
                 onChange={(ly) => updateLayout('order_font_style',  ly)}
             />
+            </div>
+            <div style={{ float: 'left', width: '31%',paddingRight: '15px'}} >  
+            <TextField
+                label="Order font size"
+                onChange={(ly) => updateLayout('order_font_size',  ly)}
+                value={testimonials.order_font_size}
+            />
+            </div> 
+            <div style={{ float: 'left', width: '31%',paddingRight: '15px'}} >  
+            <TextField
+                label="Order font weight"
+                onChange={(ly) => updateLayout('order_font_weight',  ly)}
+                value={testimonials.order_font_weight}
+            />
+             </div> 
             
+             <div style={{ float: 'left', width: '31%',paddingRight: '15px' , paddingTop: '10px'}} >  
+             <TextField
+                type='color'
+                label="Order text color"
+                onChange={(ly) => updateLayout('order_font_color',  ly)}
+                value={testimonials.order_font_color}
+            />
+             </div> 
+                <br></br>
+           
+                <div style={{ visibility: 'hidden'}} >  
+                <TextField
+               
+                label="Order text color"
+                
+                value={testimonials.order_font_color}
+            />
+            </div> 
+
 
             <ResourceList
                 resourceName={{singular: 'Testimonial', plural: 'Testimonials'}}
@@ -196,6 +233,7 @@ export function Testimonials(props){
                     source={StarFilledMinor}
                     size='small'
                 />;
+                
 
                 return (
                     <ResourceItem

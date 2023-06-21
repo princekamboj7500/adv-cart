@@ -129,7 +129,7 @@ class upsellCart{
                         }
                       
                     }else{
-                      upselstyle += "div#upsell__cart-upsell2-container{overflow-x: scroll;}.upsell__cart-upsell2 button.upsell_crausalbtn{display:block;}";
+                      upselstyle += "div#upsell__cart-upsell2-container{overflow-x: scroll;}.upsell__cart-upsell2 button.upsell_crausalbtn{display:none;}";
                     }
                     var custcss = window.UpsellWidget[i].style;
                     upselstyle += custcss;
@@ -468,7 +468,9 @@ validateCode(elem){
         let comp_data=this.items[i].handle;
         let cmp_qnt=this.items[i].quantity;
         let comp_id=this.items[i].id;
-        var comp_url='http://127.0.0.1:9292/products/'+ comp_data +'.json'
+        // https://upsell-cart-store.myshopify.com/
+        // http://127.0.0.1:9292/
+        var comp_url='https://upsell-cart-store.myshopify.com/products/'+ comp_data +'.json'
         fetch(comp_url)
         .then((response) => {
           
@@ -482,13 +484,19 @@ validateCode(elem){
         
         .then((data) => {
           const compare_price_data = data.product.variants[0].compare_at_price * cmp_qnt;
-          
+          var st=0;
+          if (data.product.variants[0].compare_at_price > 0){
+            st=st+data.product.variants[0].compare_at_price-data.product.variants[0].price
+            
+          }
+          st= st*cmp_qnt
+        
           if (compare_price_data != 0){
             var inst_dis=comp_id+'instant_discount'
             // console.log('cmpcmp', cmp)
             document.getElementById(inst_dis).innerHTML = "Instant discount! ";
             document.getElementById(comp_id).innerHTML = '$'+ compare_price_data;
-            document.getElementById('subtotal_dis_id').innerHTML =  compare_price_data + this.subtotalPrice;
+            document.getElementById('subtotal_dis_id').innerHTML =  st + this.subtotalPrice;
             
           }
           // else{
@@ -546,7 +554,7 @@ validateCode(elem){
                 ${item.color ? `<div class="color">${item.color}</div>` : ""}
                 ${
                   item.discount === true
-                    ? `<div class="upsell__cart-discount">Instant discount!</div>`
+                    ? `<div class="upsell__cart-discount ">Instant discount!</div>`
                     : ""
                 }
                 <div class="qty">
@@ -711,6 +719,16 @@ validateCode(elem){
     const qty = this.subtotalItems = this.items.reduce((acc, item) => acc + item.quantity, 0);
     this.subtotalPrice = this.items.reduce((acc, item) => acc + item.quantity * item.price/100, 0);
     
+
+    // var testt = items.map(function(item) {
+    //   if (item.oldPrice > 0) {
+    //     console.log(oldPrice)
+    //   }
+    //   return number;
+    // });
+
+
+
     itemsContainer.innerHTML = `${
         this.subtotalItems === 1 ? singleitm.replace('{{ item_count }}',qty) : manyitms.replace('{{ item_count }}',qty)
     }`;

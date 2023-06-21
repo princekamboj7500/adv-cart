@@ -144,7 +144,7 @@ div#upsell_mslide {
 }
 
 .content {
-  height: calc(100% - 431px);
+  height: calc(100% - 416px);
   overflow-y: scroll;
 }
 
@@ -175,17 +175,9 @@ div#upsell_mslide {
   width: 50%;
 }
 
-.cart-item .color {
-  color: var(--dark-grey);
-  font-size: 12px;
-  font-weight: 700;
-}
 
-.cart-item .discount {
-  color: var(--red);
-  font-size: 12px;
-  font-weight: 700;
-}
+
+
 
 .cart-item .qty {
   margin: 5px 0;
@@ -221,14 +213,6 @@ div#upsell_mslide {
   opacity: 1;
 }
 
-.cart-item .price {
-  color: var(--dark-grey);
-  font-size: 13px;
-  font-weight: 700;
-}
-.cart-item .price s {
-  color: var(--grey);
-}
 
 .cart-item button {
   background: var(--blue);
@@ -597,3 +581,9 @@ div#afterpayBottom p {
   width: 100px;
   margin-top: 10px;
 }
+
+
+
+
+
+
