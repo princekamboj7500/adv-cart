@@ -187,7 +187,7 @@ div#upsell_announcement {
 }
 
 .upsell__cart-content {
-  height: 45vh;
+  height: 49vh;
   overflow-y: scroll;
 }
 div#upsell_continueshop span {
@@ -239,7 +239,7 @@ div#upsell_continueshop span {
 
 .upsell__cart-cart-item .qty input {
   width: 100px;
-  height: 28px;
+  height: 30px;
   line-height: 28px;
   border: 1px solid var(--light-grey);
   box-shadow: none;
@@ -802,7 +802,7 @@ div#dec-button {
 /* -webkit-appearance: none; */
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
-  rotate: 90deg; padding: 10px; }
+  rotate: 90deg; padding: 10px;  -webkit-appearance: none; }
   input[type=number]{
     width: 100%;
   }
@@ -1093,6 +1093,6 @@ float: left;
 
 /* \\\\\\\\type number style\\\\\\ */
 
-.quantity_increase_decrease{    float: left; width: 100%;}
+.quantity_increase_decrease { float: left; width: 60%; display: flex; align-items: center; justify-content: space-evenly; }
 .quantity_increase_decrease button { width: 30px; height: 30px; color: #000; font-size: 20px; background: transparent !important; padding: 2px;     margin: 0px; border: 1px solid var(--light-grey); }
 .quantity_increase_decrease input{ width: 50px !important; padding-left: 3px; font-weight: 500;}

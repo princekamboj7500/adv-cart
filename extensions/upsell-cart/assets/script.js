@@ -7,8 +7,6 @@ class upsellCart{
 
     //this.domain = "https://cart.brandlift.io/"   lINE 1205  ;
     
-   
-
 
     // Show/Hide "View Cart" Button
     const showViewCartButton = false;
@@ -41,6 +39,9 @@ class upsellCart{
     this.items = cartObj.items;
     this.drawCartItems();
   }
+
+
+
 
   async getRecmdpros(){
     var upselstyle = '';
@@ -539,9 +540,12 @@ validateCode(elem){
       // });
       
       // 
+
+
+      console.log( 'this.itemaaa' ,this.items)
       this.items.map(
-        (item) =>
-        
+        (item , index) =>
+             
 //         <div class="input-wrapper">
 //   <input type="number" id="dd" value="0" />
 // </div>
@@ -551,7 +555,6 @@ validateCode(elem){
 //                   <input name="" type="number" id="numberInput" onchange="window.__upsellCart.changeQty(this, ${item.id})" value="${item.quantity}"/>
 //                   <button id="incrementButton" onclick="test_click_increase()">+</button>
 //                 </div>
-        // console.log('item',item)
           (this.cartContainer.innerHTML += `
             <div class="upsell__cart-cart-item upsell__cart-cart-item_back">
               <div class="upsell__cart-image">
@@ -573,19 +576,19 @@ validateCode(elem){
                 <div class="qty">
                
                 <div class="quantity_increase_decrease">
-                      <button id="decrementButton" onclick="test_click_decrease()">-</button>
+                      <button id="decrementButton" onclick="click_decrease${index}()">-</button>
                  
                   <input
                   class="input_number"
                     type="number"
                     min="1" max="10"
                     name=""
-                    id="numberInput1"
+                    id="numberInput${index}"
                     value="${item.quantity}"
                     onchange="window.__upsellCart.changeQty(this, ${item.id})"
                   />
                  
-                  <button id="incrementButton" onclick="test_click_increase()">+</button>
+                  <button id="incrementButton" onclick="click_increase${index}()">+</button>
                </div>
                  
 
@@ -1369,7 +1372,7 @@ div#subtotalPrice s{color:${window.UpsellCart.general_settings.compare_price_col
 .upsell__cart-price{font-size:${window.UpsellCart.general_settings.cartitem.price_size}; font-weight: ${window.UpsellCart.general_settings.cartitem.price_weight};}
 .upsell__cart-price_1{font-size:${window.UpsellCart.general_settings.cartitem.price_size}; color:${window.UpsellCart.general_settings.cartitem.price_color};  font-weight: ${window.UpsellCart.general_settings.cartitem.price_weight};}
 .upsell__cart-discount_1{font-size:${window.UpsellCart.general_settings.cartitem.discount_size}; color:${window.UpsellCart.general_settings.cartitem.discount_color};  font-weight: ${window.UpsellCart.general_settings.cartitem.discount_weight};}
-.upsell__cart-cart-item_back{background:${window.UpsellCart.general_settings.cartitem.background_color};  }
+.upsell__cart-cart-item_back{background:${window.UpsellCart.general_settings.cartitem.background_color};    height: 135px; }
 .varient_tittle_backend{font-size:${window.UpsellCart.general_settings.cartitem.variant_size}; color:${window.UpsellCart.general_settings.cartitem.variant_color};  font-weight: ${window.UpsellCart.general_settings.cartitem.variant_weight};}
 .cart__trusted-payment{width:100%; float:left; margin:${window.UpsellCart.trust_badge.margin}; padding:${window.UpsellCart.trust_badge.padding}; text-align:${window.UpsellCart.trust_badge.position};}
 .cart-testimonials_content p{color:${window.UpsellCart.testimonial.review_font_color}; font-size:${window.UpsellCart.testimonial.review_font_size} ; font-weight:${window.UpsellCart.testimonial.review_font_weight} ; font-style:${window.UpsellCart.testimonial.review_font_style} ;}
@@ -1381,6 +1384,272 @@ div#subtotalPrice s{color:${window.UpsellCart.general_settings.compare_price_col
 
 
 </style>`;
+
+
+// \\\\\\\\\\\\\\\\\\\\\\\\\for id 0\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+
+  function click_decrease0(){
+    const numberInput = document.getElementById('numberInput0');
+    let currentValue = parseInt(numberInput.value)
+    if (currentValue > 1 ){
+    numberInput.value = currentValue - 1;
+  }
+    var event = new Event("change");
+    numberInput.dispatchEvent(event);
+    console.log('test click' ,currentValue)
+  }
+  
+  function click_increase0(){  
+    const numberInput = document.getElementById('numberInput0');
+    let currentValue = parseInt(numberInput.value)
+    if (currentValue < 10 ){
+    numberInput.value = currentValue + 1;}
+    var event = new Event("change");
+    numberInput.dispatchEvent(event);
+    console.log('test click' ,currentValue)
+  }
+
+// \\\\\\\\\\\\\\\\\\\\\\\\\for id numberInput1\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+  function click_decrease1(){
+      const numberInput = document.getElementById('numberInput1');
+    let currentValue = parseInt(numberInput.value)
+    if (currentValue > 1 ){
+    numberInput.value = currentValue - 1;
+  }
+    var event = new Event("change");
+    numberInput.dispatchEvent(event);
+    console.log('test click' ,currentValue)
+  } 
+  function click_increase1(){
+  
+    const numberInput = document.getElementById('numberInput1');
+    let currentValue = parseInt(numberInput.value)
+    if (currentValue < 10 ){
+    numberInput.value = currentValue + 1;}
+    var event = new Event("change");
+    numberInput.dispatchEvent(event);
+    console.log('test click' ,currentValue)
+  }
+
+  
+// \\\\\\\\\\\\\\\\\\\\\\\\\for id numberInput2\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+function click_decrease2(){
+  const numberInput = document.getElementById('numberInput2');
+let currentValue = parseInt(numberInput.value)
+if (currentValue > 1 ){
+numberInput.value = currentValue - 1;
+}
+var event = new Event("change");
+numberInput.dispatchEvent(event);
+console.log('test click' ,currentValue)
+} 
+function click_increase2(){
+
+const numberInput = document.getElementById('numberInput2');
+let currentValue = parseInt(numberInput.value)
+if (currentValue < 10 ){
+numberInput.value = currentValue + 1;}
+var event = new Event("change");
+numberInput.dispatchEvent(event);
+console.log('test click' ,currentValue)
+}
+
+ 
+// \\\\\\\\\\\\\\\\\\\\\\\\\for id numberInput3\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+function click_decrease3(){
+  const numberInput = document.getElementById('numberInput3');
+let currentValue = parseInt(numberInput.value)
+if (currentValue > 1 ){
+numberInput.value = currentValue - 1;
+}
+var event = new Event("change");
+numberInput.dispatchEvent(event);
+console.log('test click' ,currentValue)
+} 
+function click_increase3(){
+
+const numberInput = document.getElementById('numberInput3');
+let currentValue = parseInt(numberInput.value)
+if (currentValue < 10 ){
+numberInput.value = currentValue + 1;}
+var event = new Event("change");
+numberInput.dispatchEvent(event);
+console.log('test click' ,currentValue)
+}
+
+
+}
+
+ 
+// \\\\\\\\\\\\\\\\\\\\\\\\\for id numberInput4\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+function click_decrease4(){
+  const numberInput = document.getElementById('numberInput4');
+let currentValue = parseInt(numberInput.value)
+if (currentValue > 1 ){
+numberInput.value = currentValue - 1;
+}
+var event = new Event("change");
+numberInput.dispatchEvent(event);
+console.log('test click' ,currentValue)
+} 
+function click_increase4(){
+
+const numberInput = document.getElementById('numberInput4');
+let currentValue = parseInt(numberInput.value)
+if (currentValue < 10 ){
+numberInput.value = currentValue + 1;}
+var event = new Event("change");
+numberInput.dispatchEvent(event);
+console.log('test click' ,currentValue)
+}
+
+// \\\\\\\\\\\\\\\\\\\\\\\\\for id numberInput5\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+function click_decrease5(){
+  const numberInput = document.getElementById('numberInput5');
+let currentValue = parseInt(numberInput.value)
+if (currentValue > 1 ){
+numberInput.value = currentValue - 1;
+}
+var event = new Event("change");
+numberInput.dispatchEvent(event);
+console.log('test click' ,currentValue)
+} 
+function click_increase5(){
+
+const numberInput = document.getElementById('numberInput5');
+let currentValue = parseInt(numberInput.value)
+if (currentValue < 10 ){
+numberInput.value = currentValue + 1;}
+var event = new Event("change");
+numberInput.dispatchEvent(event);
+console.log('test click' ,currentValue)
+}
+
+
+// \\\\\\\\\\\\\\\\\\\\\\\\\for id numberInput6\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+function click_decrease6(){
+  const numberInput = document.getElementById('numberInput6');
+let currentValue = parseInt(numberInput.value)
+if (currentValue > 1 ){
+numberInput.value = currentValue - 1;
+}
+var event = new Event("change");
+numberInput.dispatchEvent(event);
+console.log('test click' ,currentValue)
+} 
+function click_increase6(){
+
+const numberInput = document.getElementById('numberInput6');
+let currentValue = parseInt(numberInput.value)
+if (currentValue < 10 ){
+numberInput.value = currentValue + 1;}
+var event = new Event("change");
+numberInput.dispatchEvent(event);
+console.log('test click' ,currentValue)
+}
+
+
+
+
+// \\\\\\\\\\\\\\\\\\\\\\\\\for id numberInput7\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+function click_decrease7(){
+  const numberInput = document.getElementById('numberInput7');
+let currentValue = parseInt(numberInput.value)
+if (currentValue > 1 ){
+numberInput.value = currentValue - 1;
+}
+var event = new Event("change");
+numberInput.dispatchEvent(event);
+console.log('test click' ,currentValue)
+} 
+function click_increase7(){
+
+const numberInput = document.getElementById('numberInput7');
+let currentValue = parseInt(numberInput.value)
+if (currentValue < 10 ){
+numberInput.value = currentValue + 1;}
+var event = new Event("change");
+numberInput.dispatchEvent(event);
+console.log('test click' ,currentValue)
+}
+
+
+// \\\\\\\\\\\\\\\\\\\\\\\\\for id numberInput8\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+function click_decrease8(){
+  const numberInput = document.getElementById('numberInput8');
+let currentValue = parseInt(numberInput.value)
+if (currentValue > 1 ){
+numberInput.value = currentValue - 1;
+}
+var event = new Event("change");
+numberInput.dispatchEvent(event);
+console.log('test click' ,currentValue)
+} 
+function click_increase8(){
+
+const numberInput = document.getElementById('numberInput8');
+let currentValue = parseInt(numberInput.value)
+if (currentValue < 10 ){
+numberInput.value = currentValue + 1;}
+var event = new Event("change");
+numberInput.dispatchEvent(event);
+console.log('test click' ,currentValue)
+}
+
+
+// \\\\\\\\\\\\\\\\\\\\\\\\\for id numberInput9\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+function click_decrease9(){
+  const numberInput = document.getElementById('numberInput9');
+let currentValue = parseInt(numberInput.value)
+if (currentValue > 1 ){
+numberInput.value = currentValue - 1;
+}
+var event = new Event("change");
+numberInput.dispatchEvent(event);
+console.log('test click' ,currentValue)
+} 
+function click_increase9(){
+
+const numberInput = document.getElementById('numberInput9');
+let currentValue = parseInt(numberInput.value)
+if (currentValue < 10 ){
+numberInput.value = currentValue + 1;}
+var event = new Event("change");
+numberInput.dispatchEvent(event);
+console.log('test click' ,currentValue)
+}
+
+// \\\\\\\\\\\\\\\\\\\\\\\\\for id numberInput10\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+function click_decrease10(){
+  const numberInput = document.getElementById('numberInput10');
+let currentValue = parseInt(numberInput.value)
+if (currentValue > 1 ){
+numberInput.value = currentValue - 1;
+}
+var event = new Event("change");
+numberInput.dispatchEvent(event);
+console.log('test click' ,currentValue)
+} 
+function click_increase10(){
+
+const numberInput = document.getElementById('numberInput10');
+let currentValue = parseInt(numberInput.value)
+if (currentValue < 10 ){
+numberInput.value = currentValue + 1;}
+var event = new Event("change");
+numberInput.dispatchEvent(event);
+console.log('test click' ,currentValue)
 }
 
 
@@ -1391,50 +1660,17 @@ div#subtotalPrice s{color:${window.UpsellCart.general_settings.compare_price_col
 console.log('aaaaaa',window.UpsellCart )
 
 
-function test_click_decrease(){
-  const numberInput = document.getElementById('numberInput1');
-  let currentValue = parseInt(numberInput.value)
-  if (currentValue > 1 ){
-  numberInput.value = currentValue - 1;}
-  console.log('test click' ,currentValue)
-}
-
-function test_click_increase(){
-
-  const numberInput = document.getElementById('numberInput1');
-  let currentValue = parseInt(numberInput.value)
-  if (currentValue < 11 ){
-  numberInput.value = currentValue + 1;}
-  console.log('test click' ,currentValue)
-}
 
 
 
-console.log('ttttttttttttttttttttttttttttttttttttttt', this.items.length)
 
 
-// let slideIndex = 1;
-// showSlides(slideIndex);
 
-// function plusSlides(n) {
-//   showSlides(slideIndex += n);
-// }
 
-// function currentSlide(n) {
-//   showSlides(slideIndex = n);
-// }
 
-// function showSlides(n) {
-//   let i;
-//   let slides = document.getElementsByClassName("mySlides");
-//   if (n > slides.length) {slideIndex = 1}    
-//   if (n < 1) {slideIndex = slides.length}
-//   for (i = 0; i < slides.length; i++) {
-//     slides[i].style.display = "none";  
-//   }
- 
-//   slides[slideIndex-1].style.display = "block";  
-// }
+// \\\\\\\\\\\\\\\\\\\\\\\\\slider\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+
 
 
 
