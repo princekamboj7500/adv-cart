@@ -136,14 +136,14 @@ function drawCartItems(items) {
       }
   }
   const max = Math.max(...amt);
-  setTimeout(function(){
-    var prc = document.querySelectorAll('.upsell__cart-gift-item.getprice')[0]
-    if(prc){
-      var price = prc.getAttribute('id');
-      hintContainer.innerHTML = "You are "+(price -subtotalPrice).toFixed(2)+" away from free gift"
-    }
+  // setTimeout(function(){
+  //   var prc = document.querySelectorAll('.upsell__cart-gift-item.getprice')[0]
+  //   if(prc){
+  //     var price = prc.getAttribute('id');
+  //     hintContainer.innerHTML = "You are "+(price -subtotalPrice).toFixed(2)+" away from free gift"
+  //   }
    
-  },500)
+  // },500)
   
   var pertcnt = subtotalPrice/max*100;
   barContainer2.style = `width: `+pertcnt+`%;`;
@@ -741,7 +741,7 @@ if(event.data.testimonial.testimonials.length){
         <div class="cart-testimonials_content">
           <p>${testimonial.review}</p>
           <b class="cart-testimonials_name">${testimonial.name}</b>
-          <div class="cart-testimonials_date">Verified Purchase ${testimonial.order_date}</div>
+          <div class="cart-testimonials_date"><img src="https://conversionwise.com/wp-content/uploads/2022/11/right.png" /> Verified Purchase ${testimonial.order_date}</div>
           ${ testimonial.star? `<img src="https://ucarecdn.com/865b5d7a-31d3-4e8c-9e24-129571a604c0/-/format/auto/-/preview/120x120/-/quality/lightest/" />` : '' }
         </div>
       </div>
@@ -786,7 +786,9 @@ var subtotalPrice = parseFloat(subp.replace('$',''));
   if(event.data.tiered_progress_bar == true){
   for(var k=0;k<event.data.tiered_progress_bar_tabs.length;k++){
   if(window.country == event.data.tiered_progress_bar_tabs[k].country){
-    console.log('thereee')
+   
+    var elem = document.getElementById( 'content_ht' );
+            elem.classList.remove('otherclass2'); 
     if( event.data.tiered_progress_bar_tabs[k].layout_type == "in_line"){
         var progress = document.querySelector('#upsell_prev_gift');
         progress.insertAdjacentHTML('beforeend',`<div class="upsell__cart-gifts"></div>`);
@@ -807,14 +809,20 @@ var subtotalPrice = parseFloat(subp.replace('$',''));
         const free = event.data.tiered_progress_bar_tabs[k].tier[i].type;
         const ship = event.data.tiered_progress_bar_tabs[k].tier[i].free_shipping_all_products;
         const minprice = parseFloat(event.data.tiered_progress_bar_tabs[k].tier[i].min_price);
+        const label_gift = event.data.tiered_progress_bar_tabs[k].tier[i].label;
+        console.log('free2' ,free,minprice, subtotalPrice)
         amt.push(minprice);
         if(free =='free_shipping'){
             var svg = `<svg width="11" height="9" viewBox="0 0 9 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.82415 6.15237L0.726419 4.05464L0.012085 4.76395L2.82415 7.57601L8.86078 1.53938L8.15147 0.830078L2.82415 6.15237Z" fill="#8494A0"></path></svg>`;
-            var title = "Free Shipping";
-        }else{
-            var svg = `<svg width="14" height="12" viewBox="0 0 15 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.7808 3.71012H10.9961C10.9961 1.73797 9.39873 0.140625 7.42658 0.140625C5.45444 0.140625 3.85709 1.73797 3.85709 3.71012H2.07234C1.09073 3.71012 0.287598 4.51325 0.287598 5.49486V16.2033C0.287598 17.185 1.09073 17.9881 2.07234 17.9881H12.7808C13.7624 17.9881 14.5656 17.185 14.5656 16.2033V5.49486C14.5656 4.51325 13.7624 3.71012 12.7808 3.71012ZM7.42658 1.92537C8.40819 1.92537 9.21133 2.72851 9.21133 3.71012H5.64184C5.64184 2.72851 6.44497 1.92537 7.42658 1.92537ZM12.7808 16.2033H2.07234V5.49486H3.85709V7.27961C3.85709 7.77042 4.25866 8.17198 4.74946 8.17198C5.24027 8.17198 5.64184 7.77042 5.64184 7.27961V5.49486H9.21133V7.27961C9.21133 7.77042 9.6129 8.17198 10.1037 8.17198C10.5945 8.17198 10.9961 7.77042 10.9961 7.27961V5.49486H12.7808V16.2033Z" fill="#8494A0"></path></svg>`;
-            var title = "Mystery Gift";
-        }
+            var title = label_gift;
+        } else if (minprice == 1000){
+          var svg = `<svg width="14" height="12" viewBox="0 0 15 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.7808 3.71012H10.9961C10.9961 1.73797 9.39873 0.140625 7.42658 0.140625C5.45444 0.140625 3.85709 1.73797 3.85709 3.71012H2.07234C1.09073 3.71012 0.287598 4.51325 0.287598 5.49486V16.2033C0.287598 17.185 1.09073 17.9881 2.07234 17.9881H12.7808C13.7624 17.9881 14.5656 17.185 14.5656 16.2033V5.49486C14.5656 4.51325 13.7624 3.71012 12.7808 3.71012ZM7.42658 1.92537C8.40819 1.92537 9.21133 2.72851 9.21133 3.71012H5.64184C5.64184 2.72851 6.44497 1.92537 7.42658 1.92537ZM12.7808 16.2033H2.07234V5.49486H3.85709V7.27961C3.85709 7.77042 4.25866 8.17198 4.74946 8.17198C5.24027 8.17198 5.64184 7.77042 5.64184 7.27961V5.49486H9.21133V7.27961C9.21133 7.77042 9.6129 8.17198 10.1037 8.17198C10.5945 8.17198 10.9961 7.77042 10.9961 7.27961V5.49486H12.7808V16.2033Z" fill="#8494A0"></path></svg>`;
+          var title = label_gift;
+      }
+      else{
+        var svg = `<svg width="14" height="12" viewBox="0 0 15 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.7808 3.71012H10.9961C10.9961 1.73797 9.39873 0.140625 7.42658 0.140625C5.45444 0.140625 3.85709 1.73797 3.85709 3.71012H2.07234C1.09073 3.71012 0.287598 4.51325 0.287598 5.49486V16.2033C0.287598 17.185 1.09073 17.9881 2.07234 17.9881H12.7808C13.7624 17.9881 14.5656 17.185 14.5656 16.2033V5.49486C14.5656 4.51325 13.7624 3.71012 12.7808 3.71012ZM7.42658 1.92537C8.40819 1.92537 9.21133 2.72851 9.21133 3.71012H5.64184C5.64184 2.72851 6.44497 1.92537 7.42658 1.92537ZM12.7808 16.2033H2.07234V5.49486H3.85709V7.27961C3.85709 7.77042 4.25866 8.17198 4.74946 8.17198C5.24027 8.17198 5.64184 7.77042 5.64184 7.27961V5.49486H9.21133V7.27961C9.21133 7.77042 9.6129 8.17198 10.1037 8.17198C10.5945 8.17198 10.9961 7.77042 10.9961 7.27961V5.49486H12.7808V16.2033Z" fill="#8494A0"></path></svg>`;
+        var title = label_gift;
+      }
         gifts.insertAdjacentHTML('beforeend',`<div class="upsell__cart-gift-item getprice" id="`+minprice+`">
         <div class="upsell__cart-icon">`+svg+`</div><strong>`+title+`</strong></div>`);
         setTimeout(function(){
@@ -840,25 +848,88 @@ var subtotalPrice = parseFloat(subp.replace('$',''));
         }
       },200);
     }
-    for(var m=0;m<alltiers;m++){
-      const free = event.data.tiered_progress_bar_tabs[k].tier[m].type;
-      const minprice = event.data.tiered_progress_bar_tabs[k].tier[m].min_price;
+    for( t=0 ; t<alltiers ; t++){
+      const free =event.data.tiered_progress_bar_tabs[k].tier[t].type;
+      const minprice =event.data.tiered_progress_bar_tabs[k].tier[t].min_price;
+      const label_1 = '<span id="label_font_weight">' +event.data.tiered_progress_bar_tabs[k].tier[t].label+'</span>';
+      const label_font_weight =event.data.tiered_progress_bar_tabs[k].tier[t].label_font_weight;
+      console.log(t,free,minprice,label_1, label_font_weight,"ttttt")
       if(minprice-subtotalPrice > 0){
-       
+     
         if(free == "free_shipping" && subtotalPrice < minprice){
-            hintContainer.innerHTML = "You are "+(minprice - subtotalPrice )+" away from free shipping";
-            break;
+            hintContainer.innerHTML = "You are "+(minprice - subtotalPrice ).toFixed(2)+" away from <b style= "  + "font-weight:" + (label_font_weight) +" >" + (label_1) + " </b>";
+
         }
         else if(free == "product" && subtotalPrice < minprice){
-            hintContainer.innerHTML = "You are "+(minprice - subtotalPrice )+" away from free gift";
-            break;
+          if(minprice == 1000){
+            hintContainer.innerHTML = "You are $"+(minprice - subtotalPrice ).toFixed(2)+" away from <b style= "  + "font-weight:" + (label_font_weight) +" >"+ (label_1) + " </b>" ;
+          }
+          else{
+            hintContainer.innerHTML = "You are $"+(minprice - subtotalPrice ).toFixed(2)+" away from <b style= "  + "font-weight:" + (label_font_weight) +" >"+ (label_1) + " </b>" ;
+          }
         }
        
       }else{
-        hintContainer.innerHTML = "You unlock all free gift";
+        hintContainer.innerHTML = "You unlock all  <b style= "  + "font-weight:" + (label_font_weight) +" >"+ (label_1) + " </b>" ;
       }
 
+
+      
     }
+    console.log('aaaaaaa',event.data)
+    // for(var m=0;m<alltiers;m++){
+    //   const free =event.data.tiered_progress_bar_tabs[k].tier[m].type;
+    //   const minprice =event.data.tiered_progress_bar_tabs[k].tier[m].min_price;
+    //   const label_1 = '<span id="label_font_weight">' +event.data.tiered_progress_bar_tabs[k].tier[m].label+'</span>';
+    //   const label_font_weight =event.data.tiered_progress_bar_tabs[k].tier[m].label_font_weight;
+    //   // label_1.style.fontWeight =event.data.tiered_progress_bar_tabs[k].tier[m].label_font_weight;
+    //   // document.getElementById("upsell_prev_styl").innerHTML= `<style>
+
+    //   // </style>`
+    //   console.log('free',free , minprice ,label_1, subtotalPrice)
+    //   if(minprice-subtotalPrice > 0){
+     
+    //     if(free == "free_shipping" && subtotalPrice < minprice){
+    //         hintContainer.innerHTML = "You are "+(minprice - subtotalPrice ).toFixed(2)+" away from <b style= "  + "font-weight:" + (label_font_weight) +" >" + (label_1) + " </b>";
+            
+    //         break;
+    //     }
+    //     else if(free == "product" && subtotalPrice < minprice){
+    //       if(minprice == 1000){
+    //         hintContainer.innerHTML = "You are $"+(minprice - subtotalPrice ).toFixed(2)+" away from <b style= "  + "font-weight:" + (label_font_weight) +" >"+ (label_1) + " </b>" ;
+    //       }
+    //       else{
+    //         hintContainer.innerHTML = "You are $"+(minprice - subtotalPrice ).toFixed(2)+" away from <b style= "  + "font-weight:" + (label_font_weight) +" >"+ (label_1) + " </b>" ;
+    //       }
+    //         break;
+    //     }
+       
+    //   }else{
+    //     hintContainer.innerHTML = "You unlock all  <b style= "  + "font-weight:" + (label_font_weight) +" >"+ (label_1) + " </b>" ;
+    //   }
+
+    // }
+      // if(minprice-subtotalPrice > 0){
+       
+      //   if(free == "free_shipping" && subtotalPrice < minprice){
+      //       hintContainer.innerHTML = "You are "+(minprice - subtotalPrice )+" away from free shipping";
+      //       break;
+      //   }
+      //   else if(free == "product" && subtotalPrice < minprice){
+      //       hintContainer.innerHTML = "You are "+(minprice - subtotalPrice )+" away from free gift";
+      //       break;
+      //   }
+       
+      // }else{
+      //   hintContainer.innerHTML = "You unlock all free gift";
+      // }
+
+
+  }
+  else{
+    var elem = document.getElementById( 'content_ht' );
+            elem.classList.add('otherclass2'); 
+
   }
 }
   }

@@ -488,6 +488,7 @@ validateCode(elem){
         
         .then((data) => {
           const compare_price_data = data.product.variants[0].compare_at_price * cmp_qnt;
+          const original_compare_price_data = data.product.variants[0].price * cmp_qnt;
           var st=0;
           if (data.product.variants[0].compare_at_price > 0){
             st=st+data.product.variants[0].compare_at_price-data.product.variants[0].price
@@ -501,7 +502,10 @@ validateCode(elem){
             document.getElementById(inst_dis).innerHTML = "Instant discount! ";
             document.getElementById(comp_id).innerHTML = '$'+ compare_price_data;
             document.getElementById('subtotal_dis_id').innerHTML =  st + this.subtotalPrice;
-            
+            const per_off= 'per_off'+ comp_id;
+            const tt= (compare_price_data - original_compare_price_data) / compare_price_data * 100
+            console.log('per_offper_off',per_off)
+            document.getElementById(per_off).innerHTML = tt.toFixed(1)+ '% Off' ;
           }
           // else{
           //   console.log('aaaabbbb',i);
@@ -613,7 +617,7 @@ validateCode(elem){
                     ? `<div class="upsell__cart-discount">`+window.money+` ${self.roundPrice(
                         item.quantity * item.price/100
                       )}</div>`
-                    : ` <del class="upsell__cart-discount_1" id="${item.id}"></del>`
+                    : ` <del class="upsell__cart-discount_1" id="${item.id}"></del><span id="per_off${item.id}" style="background: #cdffcd;  color: green; font-size:12px; font-weight:600;"></span>`
                 }
               </div>
             </div>
@@ -774,7 +778,8 @@ validateCode(elem){
     const btnclr = "background:"+hsbaToRgb( window.UpsellCart.progress_bar_color.hue, window.UpsellCart.progress_bar_color.saturation, window.UpsellCart.progress_bar_color.brightness, window.UpsellCart.progress_bar_color.alpha)+"";
     if(window.UpsellCart.tiered_progress_bar == true){
        for(var k=0;k<window.UpsellCart.tiered_progress_bar_tabs.length;k++){
-       
+        
+
         if(window.country == window.UpsellCart.tiered_progress_bar_tabs[k].country){
           console.log('window.country',window.country)
           const layout = window.UpsellCart.tiered_progress_bar_tabs[k].layout_type;
@@ -782,25 +787,33 @@ validateCode(elem){
           const gifts = document.querySelector(".upsell__cart-gifts");
           //document.getElementById("freegifts").innerHTML = '';
           //document.getElementById("giftlayout").innerHTML = '';
-         
+          var elem = document.getElementById( 'upsell__cart-content_ht' );
+          elem.classList.remove('otherclass');
           gifts.innerHTML = '';
           
           for(var i=0;i<alltiers;i++){
               const free = window.UpsellCart.tiered_progress_bar_tabs[k].tier[i].type;
               const ship = window.UpsellCart.tiered_progress_bar_tabs[k].tier[i].free_shipping_all_products;
               const minprice = window.UpsellCart.tiered_progress_bar_tabs[k].tier[i].min_price;
+              const label_gift = window.UpsellCart.tiered_progress_bar_tabs[k].tier[i].label
+
               amt.push(minprice)
               const max = Math.max(...amt);
               if(free =='free_shipping'){
                   var svg = `<svg width="11" height="9" viewBox="0 0 9 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.82415 6.15237L0.726419 4.05464L0.012085 4.76395L2.82415 7.57601L8.86078 1.53938L8.15147 0.830078L2.82415 6.15237Z" fill="#8494A0"></path></svg>`;
-                  var title = "Free Shipping";
-              }else{
+                  var title = label_gift;
+              }
+              else if (minprice == 1000){
                   var svg = `<svg width="14" height="12" viewBox="0 0 15 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.7808 3.71012H10.9961C10.9961 1.73797 9.39873 0.140625 7.42658 0.140625C5.45444 0.140625 3.85709 1.73797 3.85709 3.71012H2.07234C1.09073 3.71012 0.287598 4.51325 0.287598 5.49486V16.2033C0.287598 17.185 1.09073 17.9881 2.07234 17.9881H12.7808C13.7624 17.9881 14.5656 17.185 14.5656 16.2033V5.49486C14.5656 4.51325 13.7624 3.71012 12.7808 3.71012ZM7.42658 1.92537C8.40819 1.92537 9.21133 2.72851 9.21133 3.71012H5.64184C5.64184 2.72851 6.44497 1.92537 7.42658 1.92537ZM12.7808 16.2033H2.07234V5.49486H3.85709V7.27961C3.85709 7.77042 4.25866 8.17198 4.74946 8.17198C5.24027 8.17198 5.64184 7.77042 5.64184 7.27961V5.49486H9.21133V7.27961C9.21133 7.77042 9.6129 8.17198 10.1037 8.17198C10.5945 8.17198 10.9961 7.77042 10.9961 7.27961V5.49486H12.7808V16.2033Z" fill="#8494A0"></path></svg>`;
-                  var title = "Mystery Gift";
+                  var title = label_gift;
+              }
+              else{
+                var svg = `<svg width="14" height="12" viewBox="0 0 15 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.7808 3.71012H10.9961C10.9961 1.73797 9.39873 0.140625 7.42658 0.140625C5.45444 0.140625 3.85709 1.73797 3.85709 3.71012H2.07234C1.09073 3.71012 0.287598 4.51325 0.287598 5.49486V16.2033C0.287598 17.185 1.09073 17.9881 2.07234 17.9881H12.7808C13.7624 17.9881 14.5656 17.185 14.5656 16.2033V5.49486C14.5656 4.51325 13.7624 3.71012 12.7808 3.71012ZM7.42658 1.92537C8.40819 1.92537 9.21133 2.72851 9.21133 3.71012H5.64184C5.64184 2.72851 6.44497 1.92537 7.42658 1.92537ZM12.7808 16.2033H2.07234V5.49486H3.85709V7.27961C3.85709 7.77042 4.25866 8.17198 4.74946 8.17198C5.24027 8.17198 5.64184 7.77042 5.64184 7.27961V5.49486H9.21133V7.27961C9.21133 7.77042 9.6129 8.17198 10.1037 8.17198C10.5945 8.17198 10.9961 7.77042 10.9961 7.27961V5.49486H12.7808V16.2033Z" fill="#8494A0"></path></svg>`;
+                var title = label_gift;
               }
             
               gifts.insertAdjacentHTML('beforeend',`<div class="upsell__cart-gift-item" id="`+minprice+`">
-              <div class="upsell__cart-icon">`+svg+`</div><strong>`+title+`</strong></div>`);
+              <div class="upsell__cart-icon">`+svg+`</div><strong id="title_label">`+title+`</strong></div>`);
              
               if(subtotalPrice >= minprice){
                 document.getElementById(""+minprice+"").classList.add("active");
@@ -831,23 +844,36 @@ validateCode(elem){
             // </style>`
             console.log('free',free , minprice ,label_1, subtotalPrice)
             if(minprice-subtotalPrice > 0){
-             
+           
               if(free == "free_shipping" && subtotalPrice < minprice){
                   hintContainer.innerHTML = "You are "+(minprice - subtotalPrice ).toFixed(2)+" away from <b style= "  + "font-weight:" + (label_font_weight) +" >" + (label_1) + " </b>";
                   
                   break;
               }
               else if(free == "product" && subtotalPrice < minprice){
+                if(minprice == 1000){
                   hintContainer.innerHTML = "You are $"+(minprice - subtotalPrice ).toFixed(2)+" away from <b style= "  + "font-weight:" + (label_font_weight) +" >"+ (label_1) + " </b>" ;
+                }
+                else{
+                  hintContainer.innerHTML = "You are $"+(minprice - subtotalPrice ).toFixed(2)+" away from <b style= "  + "font-weight:" + (label_font_weight) +" >"+ (label_1) + " </b>" ;
+                }
                   break;
               }
              
             }else{
-              hintContainer.innerHTML = "You unlock all <b>FREE GIFT<b\>";
+              hintContainer.innerHTML = "You unlock all  <b style= "  + "font-weight:" + (label_font_weight) +" >"+ (label_1) + " </b>" ;
             }
 
           }
         }
+        else{
+          
+          var elem = document.getElementById( 'upsell__cart-content_ht' );
+            elem.classList.add('otherclass'); 
+          
+          console.log(window.country , window.UpsellCart.tiered_progress_bar_tabs[k].country ,'id="upsell__cart-content_htid="upsell__cart-content_ht')
+        }
+
        }
         
      }
@@ -1332,11 +1358,11 @@ if(window.UpsellCart.testimonial.testimonials.length){
     
 <div class="slider-content__item ">
       
-      ${ testimonial.image? `<div class="mySlides_img"><img src="${domain_url}api/uploads/${testimonial.image}" style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};" /></div>` : `<span style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};"></span>` }
+      ${ testimonial.image? `<div class="mySlides_img"><img src="${domain_url}api/uploads/${testimonial.image}"  /></div>` : `<span style="width:${testimonial.size}px;padding:${testimonial.image_padding};margin:${testimonial.image_margin};"></span>` }
         <div class="cart-testimonials_content">
           <p >${testimonial.review}</p>
           <b class="cart-testimonials_name" >${testimonial.name}</b>
-          <div class="cart-testimonials_date">Verified Purchase ${testimonial.order_date}</div>
+          <div class="cart-testimonials_date"><img src="https://conversionwise.com/wp-content/uploads/2022/11/right.png" />Verified Purchase ${testimonial.order_date}</div>
           ${ testimonial.star? `<img src="https://ucarecdn.com/865b5d7a-31d3-4e8c-9e24-129571a604c0/-/format/auto/-/preview/120x120/-/quality/lightest/"  />` : '' }
       </div>
     </div>
@@ -1379,8 +1405,7 @@ div#subtotalPrice s{color:${window.UpsellCart.general_settings.compare_price_col
 .cart-testimonials_content b{color:${window.UpsellCart.testimonial.customer_font_color}; font-size:${window.UpsellCart.testimonial.customer_font_size} ; font-weight:${window.UpsellCart.testimonial.customer_font_weight} ; font-style:${window.UpsellCart.testimonial.customer_font_style} ;}
 .cart-testimonials_content .cart-testimonials_date{color:${window.UpsellCart.testimonial.order_font_color}; font-size:${window.UpsellCart.testimonial.order_font_size} ; font-weight:${window.UpsellCart.testimonial.order_font_weight} ; font-style:${window.UpsellCart.testimonial.order_font_style} ;}
 .upsell_announctop{padding:${window.UpsellCart.announcement_settings.padding}; margin:${window.UpsellCart.announcement_settings.margin};}
-
-
+.mySlides_img img{width:${window.UpsellCart.testimonial.image_size}px;padding:${window.UpsellCart.testimonial.image_padding};margin:${window.UpsellCart.testimonial.image_margin};}
 
 
 </style>`;

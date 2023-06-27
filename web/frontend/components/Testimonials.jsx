@@ -99,6 +99,49 @@ export function Testimonials(props){
                 onChange={(ly) => updateLayout('section_padding',  ly)}
                 value={testimonials.section_padding}
             />
+
+
+
+<h2  className='head_review_font_setting'  style={{ fontSize: '16px', fontWeight: '500', }} >Image settings</h2>
+            <div  style={{ float: 'left', width: '100%', paddingBottom: '15px'}}>
+            <div style={{ float: 'left', width: '31%',  paddingRight: '15px'}} >
+                <TextField
+                    label="Image Padding"
+                    onChange={(ly) => updateLayout('image_padding',  ly)}
+                    value={testimonials.image_padding}
+                />
+                </div>
+                <div style={{ float: 'left', width: '31%',  paddingRight: '15px'}} >
+                <TextField
+                    label="Image margin"
+                    onChange={(ly) => updateLayout('image_margin',  ly)}
+                    value={testimonials.image_margin}
+                />
+                </div>
+                <div style={{ float: 'left', width: '100%',  paddingRight: '15px' , paddingTop: '10px'}} >
+                <RangeSlider
+                    label="Image size"
+                    onChange={(ly) => updateLayout('image_size',  ly)}
+                    min={0}
+                    max={100}
+                    value={testimonials.image_size}
+                    suffix={
+                        <p
+                            style={{
+                            minWidth: '24px',
+                            textAlign: 'right',
+                            }}
+                        >
+                           {testimonials.image_size}
+                        </p>
+                        }
+                />
+                </div>
+                            
+                        
+            </div>
+
+
  {/* \\\\\\\\\\\\\\\Review FONT\\\\\\\\\\\\\\\\\\\\  */}
             <h2  className='head_review_font_setting'  style={{ fontSize: '16px', fontWeight: '500', }} >Review font settings</h2>
             <div  style={{ float: 'left', width: '100%', paddingBottom: '15px'}}>
@@ -240,14 +283,14 @@ export function Testimonials(props){
                         id={idx}
                         media={media}
                     >
-                        <div style={{width: 50, height: 80}}>
+                        <div style={{width: 50, height: 80 , overflow: 'hidden'}}>
                             <DropZone label="Image" allowMultiple={false} onDrop={(_dropFiles, acceptedFiles, _rejectedFiles) => handleDropZoneDrop(_dropFiles, acceptedFiles, _rejectedFiles, idx)}>
                                 {image == "" && (<DropZone.FileUpload />)}
                                 {image != "" && (<img src={'/api/uploads/'+image} style={{width:"50px"}} />)}
                             </DropZone>
                         </div>
                         <FormLayout>
-                            <RangeSlider
+                            {/* <RangeSlider
                                 output
                                 label="Image Size"
                                 min={0}
@@ -280,7 +323,7 @@ export function Testimonials(props){
                                     autoComplete="off"
                                     value={image_margin}
                                 />
-                            </Stack>
+                            </Stack> */}
                             <TextField
                                 label="Name"
                                 onChange={(txt) => updateValue(idx, 'name', txt)}
@@ -306,7 +349,7 @@ export function Testimonials(props){
                                 autoComplete="off"
                                 value={order_date}
                             />
-                            <Stack>
+                            {/* <Stack>
                                 <TextField
                                     label="Font Size"
                                     onChange={(txt) => updateValue(idx, 'font_size', txt)}
@@ -325,7 +368,7 @@ export function Testimonials(props){
                             <Stack>
                                 <p>Font Color: </p>
                                 <input className='colorInput' type='color' value={font_color} onChange={(txt) => updateValue(idx, 'font_color', txt.target.value)} />
-                            </Stack>
+                            </Stack> */}
                             <Button destructive onClick={() => removeBenefits(idx)}>Remove</Button>
                         </FormLayout>
                     </ResourceItem>
