@@ -842,7 +842,7 @@ validateCode(elem){
             // document.getElementById("upsell_prev_styl").innerHTML= `<style>
 
             // </style>`
-            console.log('free',free , minprice ,label_1, subtotalPrice)
+            console.log('free tttt',free , minprice ,label_1, subtotalPrice ,alltiers, window.UpsellCart)
             if(minprice-subtotalPrice > 0){
            
               if(free == "free_shipping" && subtotalPrice < minprice){
