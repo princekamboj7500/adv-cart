@@ -775,7 +775,7 @@ validateCode(elem){
      
     const hintContainer = document.getElementById("progressHint");
     const barContainer = document.getElementById("progressBar");
-    const btnclr = "background:"+hsbaToRgb( window.UpsellCart.progress_bar_color.hue, window.UpsellCart.progress_bar_color.saturation, window.UpsellCart.progress_bar_color.brightness, window.UpsellCart.progress_bar_color.alpha)+"";
+    const btnclr = "background:"+ window.UpsellCart.general_settings.progress_bar_color;+"";
     if(window.UpsellCart.tiered_progress_bar == true){
        for(var k=0;k<window.UpsellCart.tiered_progress_bar_tabs.length;k++){
         
@@ -796,7 +796,6 @@ validateCode(elem){
               const ship = window.UpsellCart.tiered_progress_bar_tabs[k].tier[i].free_shipping_all_products;
               const minprice = window.UpsellCart.tiered_progress_bar_tabs[k].tier[i].min_price;
               const label_gift = window.UpsellCart.tiered_progress_bar_tabs[k].tier[i].label
-
               amt.push(minprice)
               const max = Math.max(...amt);
               if(free =='free_shipping'){
@@ -821,7 +820,6 @@ validateCode(elem){
               }else{
                 document.getElementById(""+minprice+"").classList.remove("active");
               }
-             
                 var pertcnt = subtotalPrice/max*100;
                 barContainer.style = `width: `+pertcnt+`%;`+btnclr+``;
                 
@@ -842,7 +840,7 @@ validateCode(elem){
             // document.getElementById("upsell_prev_styl").innerHTML= `<style>
 
             // </style>`
-            console.log('free tttt',free , minprice ,label_1, subtotalPrice ,alltiers, window.UpsellCart)
+            console.log('free tttt',m ,free , minprice ,label_1, subtotalPrice ,alltiers, window.UpsellCart)
             if(minprice-subtotalPrice > 0){
            
               if(free == "free_shipping" && subtotalPrice < minprice){
@@ -1186,26 +1184,26 @@ var appstyle = `<style>
   background : `+hsbaToRgb( window.UpsellCart.buy_more.button_color.hue, window.UpsellCart.buy_more.button_color.saturation, window.UpsellCart.buy_more.button_color.brightness, window.UpsellCart.buy_more.button_color.alpha)+`;
 }
 .btn-primary{
-  background : `+hsbaToRgb( window.UpsellCart.checkout_btn_settings.checking_out_color.hue, window.UpsellCart.checkout_btn_settings.checking_out_color.saturation, window.UpsellCart.checkout_btn_settings.checking_out_color.brightness, window.UpsellCart.checkout_btn_settings.checking_out_color.alpha)+`;
+  background : `+window.UpsellCart.checkout_btn_settings.checking_out_color+`;
 }
 button#viewCartButton a{
-  color:`+hsbaToRgb( window.UpsellCart.checkout_btn_settings.checking_out_color.hue, window.UpsellCart.checkout_btn_settings.checking_out_color.saturation, window.UpsellCart.checkout_btn_settings.checking_out_color.brightness, window.UpsellCart.checkout_btn_settings.checking_out_color.alpha)+`;
+  color:`+window.UpsellCart.checkout_btn_settings.checking_out_color+`;
   text-decoration: none;
 }
 button.btn-primary{
-  border: 2px solid `+hsbaToRgb( window.UpsellCart.checkout_btn_settings.checking_out_color.hue, window.UpsellCart.checkout_btn_settings.checking_out_color.saturation, window.UpsellCart.checkout_btn_settings.checking_out_color.brightness, window.UpsellCart.checkout_btn_settings.checking_out_color.alpha)+`;
+  border: 2px solid `+window.UpsellCart.checkout_btn_settings.checking_out_color+`;
 }
 button.btn-secondary{
-  border: 2px solid `+hsbaToRgb( window.UpsellCart.checkout_btn_settings.checking_out_color.hue, window.UpsellCart.checkout_btn_settings.checking_out_color.saturation, window.UpsellCart.checkout_btn_settings.checking_out_color.brightness, window.UpsellCart.checkout_btn_settings.checking_out_color.alpha)+`;
+  border: 2px solid `+window.UpsellCart.checkout_btn_settings.checking_out_color+`;
 }
 .upsell__cart-cart-item button{
-  background : `+hsbaToRgb( window.UpsellCart.buy_more.button_color.hue, window.UpsellCart.buy_more.button_color.saturation, window.UpsellCart.buy_more.button_color.brightness, window.UpsellCart.buy_more.button_color.alpha)+`;
+  background : `+window.UpsellCart.buy_more.button_color+`;
 }
 .upsell_announctop.deactivated{
   display:none;
 }
 div#upsell_continueshop span{
-  background: `+hsbaToRgb( window.UpsellCart.checkout_btn_settings.checking_out_color.hue, window.UpsellCart.checkout_btn_settings.checking_out_color.saturation, window.UpsellCart.checkout_btn_settings.checking_out_color.brightness, window.UpsellCart.checkout_btn_settings.checking_out_color.alpha)+`;
+  background: `+window.UpsellCart.checkout_btn_settings.checking_out_color+`;
   color: #fff;
   text-align: center;
   padding: 7px;
@@ -1406,7 +1404,8 @@ div#subtotalPrice s{color:${window.UpsellCart.general_settings.compare_price_col
 .cart-testimonials_content .cart-testimonials_date{color:${window.UpsellCart.testimonial.order_font_color}; font-size:${window.UpsellCart.testimonial.order_font_size} ; font-weight:${window.UpsellCart.testimonial.order_font_weight} ; font-style:${window.UpsellCart.testimonial.order_font_style} ;}
 .upsell_announctop{padding:${window.UpsellCart.announcement_settings.padding}; margin:${window.UpsellCart.announcement_settings.margin};}
 .mySlides_img img{width:${window.UpsellCart.testimonial.image_size}px;padding:${window.UpsellCart.testimonial.image_padding};margin:${window.UpsellCart.testimonial.image_margin};}
-
+.upsell__cart-bar{ background:${window.UpsellCart.general_settings.progress_bar_color}; }
+.upsell__cart-icon.active { background:${window.UpsellCart.general_settings.progress_bar_color};}
 
 </style>`;
 

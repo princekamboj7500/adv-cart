@@ -777,6 +777,7 @@ cartOptions();
 
 
 function tiers(subtotalPrice){
+  var amt = [];
 var subp = document.querySelector('#subtotalPrice').querySelector('.discount').innerText;
 var subtotalPrice = parseFloat(subp.replace('$',''));
 console.log('subtotalPricesubtotalPrice', subtotalPrice)
@@ -798,14 +799,14 @@ console.log('subtotalPricesubtotalPrice', subtotalPrice)
     }
     const hintContainer = document.getElementById("progressHint");
     const barContainer = document.querySelector("#upsell_prev_prog").querySelector('#progressBar');
-    const btnclr = "background:hsl("+event.data.progress_bar_color.hue+",70%,30%)";
+    const btnclr = "background:"+event.data.progress_bar_color+"";
     const layout = event.data.tiered_progress_bar_tabs[k].layout_type;
     const alltiers = event.data.tiered_progress_bar_tabs[k].tier.length;
     const gifts = document.querySelector(".upsell__cart-gifts");
 
 
 
-    var amt = [];
+
     for(var i=0;i<alltiers;i++){
         const free = event.data.tiered_progress_bar_tabs[k].tier[i].type;
         const ship = event.data.tiered_progress_bar_tabs[k].tier[i].free_shipping_all_products;
@@ -831,22 +832,22 @@ console.log('subtotalPricesubtotalPrice', subtotalPrice)
         
         
         if(subtotalPrice >= minprice){
-          console.log('inner--'+subtotalPrice)
-          document.getElementById(""+minprice+"").querySelector(".upsell__cart-icon").classList.add("active");
+          document.getElementById(""+minprice+"").classList.add("active");
+          //hintContainer.innerHTML = "You are "+(subtotalPrice - minprice)+" away from free shipping";
+        }else{
+          document.getElementById(""+minprice+"").classList.remove("active");
         }
-        var pertcnt = subtotalPrice/max*100;
-        barContainer.style = `width: `+pertcnt+`%;`;
-        if(free == "free_shipping" && subtotalPrice >= minprice ){      
+       
+        
+          var pertcnt = subtotalPrice/max*100;
+          console.log(pertcnt,'pertcnt bpertcnt')
+          barContainer.style = `width: `+pertcnt+`%;`+btnclr+``;
+          
+        if(free == "free_shipping" && subtotalPrice >= minprice){
             document.getElementById(""+minprice+"").querySelector(".upsell__cart-icon").classList.add("active");
         }
-       if(free == "free_shipping" && subtotalPrice < minprice){
-            var pertcnt = 0;
-            barContainer.style = `width: `+pertcnt+`%;`+btnclr+``;
-        }
-       if(free == "product" && subtotalPrice >= minprice){
-              document.getElementById(""+minprice+"").querySelector(".upsell__cart-icon").classList.add("active");
-              var pertcnt = minprice/max*100;
-              barContainer.style = `width: `+pertcnt+`%;`+btnclr+``;
+        else if(free == "product" && subtotalPrice >= minprice){
+            document.getElementById(""+minprice+"").querySelector(".upsell__cart-icon").classList.add("active");
         }
       }
     for( t=0 ; t< alltiers ; t++){
@@ -1040,7 +1041,6 @@ function announSlide(){
   startSlide();
 }
 announSlide();
-console.log(hsbaToRgb( event.data.checkout_btn_settings.checking_out_color.hue, event.data.checkout_btn_settings.checking_out_color.saturation, event.data.checkout_btn_settings.checking_out_color.brightness, event.data.checkout_btn_settings.checking_out_color.alpha))
 var discountcss = `
   background:`+hsbaToRgb( event.data.discount_input.label_color.hue, event.data.discount_input.label_color.saturation, event.data.discount_input.label_color.brightness, event.data.discount_input.label_color.alpha)+`;
   color:`+hsbaToRgb( event.data.discount_input.label_font_color.hue, event.data.discount_input.label_font_color.saturation, event.data.discount_input.label_font_color.brightness, event.data.discount_input.label_font_color.alpha)+`;
@@ -1070,14 +1070,16 @@ document.getElementById("upsell_prev_styl").innerHTML= `<style>
   color:`+hsbaToRgb( event.data.discount_input.label_font_color.hue, event.data.discount_input.label_font_color.saturation, event.data.discount_input.label_font_color.brightness, event.data.discount_input.label_font_color.alpha)+`;
 }
 .progress-bar .bar{
-  background:`+hsbaToRgb( event.data.progress_bar_color.hue, event.data.progress_bar_color.saturation, event.data.progress_bar_color.brightness, event.data.progress_bar_color.alpha)+`;
+  background:${event.data.general_settings.progress_bar_color};
 }
 button.btn-primary{
-  background:`+hsbaToRgb( event.data.checkout_btn_settings.checking_out_color.hue, event.data.checkout_btn_settings.checking_out_color.saturation, event.data.checkout_btn_settings.checking_out_color.brightness, event.data.checkout_btn_settings.checking_out_color.alpha)+`;
+  background:${event.data.checkout_btn_settings.checking_out_color};
+  border: 2px solid `+ event.data.checkout_btn_settings.checking_out_color +`;
+
 }
 button.btn-secondary{
-  border: 2px solid `+hsbaToRgb( event.data.checkout_btn_settings.checking_out_color.hue, event.data.checkout_btn_settings.checking_out_color.saturation, event.data.checkout_btn_settings.checking_out_color.brightness, event.data.checkout_btn_settings.checking_out_color.alpha)+`;
-  color:`+hsbaToRgb( event.data.checkout_btn_settings.checking_out_color.hue, event.data.checkout_btn_settings.checking_out_color.saturation, event.data.checkout_btn_settings.checking_out_color.brightness, event.data.checkout_btn_settings.checking_out_color.alpha)+`;
+  border: 2px solid `+ event.data.checkout_btn_settings.checking_out_color +`;
+  color:`+ event.data.checkout_btn_settings.checking_out_color+`;
 }
 .addrecomd{
   background:`+hsbaToRgb( event.data.buy_more.button_color.hue, event.data.buy_more.button_color.saturation, event.data.buy_more.button_color.brightness, event.data.buy_more.button_color.alpha)+`;
@@ -1086,10 +1088,10 @@ button.btn-secondary{
   background:`+hsbaToRgb( event.data.buy_more.button_color.hue, event.data.buy_more.button_color.saturation, event.data.buy_more.button_color.brightness, event.data.buy_more.button_color.alpha)+`;
 }
 .upsell__cart-icon.active{
-  background:`+hsbaToRgb( event.data.progress_bar_color.hue, event.data.progress_bar_color.saturation, event.data.progress_bar_color.brightness, event.data.progress_bar_color.alpha)+`;
+  background:${event.data.general_settings.progress_bar_color};
 }
 button#viewCartButton a{
-  color:`+hsbaToRgb( event.data.checkout_btn_settings.checking_out_color.hue, event.data.checkout_btn_settings.checking_out_color.saturation, event.data.checkout_btn_settings.checking_out_color.brightness, event.data.checkout_btn_settings.checking_out_color.alpha)+`;
+  color:`+ event.data.checkout_btn_settings.checking_out_color+`;
   text-decoration: none;
 }
 .upsell_announctop.deactivated{
@@ -1108,13 +1110,12 @@ div#upsell_continueshop span{
   background: #fff;
 }
 .header{
-  background:`+hsbaToRgb( event.data.general_settings.header_background.hue, event.data.general_settings.header_background.saturation, event.data.general_settings.header_background.brightness, event.data.general_settings.header_background.alpha)+`;
+ background:${event.data.general_settings.header_background};
 }
 .footer{
-  background:`+hsbaToRgb( event.data.general_settings.footer_background.hue, event.data.general_settings.footer_background.saturation, event.data.general_settings.footer_background.brightness, event.data.general_settings.footer_background.alpha)+`;
-}
+background:${event.data.general_settings.footer_background};}
 .content{
-  background:`+hsbaToRgb(  event.data.general_settings.main_background.hue,  event.data.general_settings.main_background.saturation,  event.data.general_settings.main_background.brightness,  event.data.general_settings.main_background.alpha)+`;
+  background:${event.data.general_settings.main_background};
 }
 .upsell{
   background:`+hsbaToRgb(  event.data.general_settings.main_background.hue,  event.data.general_settings.main_background.saturation,  event.data.general_settings.main_background.brightness,  event.data.general_settings.main_background.alpha)+`;

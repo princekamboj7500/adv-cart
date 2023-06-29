@@ -54,35 +54,18 @@ function Cart() {
         },
         "tiered_progress_bar": false,
         "general_settings_status":false,
-        "progress_bar_color":{
-            hue: 120,
-            brightness: 1,
-            saturation: 1,
-            alpha: 0.7,
-        },
+        progress_bar_color: "#fff" ,
         "general_settings":{
             "font_family":"Roboto",
             "border_radius":"10",
             "header_padding":"15",
-            "header_background":{
-                hue: 120,
-                brightness: 1,
-                saturation: 1,
-                alpha: 0.7,
-            },
-            "main_background":{
-                hue: 120,
-                brightness: 1,
-                saturation: 1,
-                alpha: 0.7,
-            },
+            header_background:
+                "#fff",
+            "main_background":'#fff',
             "footer_padding":"15",
-            "footer_background":{
-                hue: 120,
-                brightness: 1,
-                saturation: 1,
-                alpha: 0.7,
-            },
+            footer_background:
+               '#fff',
+
             subtotal_color: "#000000",
             subtotal_font: 'Roboto',
             price_color: '#d53600',
@@ -127,12 +110,9 @@ function Cart() {
         "buy_more_status": false,
         "buy_more": {
             "display_type": "button",
-            "button_color":{
-                hue: 120,
-                brightness: 1,
-                saturation: 1,
-                alpha: 0.7,
-            },
+            'button_color':
+               "#000"
+            ,
             "discount_lang": "Buy {{quantity}} save {{discount}}",
             "discount_success": "Buy More Save More",
             "discount_type": "fixed_amount",
@@ -228,12 +208,7 @@ function Cart() {
             "checking_out_label": "<i class=\"rebuy-button-icon prefix fas fa-circle-notch fa-spin\"></i> Checking Out...",
             "checkout_routing": "automatic",
             "custom_checkout_url": "",
-            "checking_out_color":{
-                hue: 25,
-                brightness: 1,
-                saturation: 1,
-                alpha: 0.7,
-            }
+            "checking_out_color":"#000"
         },
         "cart_btn_status": true,
         "cart_btn_settings":{
@@ -946,12 +921,16 @@ function Cart() {
                     <TextField label="Country code (First two letters)" onChange={tabFields('country')} value={setings['tiered_progress_bar_tabs'][selected]['country']} autoComplete="off" />
                     <Tag>{setings['tiered_progress_bar_tabs'][selected]['country']}</Tag>
                     <DisplayText  size="small">Progress bar color</DisplayText >
-                    <ColorPicker 
+                    {/* <ColorPicker 
                         onChange={handleField("progress_bar_color")} 
                         color={setings.progress_bar_color}
                         allowAlpha 
                         
-                    />
+                    /> */}
+               <input type='color' value={setings.general_settings.progress_bar_color}  onChange={(e) => handleGeneralSetting("progress_bar_color")(e.target.value)} />
+
+
+                   
                     <Stack >
                     
                         <RadioButton
@@ -1086,12 +1065,14 @@ function Cart() {
             value={setings.buy_more.discount_lang}
         />
          <DisplayText  size="small">Button color</DisplayText >
-        <ColorPicker 
+        {/* <ColorPicker 
             label="Button Color"
             onChange={handleBuyMoreFields("button_color")} 
             color={setings.buy_more.button_color}
             allowAlpha 
-        />
+        /> */}
+      <input type='color' value={setings.buy_more.button_color} onChange={(e) => handleBuyMoreFields("button_color")(e.target.value)} />
+
 
         <TextField
             label="Discount Success"
@@ -1378,17 +1359,21 @@ function Cart() {
                         value={setings.general_settings.header_padding}
                     />
                     <DisplayText  size="small">header background color</DisplayText >
-                    <ColorPicker 
+                    {/* <ColorPicker 
                         onChange={handleGeneralSetting("header_background")} 
                         color={setings.general_settings.header_background}
                         allowAlpha 
-                    />
+                    /> */}
+                    
+                        <input type='color' value={setings.general_settings.header_background} onChange={(e) => handleGeneralSetting("header_background")(e.target.value)} />
+                    
                     <DisplayText  size="small">Main content background</DisplayText >
-                    <ColorPicker 
+                    {/* <ColorPicker 
                         onChange={handleGeneralSetting("main_background")} 
                         color={setings.general_settings.main_background}
                         allowAlpha 
-                    />
+                    /> */}
+                     <input type='color' value={setings.general_settings.main_background} onChange={(e) => handleGeneralSetting("main_background")(e.target.value)} />
                    <DisplayText  size="small">Footer</DisplayText >
                    <TextField
                         label="footer padding"
@@ -1401,11 +1386,14 @@ function Cart() {
                         value={setings.general_settings.footer_padding}
                     />
                     <DisplayText  size="small">Footer background color</DisplayText >
-                    <ColorPicker 
+                    {/* <ColorPicker 
                         onChange={handleGeneralSetting("footer_background")} 
                         color={setings.general_settings.footer_background}
                         allowAlpha 
-                    />
+                    /> */}
+                    <Stack>
+                    <input type='color' value={setings.general_settings.footer_background} onChange={(e) => handleGeneralSetting("footer_background")(e.target.value)} />
+                    </Stack>
                     <DisplayText  size="small">Footer Content</DisplayText >
                     <Stack>
                         <label>Subtotal Color:</label>
@@ -1874,11 +1862,13 @@ function Cart() {
                         value={setings.checkout_btn_settings.checkout_routing}
                     />
                     <DisplayText  size="small">Checkout Button color</DisplayText >
-                    <ColorPicker 
+                    {/* <ColorPicker 
                         onChange={handleCheckoutFields("checking_out_color")} 
                         color={setings.checkout_btn_settings.checking_out_color}
                         allowAlpha 
-                    />
+                    /> */}
+                    <input type='color' value={setings.checkout_btn_settings.checking_out_color} onChange={(e) => handleCheckoutFields("checking_out_color")(e.target.value)} />
+
                     {setings.checkout_btn_settings.checkout_routing == "custom" ? <TextField
                         label="Custom Checkout URL"
                         type='url'
