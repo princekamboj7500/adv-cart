@@ -144,7 +144,7 @@ function drawCartItems(items) {
   //   }
    
   // },500)
-  
+  console.log('subttoottaall', subtotalPrice)
   var pertcnt = subtotalPrice/max*100;
   barContainer2.style = `width: `+pertcnt+`%;`;
   // countTiers(subtotalPrice, tiers);
@@ -777,10 +777,10 @@ cartOptions();
 
 
 function tiers(subtotalPrice){
-
+  var amt = [];
 var subp = document.querySelector('#subtotalPrice').querySelector('.discount').innerText;
 var subtotalPrice = parseFloat(subp.replace('$',''));
-
+console.log('subtotalPricesubtotalPrice', subtotalPrice)
   document.getElementById("upsell_proglayout_two").innerHTML = '';
   document.querySelector('#upsell_prev_gift').innerHTML = '';
   if(event.data.tiered_progress_bar == true){
@@ -799,19 +799,22 @@ var subtotalPrice = parseFloat(subp.replace('$',''));
     }
     const hintContainer = document.getElementById("progressHint");
     const barContainer = document.querySelector("#upsell_prev_prog").querySelector('#progressBar');
-    const btnclr = "background:hsl("+event.data.progress_bar_color.hue+",70%,30%)";
+    const btnclr = "background:"+event.data.progress_bar_color+"";
     const layout = event.data.tiered_progress_bar_tabs[k].layout_type;
     const alltiers = event.data.tiered_progress_bar_tabs[k].tier.length;
     const gifts = document.querySelector(".upsell__cart-gifts");
 
-    var amt = [];
+
+
+
     for(var i=0;i<alltiers;i++){
         const free = event.data.tiered_progress_bar_tabs[k].tier[i].type;
         const ship = event.data.tiered_progress_bar_tabs[k].tier[i].free_shipping_all_products;
-        const minprice = parseFloat(event.data.tiered_progress_bar_tabs[k].tier[i].min_price);
+        const minprice = event.data.tiered_progress_bar_tabs[k].tier[i].min_price;
         const label_gift = event.data.tiered_progress_bar_tabs[k].tier[i].label;
         console.log('free2' ,free,minprice, subtotalPrice)
-        amt.push(minprice);
+        amt.push(minprice)
+        const max = Math.max(...amt);
         if(free =='free_shipping'){
             var svg = `<svg width="11" height="9" viewBox="0 0 9 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.82415 6.15237L0.726419 4.05464L0.012085 4.76395L2.82415 7.57601L8.86078 1.53938L8.15147 0.830078L2.82415 6.15237Z" fill="#8494A0"></path></svg>`;
             var title = label_gift;
@@ -825,54 +828,57 @@ var subtotalPrice = parseFloat(subp.replace('$',''));
       }
         gifts.insertAdjacentHTML('beforeend',`<div class="upsell__cart-gift-item getprice" id="`+minprice+`">
         <div class="upsell__cart-icon">`+svg+`</div><strong>`+title+`</strong></div>`);
-        setTimeout(function(){
-        const max = Math.max(...amt);
-      
+        
+        
+        
         if(subtotalPrice >= minprice){
-          console.log('inner--'+subtotalPrice)
-          document.getElementById(""+minprice+"").querySelector(".upsell__cart-icon").classList.add("active");
+          document.getElementById(""+minprice+"").classList.add("active");
+          //hintContainer.innerHTML = "You are "+(subtotalPrice - minprice)+" away from free shipping";
+        }else{
+          document.getElementById(""+minprice+"").classList.remove("active");
         }
-        var pertcnt = subtotalPrice/max*100;
-        barContainer.style = `width: `+pertcnt+`%;`;
-        if(free == "free_shipping" && subtotalPrice >= minprice ){      
+       
+        
+          var pertcnt = subtotalPrice/max*100;
+          console.log(pertcnt,'pertcnt bpertcnt')
+          barContainer.style = `width: `+pertcnt+`%;`+btnclr+``;
+          
+        if(free == "free_shipping" && subtotalPrice >= minprice){
             document.getElementById(""+minprice+"").querySelector(".upsell__cart-icon").classList.add("active");
         }
-       if(free == "free_shipping" && subtotalPrice < minprice){
-            var pertcnt = 0;
-            barContainer.style = `width: `+pertcnt+`%;`+btnclr+``;
+        else if(free == "product" && subtotalPrice >= minprice){
+            document.getElementById(""+minprice+"").querySelector(".upsell__cart-icon").classList.add("active");
         }
-       if(free == "product" && subtotalPrice >= minprice){
-              document.getElementById(""+minprice+"").querySelector(".upsell__cart-icon").classList.add("active");
-              var pertcnt = minprice/max*100;
-              barContainer.style = `width: `+pertcnt+`%;`+btnclr+``;
-        }
-      },200);
-    }
-    for( t=0 ; t<alltiers ; t++){
+      }
+    for( t=0 ; t< alltiers ; t++){
       const free =event.data.tiered_progress_bar_tabs[k].tier[t].type;
-      const minprice =event.data.tiered_progress_bar_tabs[k].tier[t].min_price;
+      const minprice = event.data.tiered_progress_bar_tabs[k].tier[t].min_price;
       const label_1 = '<span id="label_font_weight">' +event.data.tiered_progress_bar_tabs[k].tier[t].label+'</span>';
       const label_font_weight =event.data.tiered_progress_bar_tabs[k].tier[t].label_font_weight;
-      console.log(t,free,minprice,label_1, label_font_weight,"ttttt")
+      console.log("ttttt",free,minprice,label_1, subtotalPrice)
       if(minprice-subtotalPrice > 0){
-     
+           
         if(free == "free_shipping" && subtotalPrice < minprice){
-            hintContainer.innerHTML = "You are "+(minprice - subtotalPrice ).toFixed(2)+" away from <b style= "  + "font-weight:" + (label_font_weight) +" >" + (label_1) + " </b>";
-
+            hintContainer.innerHTML = "You are 1"+(minprice - subtotalPrice ).toFixed(2)+" away from <b style= "  + "font-weight:" + (label_font_weight) +" >" + (label_1) + " </b>";
+            console.log('aaaa')
+           break;
         }
         else if(free == "product" && subtotalPrice < minprice){
+          console.log('bbb')
           if(minprice == 1000){
+            
             hintContainer.innerHTML = "You are $"+(minprice - subtotalPrice ).toFixed(2)+" away from <b style= "  + "font-weight:" + (label_font_weight) +" >"+ (label_1) + " </b>" ;
+            
           }
           else{
             hintContainer.innerHTML = "You are $"+(minprice - subtotalPrice ).toFixed(2)+" away from <b style= "  + "font-weight:" + (label_font_weight) +" >"+ (label_1) + " </b>" ;
           }
+          break;
         }
        
       }else{
         hintContainer.innerHTML = "You unlock all  <b style= "  + "font-weight:" + (label_font_weight) +" >"+ (label_1) + " </b>" ;
       }
-
 
       
     }
@@ -883,9 +889,7 @@ var subtotalPrice = parseFloat(subp.replace('$',''));
     //   const label_1 = '<span id="label_font_weight">' +event.data.tiered_progress_bar_tabs[k].tier[m].label+'</span>';
     //   const label_font_weight =event.data.tiered_progress_bar_tabs[k].tier[m].label_font_weight;
     //   // label_1.style.fontWeight =event.data.tiered_progress_bar_tabs[k].tier[m].label_font_weight;
-    //   // document.getElementById("upsell_prev_styl").innerHTML= `<style>
 
-    //   // </style>`
     //   console.log('free',free , minprice ,label_1, subtotalPrice)
     //   if(minprice-subtotalPrice > 0){
      
@@ -1037,7 +1041,6 @@ function announSlide(){
   startSlide();
 }
 announSlide();
-console.log(hsbaToRgb( event.data.checkout_btn_settings.checking_out_color.hue, event.data.checkout_btn_settings.checking_out_color.saturation, event.data.checkout_btn_settings.checking_out_color.brightness, event.data.checkout_btn_settings.checking_out_color.alpha))
 var discountcss = `
   background:`+hsbaToRgb( event.data.discount_input.label_color.hue, event.data.discount_input.label_color.saturation, event.data.discount_input.label_color.brightness, event.data.discount_input.label_color.alpha)+`;
   color:`+hsbaToRgb( event.data.discount_input.label_font_color.hue, event.data.discount_input.label_font_color.saturation, event.data.discount_input.label_font_color.brightness, event.data.discount_input.label_font_color.alpha)+`;
@@ -1067,14 +1070,16 @@ document.getElementById("upsell_prev_styl").innerHTML= `<style>
   color:`+hsbaToRgb( event.data.discount_input.label_font_color.hue, event.data.discount_input.label_font_color.saturation, event.data.discount_input.label_font_color.brightness, event.data.discount_input.label_font_color.alpha)+`;
 }
 .progress-bar .bar{
-  background:`+hsbaToRgb( event.data.progress_bar_color.hue, event.data.progress_bar_color.saturation, event.data.progress_bar_color.brightness, event.data.progress_bar_color.alpha)+`;
+  background:${event.data.general_settings.progress_bar_color};
 }
 button.btn-primary{
-  background:`+hsbaToRgb( event.data.checkout_btn_settings.checking_out_color.hue, event.data.checkout_btn_settings.checking_out_color.saturation, event.data.checkout_btn_settings.checking_out_color.brightness, event.data.checkout_btn_settings.checking_out_color.alpha)+`;
+  background:${event.data.checkout_btn_settings.checking_out_color};
+  border: 2px solid `+ event.data.checkout_btn_settings.checking_out_color +`;
+
 }
 button.btn-secondary{
-  border: 2px solid `+hsbaToRgb( event.data.checkout_btn_settings.checking_out_color.hue, event.data.checkout_btn_settings.checking_out_color.saturation, event.data.checkout_btn_settings.checking_out_color.brightness, event.data.checkout_btn_settings.checking_out_color.alpha)+`;
-  color:`+hsbaToRgb( event.data.checkout_btn_settings.checking_out_color.hue, event.data.checkout_btn_settings.checking_out_color.saturation, event.data.checkout_btn_settings.checking_out_color.brightness, event.data.checkout_btn_settings.checking_out_color.alpha)+`;
+  border: 2px solid `+ event.data.checkout_btn_settings.checking_out_color +`;
+  color:`+ event.data.checkout_btn_settings.checking_out_color+`;
 }
 .addrecomd{
   background:`+hsbaToRgb( event.data.buy_more.button_color.hue, event.data.buy_more.button_color.saturation, event.data.buy_more.button_color.brightness, event.data.buy_more.button_color.alpha)+`;
@@ -1083,10 +1088,10 @@ button.btn-secondary{
   background:`+hsbaToRgb( event.data.buy_more.button_color.hue, event.data.buy_more.button_color.saturation, event.data.buy_more.button_color.brightness, event.data.buy_more.button_color.alpha)+`;
 }
 .upsell__cart-icon.active{
-  background:`+hsbaToRgb( event.data.progress_bar_color.hue, event.data.progress_bar_color.saturation, event.data.progress_bar_color.brightness, event.data.progress_bar_color.alpha)+`;
+  background:${event.data.general_settings.progress_bar_color};
 }
 button#viewCartButton a{
-  color:`+hsbaToRgb( event.data.checkout_btn_settings.checking_out_color.hue, event.data.checkout_btn_settings.checking_out_color.saturation, event.data.checkout_btn_settings.checking_out_color.brightness, event.data.checkout_btn_settings.checking_out_color.alpha)+`;
+  color:`+ event.data.checkout_btn_settings.checking_out_color+`;
   text-decoration: none;
 }
 .upsell_announctop.deactivated{
@@ -1105,13 +1110,12 @@ div#upsell_continueshop span{
   background: #fff;
 }
 .header{
-  background:`+hsbaToRgb( event.data.general_settings.header_background.hue, event.data.general_settings.header_background.saturation, event.data.general_settings.header_background.brightness, event.data.general_settings.header_background.alpha)+`;
+ background:${event.data.general_settings.header_background};
 }
 .footer{
-  background:`+hsbaToRgb( event.data.general_settings.footer_background.hue, event.data.general_settings.footer_background.saturation, event.data.general_settings.footer_background.brightness, event.data.general_settings.footer_background.alpha)+`;
-}
+background:${event.data.general_settings.footer_background};}
 .content{
-  background:`+hsbaToRgb(  event.data.general_settings.main_background.hue,  event.data.general_settings.main_background.saturation,  event.data.general_settings.main_background.brightness,  event.data.general_settings.main_background.alpha)+`;
+  background:${event.data.general_settings.main_background};
 }
 .upsell{
   background:`+hsbaToRgb(  event.data.general_settings.main_background.hue,  event.data.general_settings.main_background.saturation,  event.data.general_settings.main_background.brightness,  event.data.general_settings.main_background.alpha)+`;
