@@ -46,3 +46,73 @@
   color: #ECFF00;
 }
 .Polaris-Navigation__Section .Polaris-Navigation__Item--selected::before{display: none;}
+
+
+.cont_tog{display: none;}
+.show_cont_tog{display: block;     padding-left: 3.2rem;}
+.cont_tog2{display: none;}
+.show_cont_tog2 {
+  display: block;
+  padding-left: 2rem;
+  padding-right: 3rem;
+}
+
+.head_tog{float: left; width: 100%; padding-left: 20px;}
+
+.head_tog ul{
+  list-style: none;
+  display: flex;    padding: 0;
+}
+.head_tog ul li {
+  padding: 0 2rem;
+  font-size: 16px;
+  font-weight: 700; 
+  cursor: pointer;
+}
+
+.head_tog2 ul{
+  list-style: none;
+
+}
+.head_tog2 ul li {
+  padding-bottom: 14px;
+  font-size: 16px;
+  font-weight: 700; 
+  cursor: pointer;
+}
+
+.tab_black{color: #000;}
+.active_tab_blue {
+  color: #269b9ac7;
+}
+
+
+div#AppFrameNav {
+  display: none;
+}
+.Polaris-Frame--hasNav .Polaris-Frame__Main {padding-left: 3rem !important;}
+
+.tog2_tabs{float: left; width: 100%;}
+.head_tog2 {
+  float: left;
+  width: 25%;
+}
+
+.tab_content_tog2{
+  float: left;
+  width: 74%;
+}
+
+
+.Polaris-Card {
+  background-color: unset !important;
+  box-shadow: unset !important;
+}
+
+.tab_tog1{float: left; width: 100%; padding-top: 20px; padding-left: 13px;}
+.Polaris-Layout__Section.Polaris-Layout__Section--secondary {
+  margin-top: -73px;
+}
+iframe#previewiframe {
+  height: 48em !important;
+}

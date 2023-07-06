@@ -47,7 +47,8 @@ const TableFrame = styled.div`
   }
 `;
 export default function HomePage() {
-  return (
+  return (<>
+    <div style={{ float: "left" , width: "100%", height : "7vh"}}></div>
     <Page>
       <Layout>
         <Layout.Section secondary>
@@ -249,5 +250,6 @@ export default function HomePage() {
         </Layout.Section>
       </Layout>
     </Page>
+    </>
   );
 }

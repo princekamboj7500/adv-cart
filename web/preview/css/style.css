@@ -8,8 +8,9 @@ input[type="number"]::-webkit-outer-spin-button {
 body {
   font-family: var(--font-family);
   font-size: 15px;
-  background: var(--dark-grey);
+
 }
+
 
 a:focus,
 input:focus,
@@ -32,6 +33,10 @@ select:focus {
   border-radius: 15px;
   overflow: hidden;
 }
+
+
+
+
 
 .title {
   margin: 0;
@@ -144,13 +149,13 @@ div#upsell_mslide {
 }
 
 .content {
-  height: calc(100% - 416px);
+  height: calc(100% - 310px);
   overflow-y: scroll;
 }
 
 
 .otherclass2{
-  height: calc(100% - 333px) !important;
+  height: calc(100% - 227px) !important;
 }
 
 .cart-item {
@@ -509,7 +514,6 @@ button#chkoutbtn a {
   font-size: 14px;
   border-radius: 3px;
   text-align: center;
-  height: 25px;
   overflow:hidden;
 }
 .disount_input {
@@ -594,3 +598,25 @@ div#afterpayBottom p {
 }
 
 .cart-testimonials_date img{max-width: 8%; margin: 0;  margin-right: 6px;}
+
+
+
+
+
+/* \\\\\\\\\\ 6 July changes  /////////// */
+
+
+
+
+.cart__trusted-payment {
+  display: none !important;
+}
+div#afterpayBottom {
+  display: none !important;
+}
+.upsell_announctop {
+  background: #269b9a;
+  color: #fff;
+  width: 100%;
+
+}

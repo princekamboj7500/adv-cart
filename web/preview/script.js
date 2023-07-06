@@ -859,7 +859,7 @@ console.log('subtotalPricesubtotalPrice', subtotalPrice)
       if(minprice-subtotalPrice > 0){
            
         if(free == "free_shipping" && subtotalPrice < minprice){
-            hintContainer.innerHTML = "You are 1"+(minprice - subtotalPrice ).toFixed(2)+" away from <b style= "  + "font-weight:" + (label_font_weight) +" >" + (label_1) + " </b>";
+            hintContainer.innerHTML = "You are $<b style= "  + "font-weight:" + (label_font_weight) +" >" + (minprice - subtotalPrice ).toFixed(2)+ " </b>" + "away from <b style= "  + "font-weight:" + (label_font_weight) +" >" + (label_1) + " </b>";
             console.log('aaaa')
            break;
         }

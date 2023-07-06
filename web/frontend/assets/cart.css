@@ -11,3 +11,29 @@
     float: left;
     width: 30%;
 }
+
+
+
+/* ///////////////// 6 july changes ///////////////// */
+
+
+
+.Polaris-TopBar{ background: #269B9A !important;}
+.Polaris-Navigation{background: #fff !important; color: #000 !important;}
+.Polaris-Frame .Polaris-Navigation__Item {
+    color: #000 !important;
+}
+.Polaris-Frame .Polaris-Navigation__Icon svg {
+    fill: #000 !important;
+}
+
+
+.Polaris-Navigation__Section .Polaris-Navigation__SecondaryNavigation .Polaris-Frame .Polaris-Navigation__Icon svg .Polaris-Navigation__Item--selected, .Polaris-Navigation__Section .Polaris-Navigation__ItemWrapper .Polaris-Navigation__Item--selected, .Polaris-Navigation__Section .Polaris-Navigation__SecondaryNavigation .Polaris-Navigation__Item:hover {
+    color: #fff !important;
+}
+.Polaris-Navigation__Item--selected, .Polaris-Navigation__Item:hover {
+    background-color: #269B9A !important;
+}
+.Polaris-Layout__Section.Polaris-Layout__Section--secondary {
+    flex: 1 1 15rem !important;
+}
