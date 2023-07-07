@@ -49,7 +49,7 @@
 
 
 .cont_tog{display: none;}
-.show_cont_tog{display: block;     padding-left: 3.2rem;}
+.show_cont_tog{display: block; padding-top: 4rem;    padding-left: 3.2rem;}
 .cont_tog2{display: none;}
 .show_cont_tog2 {
   display: block;
@@ -57,7 +57,11 @@
   padding-right: 3rem;
 }
 
-.head_tog{float: left; width: 100%; padding-left: 20px;}
+.head_tog{float: left; width: 100%; padding-left: 20px;     position: fixed;
+  background: #f6f6f7;
+  background-color: #f6f6f7;
+  padding-top: 10px;
+  z-index: +99;}
 
 .head_tog ul{
   list-style: none;
@@ -95,11 +99,13 @@ div#AppFrameNav {
 .tog2_tabs{float: left; width: 100%;}
 .head_tog2 {
   float: left;
-  width: 25%;
+  width: 15%;
+  position: fixed;
+    bottom: 16rem;
 }
 
 .tab_content_tog2{
-  float: left;
+  float: right;
   width: 74%;
 }
 
@@ -109,10 +115,24 @@ div#AppFrameNav {
   box-shadow: unset !important;
 }
 
-.tab_tog1{float: left; width: 100%; padding-top: 20px; padding-left: 13px;}
+.tab_tog1{float: left; width: 100%; padding-left: 13px;}
 .Polaris-Layout__Section.Polaris-Layout__Section--secondary {
   margin-top: -73px;
 }
 iframe#previewiframe {
   height: 48em !important;
 }
+
+.extra_cont_1 {
+  float: right;
+  width: 74%;
+  padding-left: 2rem;
+  padding-right: 3rem;
+}
+.extra_cont_1_hide{display: none;}
+
+.Polaris-Stack {
+  justify-content: space-between;
+}
+
+.Polaris-Button--primary{background: #269b9a !important;}

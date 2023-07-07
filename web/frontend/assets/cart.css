@@ -3,8 +3,9 @@
     top: 70px;
 }
 .Polaris-TextField__Input[type=color] {
-    width: 70px;
-    padding: 1px 4px;
+    width: 45px;
+    padding: 0px 1px;
+    border: none;
 }
 
 .review_font_setting {

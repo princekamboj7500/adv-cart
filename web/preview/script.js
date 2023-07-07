@@ -645,16 +645,34 @@ fetch('https://cart.brandlift.io/api/prevwidget/'+event.data.store+'')
 }
 allwdgt();
 
+function gift_packing(){
+  if(event.data.gift_input_status == true){
+    document.querySelector(".gift_pack_box").innerHTML = `<div class="gift_png">
+    <img src="https://img.freepik.com/free-photo/3d-render-gift-box-with-ribbon-present-package_107791-17997.jpg?w=740&t=st=1688713080~exp=1688713680~hmac=ea17b9f12a3246734822ad97145cbe48dd56349c40232245666f1d71fe3c049e">
+        </div>
+              <div class="gift_cont"><span>`+event.data.gift_packing.gift_title_one+`</span><br>`+event.data.gift_packing.gift_title_two+`</div>
+        <div class="gift_price">
+        <span>`+event.data.gift_packing.gift_price+`</span><br>
+        <input type="checkbox">
+        </div>`;
+        }
+}
+
+gift_packing();
+
 function  discountLabel(){
 if(event.data){
+  
 if(event.data.discount_input_status == true){
   if(event.data.discount_input.layout == 'rounded'){
-    var styl = 'border-radius: 20px'
+    var styl = 'border-radius: 4px'
   }else{
     var styl = ''
   }
+
   if(event.data.discount_input.position == 'above_subtotal'){
     document.querySelector(".upsell_disc_input").innerHTML = `<div class="disount_input">
+    <span class="disount_input_lab">Discount code</span>
     <input type="text" id="upsell_discinp" style="`+styl+`" placeholder="`+event.data.discount_input.discount_code_label+`">
     <input type="button" style="`+styl+`" onclick="window.__upsellCart.validateCode(this)" class="addrecomd" value="`+event.data.discount_input.discount_button_label+`">
     </div>`;
@@ -812,6 +830,7 @@ console.log('subtotalPricesubtotalPrice', subtotalPrice)
         const ship = event.data.tiered_progress_bar_tabs[k].tier[i].free_shipping_all_products;
         const minprice = event.data.tiered_progress_bar_tabs[k].tier[i].min_price;
         const label_gift = event.data.tiered_progress_bar_tabs[k].tier[i].label;
+        document.getElementById("chkoutbtn").innerHTML= "Checkout - $"+subtotalPrice ;
         console.log('free2' ,free,minprice, subtotalPrice)
         amt.push(minprice)
         const max = Math.max(...amt);

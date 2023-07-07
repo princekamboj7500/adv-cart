@@ -190,6 +190,13 @@ storeController.cart = async function(store){
           "subtotal_text_one_item": "Subtotal ({{ item_count }} item)",
           "subtotal_text_many_item": "Subtotal ({{ item_count }} items)"
       },
+      "gift_input_status": false,
+      "gift_packing": {
+        "gift_title_one": "Gift Packaging ",
+        "gift_title_two": "Add gift-wrapping",
+        "gift_price": "$3.99",
+        "gift_checked": true
+      },
       "discount_input_status": false,
       "discount_input": {
           "discount_code_label": "Discount Code",

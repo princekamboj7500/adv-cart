@@ -18,13 +18,13 @@ import multer from "multer";
 
 mongoose.Promise = global.Promise;
  
-mongoose.connect('mongodb+srv://root:admin123@cluster0.1hdqm09.mongodb.net/test').then(() => console.log('mongoose Connected!'));
+mongoose.connect('mongodb+srv://akshaysquadifypro:Pn8r3frKkfRfnxu7@cluster0.nciqshc.mongodb.net/upsell_cart').then(() => console.log('mongoose Connected!'));
 // console.log(process.env)
 // @ts-ignore
 const PORT = parseInt(process.env.BACKEND_PORT || process.env.PORT, 10);
 const STATIC_PATH =
   process.env.NODE_ENV === "production"
-    ? `${process.cwd()}/frontend/dist`
+    ? `${process.cwd()}/frontend/dist` 
     : `${process.cwd()}/frontend/`;
 
 const PREVIEWSTATIC_PATH = `${process.cwd()}/preview/`;

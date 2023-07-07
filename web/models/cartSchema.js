@@ -15,6 +15,8 @@ var CartSchema = new Schema({
     language:{type: Object},
     discount_input_status:{type: Boolean, default: false},
     discount_input:{type: Object},
+    gift_input_status:{type: Boolean, default: false},
+    gift_packing:{type: Object},
     shopping_btn_status:{type: Boolean, default: false},
     continue_shopping:{type: Object},
     note_status:{type: Boolean, default: false},

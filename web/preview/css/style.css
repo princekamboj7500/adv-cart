@@ -225,14 +225,15 @@ div#upsell_mslide {
 
 
 .cart-item button {
-  background: var(--blue);
-  color: var(--white);
+  background: transparent;
+  color: #000;
   border: none;
   padding: 5px 15px;
   border-radius: 4px;
   cursor: pointer;
   width: 70px;
   height: 28px;
+  font-weight: 800;
 }
 
 .cart-item .options-select {
@@ -249,7 +250,7 @@ div#upsell_mslide {
 }
 
 .upsell {
-  background: var(--darker-grey);
+  background:#fff;
   padding: 15px;
   margin: 0;
 }
@@ -259,13 +260,13 @@ div#upsell_mslide {
 }
 
 .upsell .cart-item {
-  background: var(--white);
+  background: #D3EDED;
   margin: 0 0 10px;
 }
 
 .footer {
   background: var(--white);
-  width: calc(100% - 30px);
+  width: 100%;
   position: absolute;
   bottom: 0;
   border-top: 1px solid var(--light-grey);
@@ -297,7 +298,7 @@ div#upsell_mslide {
 }
 
 button.btn-primary {
-  width: 100%;
+  width: 97%;
   height: 42px;
   line-height: 36px;
   color: var(--white);
@@ -517,18 +518,17 @@ button#chkoutbtn a {
   overflow:hidden;
 }
 .disount_input {
-  display: flex;
-  justify-content: space-between;
   margin: 15px 0px;
-  padding: 0px 16px;
+
 }
 .disount_input input.addrecomd {
   color: #fff;
   border: none;
-  width: 100px;
+  width: 50px;
   cursor: pointer;
-  padding: 10px;
-  border-radius: 5px;
+  padding: 5px 0px;
+  border-radius: 4px !important;
+  margin-left: -8px;
 }
 .upsel_disc_inp1 .disount_input {
   margin-bottom: 40px;
@@ -620,3 +620,32 @@ div#afterpayBottom {
   width: 100%;
 
 }
+
+
+
+
+/* //////////////////////// 7 july////////////////////////////////// */
+
+
+
+.cart-testimonials{display: none;}
+.cart-benefits {display: none;}
+input#upsell_discinp {
+  border: 2px solid #269b9a;
+  border-radius: 4px !important; height: 30px; width: 80% !important;
+}
+.disount_input_lab{float: left; width: 100%; font-size: 17px; font-weight: 800;  padding-bottom: 10px;  }
+.disount_input input.addrecomd {
+  background: rgb(38 155 154) !important;
+  font-size: 15px;
+  font-weight: 500;
+  height: 36px;
+}
+.subtotal{display: none;}
+.gift_pack_box{width: 90%; background: #D3EDED; padding: 12px 12px; display: flex;} 
+.gift_pack_box .gift_png{width: 20%;} 
+.gift_pack_box .gift_png img{max-width: 100%;} 
+.gift_pack_box .gift_cont{ width: 60%;} 
+.gift_pack_box .gift_price{ width: 17%; text-align: right;  font-size: 17px; font-weight: 500;} 
+.gift_pack_box .gift_cont span{font-size: 16px; font-weight: 800;     line-height: 30px;}
+.gift_pack_box .gift_price input { width: 25px; height: 17px; }
