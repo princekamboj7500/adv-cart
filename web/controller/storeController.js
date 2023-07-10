@@ -195,7 +195,7 @@ storeController.cart = async function(store){
         "gift_title_one": "Gift Packaging ",
         "gift_title_two": "Add gift-wrapping",
         "gift_price": "$3.99",
-        "gift_checked": true
+        "gift_checked": false
       },
       "discount_input_status": false,
       "discount_input": {

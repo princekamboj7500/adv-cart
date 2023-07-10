@@ -138,8 +138,7 @@ function Cart() {
             "gift_title_one": "Gift Packaging ?",
             "gift_title_two": "Add gift-wrapping !",
             "gift_price": "$3.99",
-            "check": false, 
-            "gift_checked" : false
+            "gift_check": false,
         },
         "discount_input_status": false,
         "discount_input": {
@@ -178,23 +177,14 @@ function Cart() {
         "note_status": false,
         "note_input":{
             "note_label": "Add a note (optional)",
+            "note_placeholder": "Add a notes ...",
             "position":"above_subtotal",
             "padding":"20",
             "inputsize":"40",
             "font_size":"15",
             "font_weight":"500",
-            "font_color":{
-                hue: 25,
-                brightness: 1,
-                saturation: 1,
-                alpha: 0.7,
-            },
-            "color":{
-                hue: 25,
-                brightness: 1,
-                saturation: 1,
-                alpha: 0.7,
-            }
+            "font_color":"#000",
+            "color":"#000"
         },
         "checkout_btn_status": false,
         "checkout_btn_settings":{
@@ -279,7 +269,7 @@ function Cart() {
             testimonials:[]
         }
     });
-    console.log('sdsdsdsdsd111')
+
     const [active, setActive] = useState(false);
     const [pageload, setPageload] = useState(true);
 
@@ -330,7 +320,7 @@ function Cart() {
     const [toastloader, setToastloader] = useState(false);
 
     const saveCart = async function(){
-        console.log(setings);
+        console.log("setings ",setings);
         setLoader(true);
         var auth = Cookies.get('auth');
         await fetch("/api/cart", {
@@ -349,12 +339,14 @@ function Cart() {
     })
     const loadCart = async function(){
         var auth = Cookies.get('auth');
+       
         var response = await fetch("/api/cart", { 
           headers: {
             "Content-Type": "application/json",
             "Authorization": "Bearer "+auth 
           }
         });
+       
         var cartObj = await response.json();
         console.log(cartObj)
         setSettings(cartObj);
@@ -362,8 +354,15 @@ function Cart() {
 
         var obj = [];
         var obj2 = [];
-        fetch('/api/getallpro/'+cartObj.store+'')
+        var url_prod='/api/getallpro/'+cartObj.store
+        const response1 = await fetch(url_prod);
+        var jsonData1 = await response1.json();
+        console.log("jsonData1 jsonData1", jsonData1)
+        
+        var url_prod='/api/getallpro/'+cartObj.store
+        fetch(url_prod)
         .then(function (response) {
+            console.log("yyyyyyyyyyyyeeeeeessssssssssssss", response)
             return response.json();
         })
         .then(function (payload) {
@@ -375,13 +374,14 @@ function Cart() {
                     ));
         })
         setPro(obj); 
-        console.log(prodata);
+        console.log("prodata prodata",prodata);
           //setTimeout(function() { contentRef.contentWindow.postMessage(setings, "*"); }, 5000);
           //setProfile({name: profile.name, detail: profile.shop, initials: profile.name.charAt(0).toUpperCase(), isloading: false});
         
             fetch('/api/getcollection/'+cartObj.store+'')
             .then(function (response) {
                 return response.json();
+                
             })
             .then(function (payload) {
                 var allpro = payload.custom_collections;
@@ -430,7 +430,6 @@ function Cart() {
     }
 
     const deleteMessageAction = (index) => (e) => {
-        console.log(e);
         setings['announcement_bar_items'].splice(index, 1);
         setSettings(setings => ({
             ...setings,
@@ -438,8 +437,6 @@ function Cart() {
         }));
     }
 
-    console.log('sdsdsdsdsd')
-    console.log('arrraaaaayyy111', setings['announcement_bar_items']);
     const announcementItemsMarkup = (setings['announcement_bar_items'].length ? setings['announcement_bar_items'].map((item, index) => (
         <Card.Section key={index}>
             <FormLayout>
@@ -467,7 +464,6 @@ function Cart() {
         
     );
 
-    console.log(setings['tiered_progress_bar_tabs'], "barr tabbbb")
     const addTierTab = () => {
         if (setings['tiered_progress_bar_tabs'].length < 3) {
             setings['tiered_progress_bar_tabs'].push({
@@ -1273,18 +1269,13 @@ const handleGiftpackInputFields = (index) => (e) => {
     // }));
     };
 
-console.log("setttiinnggg", setings.gift_packing)
      const giftInputMarkup = (<Card.Section><FormLayout>
-         <Checkbox
-          label="Checkbox 1"
-          checked={isChecked}
-          onChange={handleCheckboxChange}
-        />
+         
         <Select
             label="Type"
             options={[
                 { label: 'Shipping Protection', value: 'Shipping Protection' },
-                { label: 'Shipping Protection', value: 'Shipping Protection' },
+                { label: 'Shipping Protection2', value: 'Shipping Protection2' },
             ]}
             onChange={handleGiftpackInputFields("gift_type")}
             value={setings.gift_packing.gift_type}
@@ -1308,8 +1299,11 @@ console.log("setttiinnggg", setings.gift_packing)
             autoComplete="off"
             value={setings.gift_packing.gift_price}
         />
-        <input type='checkbox' value={setings.gift_packing.check}  onChange={(e) => handleGiftpackInputFields("check")(e.target.value)} />
-
+        <Checkbox
+                label="Offer is accepted by default"
+                checked={isChecked}
+                onChange={handleCheckboxChange}
+                />
  </FormLayout></Card.Section>);
     const handleCheckoutFields = (field) => (e) => {
         setings["checkout_btn_settings"][field] = e;
@@ -1791,12 +1785,18 @@ console.log("setttiinnggg", setings.gift_packing)
                         </Card.Header>
                         {setings['note_status'] ? <Card.Section><FormLayout>
                         <TextField
-                                label="Note Label"
+                                label="Title"
                                 autoComplete="off"
                                 onChange={handlenoteInputField("note_label")}
                                 value={setings.note_input.note_label}
                             />
-                            <Select
+                             <TextField
+                                label="Text Placeholder"
+                                autoComplete="off"
+                                onChange={handlenoteInputField("note_placeholder")}
+                                value={setings.note_input.note_placeholder}
+                            />
+                            {/* <Select
                                 label="Position"
                                 options={[
                                     { label: 'Below line items', value: 'below_lineitm' },
@@ -1804,7 +1804,7 @@ console.log("setttiinnggg", setings.gift_packing)
                                 ]}
                                 onChange={handlenoteInputField("position")}
                                 value={setings.note_input.position}
-                            />
+                            /> */}
                             <TextField
                                 label="Padding Top and Bottom"
                                 type="number"
@@ -1843,17 +1843,19 @@ console.log("setttiinnggg", setings.gift_packing)
                                 autoComplete="off"
                             />
                             <DisplayText  size="small">Font color</DisplayText >
-                            <ColorPicker 
+                            <input type='color' value={setings.note_input.font_color} onChange={(e) => handlenoteInputField("font_color")(e.target.value)} />
+                            {/* <ColorPicker 
                                 onChange={handlenoteInputField("font_color")} 
                                 color={setings.note_input.font_color}
                                 allowAlpha 
-                            />
+                            /> */}
                             <DisplayText  size="small">Color</DisplayText >
-                            <ColorPicker 
+                            <input type='color' value={setings.note_input.color} onChange={(e) => handlenoteInputField("color")(e.target.value)} />
+                            {/* <ColorPicker 
                                 onChange={handlenoteInputField("color")} 
                                 color={setings.note_input.color}
                                 allowAlpha 
-                            />
+                            /> */}
                         </FormLayout></Card.Section> : <p>&nbsp;</p>}
                     </Card>
                 </div>

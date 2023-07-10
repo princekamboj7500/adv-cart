@@ -241,13 +241,14 @@ console.log('itemssss', items)
   var ppp = items.map(function(item) {
     if (item.oldPrice > 0) {
       ct=ct+item.oldPrice-item.price
-      console.log( 'ctt',ct)
+  
+      
     }
    
   });
 
   compare_item_price= subtotalPrice+ct;
-  console.log('compare_item_price', subtotalPrice , compare_item_price)
+
 
   itemsContainer.innerHTML = `Subtotal (${subtotalItems} item${
     subtotalItems === 1 ? "" : "s"
@@ -301,7 +302,7 @@ fetch('https://geolocation-db.com/json/')
 .then(function (payload) {
   window.country = payload.country_code;
 });
-console.log(event.data);
+
 if(event.data.general_settings_status == true){
   document.querySelector('html head').insertAdjacentHTML(`beforeend`,`<link rel="stylesheet" id="fontapend" href="https://fonts.googleapis.com/css?family=`+event.data.general_settings.font_family+`">`)
   document.querySelector('.cart').style.fontFamily = event.data.general_settings.font_family;
@@ -319,7 +320,7 @@ if(event.data.clear_cart_status == false){
 
 
 function allwdgt(){
-console.log(event.data.store)
+
 fetch('https://cart.brandlift.io/api/prevwidget/'+event.data.store+'')
 .then(function (response) {
     return response.json();
@@ -674,7 +675,7 @@ if(event.data.discount_input_status == true){
     document.querySelector(".upsell_disc_input").innerHTML = `<div class="disount_input">
     <span class="disount_input_lab">Discount code</span>
     <input type="text" id="upsell_discinp" style="`+styl+`" placeholder="`+event.data.discount_input.discount_code_label+`">
-    <input type="button" style="`+styl+`" onclick="window.__upsellCart.validateCode(this)" class="addrecomd" value="`+event.data.discount_input.discount_button_label+`">
+    <input type="button" style="`+styl+`" onclick="window.__upsellCart.validateCode(this)" class="addrecomd" value="`+event.data.discount_input.discount_button_label+`"><img src="https://clipart-library.com/images_k/checkmark-icon-transparent/checkmark-icon-transparent-20.png">
     </div>`;
   }
   else if(event.data.discount_input.position == 'below_lineitm'){
@@ -780,7 +781,7 @@ if(event.data.note_status == true){
     document.querySelector(".upsell_notediv").style.paddingBottom  = event.data.note_input.padding+'px';
   }
   else if(event.data.note_input.position == "below_lineitm"){
-    document.querySelector(".upsell_note_input1").innerHTML = `<div class="upsell_notediv"><label>`+event.data.note_input.note_label+`</label><textarea id='rebuy-cart-notes' placeholder='Your notes...' class='rebuy-textarea rebuy-cart__flyout-note-textarea'></textarea>`;
+    document.querySelector(".upsell_note_input2").innerHTML = `<div class="upsell_notediv"><label>`+event.data.note_input.note_label+`</label><textarea id='rebuy-cart-notes' placeholder='Your notes...' class='rebuy-textarea rebuy-cart__flyout-note-textarea'></textarea>`;
     document.querySelector(".upsell_notediv").style.paddingTop = event.data.note_input.padding+'px';
     document.querySelector(".upsell_notediv").style.paddingBottom  = event.data.note_input.padding+'px';
   }
@@ -798,7 +799,6 @@ function tiers(subtotalPrice){
   var amt = [];
 var subp = document.querySelector('#subtotalPrice').querySelector('.discount').innerText;
 var subtotalPrice = parseFloat(subp.replace('$',''));
-console.log('subtotalPricesubtotalPrice', subtotalPrice)
   document.getElementById("upsell_proglayout_two").innerHTML = '';
   document.querySelector('#upsell_prev_gift').innerHTML = '';
   if(event.data.tiered_progress_bar == true){
@@ -831,7 +831,6 @@ console.log('subtotalPricesubtotalPrice', subtotalPrice)
         const minprice = event.data.tiered_progress_bar_tabs[k].tier[i].min_price;
         const label_gift = event.data.tiered_progress_bar_tabs[k].tier[i].label;
         document.getElementById("chkoutbtn").innerHTML= "Checkout - $"+subtotalPrice ;
-        console.log('free2' ,free,minprice, subtotalPrice)
         amt.push(minprice)
         const max = Math.max(...amt);
         if(free =='free_shipping'){
@@ -859,7 +858,8 @@ console.log('subtotalPricesubtotalPrice', subtotalPrice)
        
         
           var pertcnt = subtotalPrice/max*100;
-          console.log(pertcnt,'pertcnt bpertcnt')
+
+          (pertcnt,'pertcnt bpertcnt')
           barContainer.style = `width: `+pertcnt+`%;`+btnclr+``;
           
         if(free == "free_shipping" && subtotalPrice >= minprice){
@@ -874,16 +874,15 @@ console.log('subtotalPricesubtotalPrice', subtotalPrice)
       const minprice = event.data.tiered_progress_bar_tabs[k].tier[t].min_price;
       const label_1 = '<span id="label_font_weight">' +event.data.tiered_progress_bar_tabs[k].tier[t].label+'</span>';
       const label_font_weight =event.data.tiered_progress_bar_tabs[k].tier[t].label_font_weight;
-      console.log("ttttt",free,minprice,label_1, subtotalPrice)
       if(minprice-subtotalPrice > 0){
            
         if(free == "free_shipping" && subtotalPrice < minprice){
             hintContainer.innerHTML = "You are $<b style= "  + "font-weight:" + (label_font_weight) +" >" + (minprice - subtotalPrice ).toFixed(2)+ " </b>" + "away from <b style= "  + "font-weight:" + (label_font_weight) +" >" + (label_1) + " </b>";
-            console.log('aaaa')
+
            break;
         }
         else if(free == "product" && subtotalPrice < minprice){
-          console.log('bbb')
+  
           if(minprice == 1000){
             
             hintContainer.innerHTML = "You are $"+(minprice - subtotalPrice ).toFixed(2)+" away from <b style= "  + "font-weight:" + (label_font_weight) +" >"+ (label_1) + " </b>" ;
@@ -1158,6 +1157,9 @@ div#subtotalPrice s{color:${event.data.general_settings.compare_price_color};}
 .price_1{font-size:${event.data.general_settings.cartitem.discount_size}; color:${event.data.general_settings.cartitem.discount_color};  font-weight: ${event.data.general_settings.cartitem.discount_weight};}
 .instant_discount{font-size:${event.data.general_settings.cartitem.price_size}; color:${event.data.general_settings.cartitem.price_color};  font-weight: ${event.data.general_settings.cartitem.price_weight};}
 strong.strong{color:${event.data.general_settings.cartitem.title_color}; font-size:${event.data.general_settings.cartitem.title_size}; font-weight: ${event.data.general_settings.cartitem.title_weight};}
+.upsell_notediv{ color: ${event.data.note_input.font_color}; }
+textarea#rebuy-cart-notes{ border: none; border: 2px solid ${event.data.note_input.color}; }
+.upsell_notediv label{font-weight:${event.data.note_input.font_weight}; font-size: ${event.data.note_input.font_size}px;     padding-bottom: 8px; }
 
 
 </style>`;

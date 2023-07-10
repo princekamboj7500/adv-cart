@@ -162,7 +162,7 @@ export function AppBridgeProvider({ children }) {
   );
 
   const FrameLogo = {
-    width: 100,
+    width: 120,
     topBarSource: logo,
     url: '/',
     accessibilityLabel: 'Jaded Pixel',

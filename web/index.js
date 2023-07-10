@@ -132,6 +132,7 @@ app.get("/api/prevwidget/:shop",  async (_req, res) => {
 })
 
 app.get("/api/getallpro/:shop",  async (_req, res) => {
+  console.log("aaaaaaaaaaaaaabbbbbbbbbbbbbbbbcccccc")
   res.setHeader("Access-Control-Allow-Origin", "*");
   var doc = await StoreModel.findOne({store: _req.params.shop});
   if(doc){ 

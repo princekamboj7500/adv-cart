@@ -518,13 +518,23 @@ button#chkoutbtn a {
   overflow:hidden;
 }
 .disount_input {
-  margin: 15px 0px;
-
+  margin: 0px 0px;
+  position: relative;
 }
+.disount_input img{
+  max-width: 5%;
+  filter: brightness(0) invert(1);
+  position: absolute;
+  right: 30px;
+  top: 38px;
+}
+
+
+
 .disount_input input.addrecomd {
-  color: #fff;
+  color: #269b9a;
   border: none;
-  width: 50px;
+  width: 46px;
   cursor: pointer;
   padding: 5px 0px;
   border-radius: 4px !important;
@@ -535,7 +545,7 @@ button#chkoutbtn a {
 }
 .upsell_notediv {
   display: grid;
-  padding: 0px 10px;
+  padding: 0px 18px 0px 0px;
 }
 .upsell_note_input1 {
   margin-bottom: 13px;
