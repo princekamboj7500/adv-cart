@@ -28,11 +28,14 @@ export default function App() {
               <div className="tab_tog1">
                 <div className="head_tog">
                   <ul>
-                    <li className={toggle === 1 ?  "active_tab_blue" : "tab_black"} onClick={() => updatedToggle(1)}>Dashboard</li>
+                  <a href="/">Dashboard</a>
+                    {/* <li className={toggle === 1 ?  "active_tab_blue" : "tab_black"} onClick={() => updatedToggle(1)}>Dashboard</li> */}
                     <li className={toggle === 2 ?  "active_tab_blue" : "tab_black"} onClick={() => updatedToggle(2)}>Analytics</li>
-                    <li className={toggle === 3 ?  "active_tab_blue" : "tab_black"} onClick={() => updatedToggle(3)}>Customize cart</li>
+                    <a href="/cart">Customize cart</a>
+                    {/* <li className={toggle === 3 ?  "active_tab_blue" : "tab_black"} onClick={() => updatedToggle(3)}>Customize cart</li> */}
                     <li className={toggle === 4 ?  "active_tab_blue" : "tab_black"} onClick={() => updatedToggle(4)}>Upsells</li>
                     <li className={toggle === 5 ?  "active_tab_blue" : "tab_black"} onClick={() => updatedToggle(5)}>Settings</li>
+                   
                   </ul>
                 </div>
                 <div className={toggle === 1 ?  "show_cont_tog" : "cont_tog"} >

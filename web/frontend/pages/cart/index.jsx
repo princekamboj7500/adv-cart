@@ -42,7 +42,7 @@ import { useState, useCallback, useEffect, useMemo } from 'react';
 import '../../assets/cart.css';
 
 function Cart() { 
-
+    const [prodataArray, setProdataArray] = useState([]);
     const [setings, setSettings] = useState({
         "live_mode": false,
         "announcement_bar": false,
@@ -357,42 +357,68 @@ function Cart() {
         var url_prod='/api/getallpro/'+cartObj.store
         const response1 = await fetch(url_prod);
         var jsonData1 = await response1.json();
-        console.log("jsonData1 jsonData1", jsonData1)
-        
-        var url_prod='/api/getallpro/'+cartObj.store
-        fetch(url_prod)
-        .then(function (response) {
-            console.log("yyyyyyyyyyyyeeeeeessssssssssssss", response)
-            return response.json();
-        })
-        .then(function (payload) {
-            var allpro = payload.products;
+        setProdataArray(jsonData1.products);
+        console.log("jsonData1 jsonData1", jsonData1.products);
+        window.prod_data=jsonData1.products;
+        var allpro = jsonData1.products;
             allpro.map(
                 (item) =>
                     ( 
-                        obj.push({value:item.id,label:item.title})
+                     (item.image) ?
+                            obj.push({value:item.id,label:item.title, image: item.image.src})
+                    :
+                        obj.push({value:item.id,label:item.title, image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALUAAACICAMAAACWaVroAAAAS1BMVEXs7Ox2dnbv7+/S0tJycnL19fXb29vm5uZ7e3uLi4vy8vLKysqFhYVvb2/p6emnp6eZmZm+vr6zs7ORkZFpaWmfn5/ExMRkZGReXl4Oy0w8AAADzElEQVR4nO2ai66jOAxAEzs4wXnwKHT2/790HSht78zObaUdMankoysgNFxO3eAkgDGKoiiKoiiKoiiKoiiKoiiKoih/AHiHvy35FfD0Hr4hccZknX2Nsyny35Y9AB/E2b1GKoVmog0ocQz9a4LUw5asM/mXFMqNWYfujYpd+CBr5vpnPsoa/BBcmg18kjX4JK3ZLetHWfMlb7k6T/A51kC37sf15YOs49FpBv9B1niPdfPWz2Zht85D4+0aCtLdjTHXaOfk27YGc1nsdC9D7Jclj9R45uNVcl1+DEmhENLWaBq25nlL0C4+9I5JTLvWHPMt1dEebea7Z7PWTMt95lK1AaaBjsbSqrWMOh7zrUQMMOQtfWw0ag3QZ/vQDkS17PpbImzVeljsM9tcsSbrvd9p0xrm38zU89hu5uO4/Ld01W7Vmin8TroOQ7omrYHSd3dyljZHT3DJ30hLtOeuQevhe+lNuzXrNL2SriOq1Jh1+OZKvNPcHbO3Uev/hVqfx2daG5Nep70dGf01A1D/pnVP7YTaAL/14A6AG5JWlM8H9kdD+5Ulhfv6tnnbPrae68L96Lo8jj1FGmMsssboa86b5qne7pCdFaoVaNssBgCnORYw4GPtXKguMaLUKTEa2A446ZUAXl0e2MBY7+TNzgUXJpCJjEy/8o9JQsgy1M45EFCd3eQkYlgfJkHMKxcZYstxPoQicwSXc3/Ok3UYQqgma0C+2h49BummCa/hgljDzpMbELGY0Q5Es70URjdU6zBw6VNIbHxKpUs24hzCKR0PDGkIo6nWZhRzw9GOdYZux/3XlljPnXQ75FIH0K0ufrWe3cy7tfPQRflfp1gHHG1ksS5ybtnja/RArPcKNdZExHG7myCluXu2DpQSlT3WXpp83/tzrCOFZMRaIlb3yAq+WNf52MhXCbmUrj9ZWzPZ4W5t/OWUsUm15sHOEnL5uWucfom1Hafpeo91/sm6QLI4HrGmdDkr1iznkljDKJvQXd3afbEWTxkpkU3SurvRIZOTNi/fZreWi/gy7u2aZed6ztUYInRTSAk5hjShNAj62kLcvN2rHOyIONTdnOyMMTmEcgmSwFdJQ2IdrnE46e0cXpernCc4ydcw2exyqGWgpT+s/xk2a79m55ZL/Uoo84ZsZzYlLV7yt3O2dDVd5xHPeROKcGvMWFdc8IpmO69H2j8HfzxuZIpX2jtzkHqFt6NrkRC3BZWz+vQ9Kx9v5z0G+o+++bHxGGjcxh/PR7f3hp+iKIqiKIqiKIqiKIqiKIqiKIqiKIqiKGfxL2hVLtTyZKnGAAAAAElFTkSuQmCC'})
                     ));
-        })
-        setPro(obj); 
-        console.log("prodata prodata",prodata);
-          //setTimeout(function() { contentRef.contentWindow.postMessage(setings, "*"); }, 5000);
-          //setProfile({name: profile.name, detail: profile.shop, initials: profile.name.charAt(0).toUpperCase(), isloading: false});
-        
-            fetch('/api/getcollection/'+cartObj.store+'')
-            .then(function (response) {
-                return response.json();
-                
-            })
-            .then(function (payload) {
-                var allpro = payload.custom_collections;
-                allpro.map(
+                    setPro(obj); 
+
+        var url_prod2='/api/getcollection/'+cartObj.store;
+        const response2 = await fetch(url_prod2);
+        var jsonData2 = await response2.json();
+        console.log("jsonData2 jsonData2", jsonData2.custom_collections);
+        var allpro2 = jsonData2.custom_collections;
+                allpro2.map(
                     (item) =>
                         ( 
                             obj2.push({value:item.handle,label:item.title})
                         ));
                 setCol(obj2);
+                console.log("prodata prodata",prodata); 
+                console.log("obj obj2" , obj , obj2)
+                setProdataArray(obj);
+
+        // var url_prod='/api/getallpro/'+cartObj.store
+        // fetch(url_prod)
+        // .then(function (response) {
+        //     return response.json();
+        // })
+        // .then(function (payload) {
+        //     var allpro = payload.products;
+        //     allpro.map(
+        //         (item) =>
+        //             ( 
+        //                 obj.push({value:item.id,label:item.title})
+        //             ));
+        // })
+        // setPro(obj); 
+
+          //setTimeout(function() { contentRef.contentWindow.postMessage(setings, "*"); }, 5000);
+          //setProfile({name: profile.name, detail: profile.shop, initials: profile.name.charAt(0).toUpperCase(), isloading: false});
+        
+            // fetch('/api/getcollection/'+cartObj.store+'')
+            // .then(function (response) {
+            //     return response.json();
                 
-            })
+            // })
+            // .then(function (payload) {
+            //     var allpro = payload.custom_collections;
+            //     allpro.map(
+            //         (item) =>
+            //             ( 
+            //                 obj2.push({value:item.handle,label:item.title})
+            //             ));
+            //     setCol(obj2);
+                
+            // })
        
     }
    
@@ -401,6 +427,27 @@ function Cart() {
         loadCart();
        
     }, []);
+
+
+      const renderData = () => {
+        if (Array.isArray(prodataArray)) {
+            return prodataArray.map((item) => (
+                (item.image) ?
+              
+                <div className='product_data' key={item.value}>
+                   <label htmlFor={item.value}><img  style={{maxWidth: '45%' , height: '94px'}}  src={item.image} /><br></br>{item.label}</label>
+                   <input type="checkbox" id={item.value} />
+                </div>
+               
+                    :
+                    <div key={item.id}>{item.title}
+                    <img src="'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALUAAACICAMAAACWaVroAAAAS1BMVEXs7Ox2dnbv7+/S0tJycnL19fXb29vm5uZ7e3uLi4vy8vLKysqFhYVvb2/p6emnp6eZmZm+vr6zs7ORkZFpaWmfn5/ExMRkZGReXl4Oy0w8AAADzElEQVR4nO2ai66jOAxAEzs4wXnwKHT2/790HSht78zObaUdMankoysgNFxO3eAkgDGKoiiKoiiKoiiKoiiKoiiKoih/AHiHvy35FfD0Hr4hccZknX2Nsyny35Y9AB/E2b1GKoVmog0ocQz9a4LUw5asM/mXFMqNWYfujYpd+CBr5vpnPsoa/BBcmg18kjX4JK3ZLetHWfMlb7k6T/A51kC37sf15YOs49FpBv9B1niPdfPWz2Zht85D4+0aCtLdjTHXaOfk27YGc1nsdC9D7Jclj9R45uNVcl1+DEmhENLWaBq25nlL0C4+9I5JTLvWHPMt1dEebea7Z7PWTMt95lK1AaaBjsbSqrWMOh7zrUQMMOQtfWw0ag3QZ/vQDkS17PpbImzVeljsM9tcsSbrvd9p0xrm38zU89hu5uO4/Ld01W7Vmin8TroOQ7omrYHSd3dyljZHT3DJ30hLtOeuQevhe+lNuzXrNL2SriOq1Jh1+OZKvNPcHbO3Uev/hVqfx2daG5Nep70dGf01A1D/pnVP7YTaAL/14A6AG5JWlM8H9kdD+5Ulhfv6tnnbPrae68L96Lo8jj1FGmMsssboa86b5qne7pCdFaoVaNssBgCnORYw4GPtXKguMaLUKTEa2A446ZUAXl0e2MBY7+TNzgUXJpCJjEy/8o9JQsgy1M45EFCd3eQkYlgfJkHMKxcZYstxPoQicwSXc3/Ok3UYQqgma0C+2h49BummCa/hgljDzpMbELGY0Q5Es70URjdU6zBw6VNIbHxKpUs24hzCKR0PDGkIo6nWZhRzw9GOdYZux/3XlljPnXQ75FIH0K0ufrWe3cy7tfPQRflfp1gHHG1ksS5ybtnja/RArPcKNdZExHG7myCluXu2DpQSlT3WXpp83/tzrCOFZMRaIlb3yAq+WNf52MhXCbmUrj9ZWzPZ4W5t/OWUsUm15sHOEnL5uWucfom1Hafpeo91/sm6QLI4HrGmdDkr1iznkljDKJvQXd3afbEWTxkpkU3SurvRIZOTNi/fZreWi/gy7u2aZed6ztUYInRTSAk5hjShNAj62kLcvN2rHOyIONTdnOyMMTmEcgmSwFdJQ2IdrnE46e0cXpernCc4ydcw2exyqGWgpT+s/xk2a79m55ZL/Uoo84ZsZzYlLV7yt3O2dDVd5xHPeROKcGvMWFdc8IpmO69H2j8HfzxuZIpX2jtzkHqFt6NrkRC3BZWz+vQ9Kx9v5z0G+o+++bHxGGjcxh/PR7f3hp+iKIqiKIqiKIqiKIqiKIqiKIqiKIqiKGfxL2hVLtTyZKnGAAAAAElFTkSuQmCC'"/></div>
+                  
+             
+            ));
+        }
+        return null;
+      };
 
     const addMessageAction = () => {
         setings['announcement_bar_items'].push('');
@@ -1363,7 +1410,7 @@ const handleGiftpackInputFields = (index) => (e) => {
     function updatedToggle2(id){
       setToggle2(id)
     }
-
+   
     const mainPage = (<Layout>
         <Layout.Section>
             {/* <SettingToggle
@@ -1756,8 +1803,15 @@ const handleGiftpackInputFields = (index) => (e) => {
                     </Card>
                 </div>
                 <div className={toggle2 === 9 ?  "show_cont_tog2" : "cont_tog2"}>
-                    Upsells Upsells
-                </div>
+                    <div className='product_data_box'>
+                    <div className='product_data_row'>
+                    {renderData()}
+                    </div>
+                    </div>
+                
+                    {/* <h2 style={{fontSize :'20px', fontWeight: '700'}} >Products</h2>
+                    <span><img  style={{maxWidth: '25%'}} src="https://cdn.shopify.com/s/files/1/0714/2709/6863/files/purepng.com-black-t-shirtclothingblack-t-shirtfashion-dress-shirt-black-cloth-tshirt-631522326927hzzmk.png?v=1688991500]\"/></span> */}
+               </div>
                 <div className={toggle2 === 10 ?  "show_cont_tog2" : "cont_tog2"}>
                     <Card>
                         <Card.Header

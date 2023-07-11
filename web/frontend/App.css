@@ -136,3 +136,21 @@ iframe#previewiframe {
 }
 
 .Polaris-Button--primary{background: #269b9a !important;}
+.product_data {
+  float: left;
+  width: 50%;
+  height: 120px;
+  margin-bottom: 20px;
+}
+.product_data label{
+  font-weight: 600;
+}
+
+.head_tog ul a {
+  padding: 0 2rem;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #000;
+  text-decoration: none;
+}
