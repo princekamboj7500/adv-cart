@@ -38,13 +38,16 @@ import Cookies from 'js-cookie';
 import CodeMirror from '@uiw/react-codemirror';
 import { html } from '@codemirror/lang-html';
 import { TrustPayment, Benefits, Testimonials, CartItem } from '../../components';
+import { Modal, TextContainer} from '@shopify/polaris';
 import { useState, useCallback, useEffect, useMemo } from 'react';
+
 import '../../assets/cart.css';
 
 function Cart() { 
     const [prodataArray, setProdataArray] = useState([]);
     const [setings, setSettings] = useState({
         "live_mode": false,
+        "selectedCheck_items": [ ],
         "announcement_bar": false,
         "announcement_position":"topflyout",
         "announcement_settings": {
@@ -270,7 +273,6 @@ function Cart() {
         }
     });
 
-    const [active, setActive] = useState(false);
     const [pageload, setPageload] = useState(true);
 
     // const handleToggle = useCallback(() => setActive((active) => !active), []);
@@ -365,9 +367,9 @@ function Cart() {
                 (item) =>
                     ( 
                      (item.image) ?
-                            obj.push({value:item.id,label:item.title, image: item.image.src})
+                            obj.push({id:item.id,label:item.title, image: item.image.src})
                     :
-                        obj.push({value:item.id,label:item.title, image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALUAAACICAMAAACWaVroAAAAS1BMVEXs7Ox2dnbv7+/S0tJycnL19fXb29vm5uZ7e3uLi4vy8vLKysqFhYVvb2/p6emnp6eZmZm+vr6zs7ORkZFpaWmfn5/ExMRkZGReXl4Oy0w8AAADzElEQVR4nO2ai66jOAxAEzs4wXnwKHT2/790HSht78zObaUdMankoysgNFxO3eAkgDGKoiiKoiiKoiiKoiiKoiiKoih/AHiHvy35FfD0Hr4hccZknX2Nsyny35Y9AB/E2b1GKoVmog0ocQz9a4LUw5asM/mXFMqNWYfujYpd+CBr5vpnPsoa/BBcmg18kjX4JK3ZLetHWfMlb7k6T/A51kC37sf15YOs49FpBv9B1niPdfPWz2Zht85D4+0aCtLdjTHXaOfk27YGc1nsdC9D7Jclj9R45uNVcl1+DEmhENLWaBq25nlL0C4+9I5JTLvWHPMt1dEebea7Z7PWTMt95lK1AaaBjsbSqrWMOh7zrUQMMOQtfWw0ag3QZ/vQDkS17PpbImzVeljsM9tcsSbrvd9p0xrm38zU89hu5uO4/Ld01W7Vmin8TroOQ7omrYHSd3dyljZHT3DJ30hLtOeuQevhe+lNuzXrNL2SriOq1Jh1+OZKvNPcHbO3Uev/hVqfx2daG5Nep70dGf01A1D/pnVP7YTaAL/14A6AG5JWlM8H9kdD+5Ulhfv6tnnbPrae68L96Lo8jj1FGmMsssboa86b5qne7pCdFaoVaNssBgCnORYw4GPtXKguMaLUKTEa2A446ZUAXl0e2MBY7+TNzgUXJpCJjEy/8o9JQsgy1M45EFCd3eQkYlgfJkHMKxcZYstxPoQicwSXc3/Ok3UYQqgma0C+2h49BummCa/hgljDzpMbELGY0Q5Es70URjdU6zBw6VNIbHxKpUs24hzCKR0PDGkIo6nWZhRzw9GOdYZux/3XlljPnXQ75FIH0K0ufrWe3cy7tfPQRflfp1gHHG1ksS5ybtnja/RArPcKNdZExHG7myCluXu2DpQSlT3WXpp83/tzrCOFZMRaIlb3yAq+WNf52MhXCbmUrj9ZWzPZ4W5t/OWUsUm15sHOEnL5uWucfom1Hafpeo91/sm6QLI4HrGmdDkr1iznkljDKJvQXd3afbEWTxkpkU3SurvRIZOTNi/fZreWi/gy7u2aZed6ztUYInRTSAk5hjShNAj62kLcvN2rHOyIONTdnOyMMTmEcgmSwFdJQ2IdrnE46e0cXpernCc4ydcw2exyqGWgpT+s/xk2a79m55ZL/Uoo84ZsZzYlLV7yt3O2dDVd5xHPeROKcGvMWFdc8IpmO69H2j8HfzxuZIpX2jtzkHqFt6NrkRC3BZWz+vQ9Kx9v5z0G+o+++bHxGGjcxh/PR7f3hp+iKIqiKIqiKIqiKIqiKIqiKIqiKIqiKGfxL2hVLtTyZKnGAAAAAElFTkSuQmCC'})
+                        obj.push({id:item.id,label:item.title, image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALUAAACICAMAAACWaVroAAAAS1BMVEXs7Ox2dnbv7+/S0tJycnL19fXb29vm5uZ7e3uLi4vy8vLKysqFhYVvb2/p6emnp6eZmZm+vr6zs7ORkZFpaWmfn5/ExMRkZGReXl4Oy0w8AAADzElEQVR4nO2ai66jOAxAEzs4wXnwKHT2/790HSht78zObaUdMankoysgNFxO3eAkgDGKoiiKoiiKoiiKoiiKoiiKoih/AHiHvy35FfD0Hr4hccZknX2Nsyny35Y9AB/E2b1GKoVmog0ocQz9a4LUw5asM/mXFMqNWYfujYpd+CBr5vpnPsoa/BBcmg18kjX4JK3ZLetHWfMlb7k6T/A51kC37sf15YOs49FpBv9B1niPdfPWz2Zht85D4+0aCtLdjTHXaOfk27YGc1nsdC9D7Jclj9R45uNVcl1+DEmhENLWaBq25nlL0C4+9I5JTLvWHPMt1dEebea7Z7PWTMt95lK1AaaBjsbSqrWMOh7zrUQMMOQtfWw0ag3QZ/vQDkS17PpbImzVeljsM9tcsSbrvd9p0xrm38zU89hu5uO4/Ld01W7Vmin8TroOQ7omrYHSd3dyljZHT3DJ30hLtOeuQevhe+lNuzXrNL2SriOq1Jh1+OZKvNPcHbO3Uev/hVqfx2daG5Nep70dGf01A1D/pnVP7YTaAL/14A6AG5JWlM8H9kdD+5Ulhfv6tnnbPrae68L96Lo8jj1FGmMsssboa86b5qne7pCdFaoVaNssBgCnORYw4GPtXKguMaLUKTEa2A446ZUAXl0e2MBY7+TNzgUXJpCJjEy/8o9JQsgy1M45EFCd3eQkYlgfJkHMKxcZYstxPoQicwSXc3/Ok3UYQqgma0C+2h49BummCa/hgljDzpMbELGY0Q5Es70URjdU6zBw6VNIbHxKpUs24hzCKR0PDGkIo6nWZhRzw9GOdYZux/3XlljPnXQ75FIH0K0ufrWe3cy7tfPQRflfp1gHHG1ksS5ybtnja/RArPcKNdZExHG7myCluXu2DpQSlT3WXpp83/tzrCOFZMRaIlb3yAq+WNf52MhXCbmUrj9ZWzPZ4W5t/OWUsUm15sHOEnL5uWucfom1Hafpeo91/sm6QLI4HrGmdDkr1iznkljDKJvQXd3afbEWTxkpkU3SurvRIZOTNi/fZreWi/gy7u2aZed6ztUYInRTSAk5hjShNAj62kLcvN2rHOyIONTdnOyMMTmEcgmSwFdJQ2IdrnE46e0cXpernCc4ydcw2exyqGWgpT+s/xk2a79m55ZL/Uoo84ZsZzYlLV7yt3O2dDVd5xHPeROKcGvMWFdc8IpmO69H2j8HfzxuZIpX2jtzkHqFt6NrkRC3BZWz+vQ9Kx9v5z0G+o+++bHxGGjcxh/PR7f3hp+iKIqiKIqiKIqiKIqiKIqiKIqiKIqiKGfxL2hVLtTyZKnGAAAAAElFTkSuQmCC'})
                     ));
                     setPro(obj); 
 
@@ -428,20 +430,47 @@ function Cart() {
        
     }, []);
 
+    const [active, setActive] = useState(false);
 
-      const renderData = () => {
+    const handleChange = useCallback(() => setActive(!active), [active]);
+  
+    const activator = <Button onClick={handleChange}>Open</Button>;
+    const [selectedItemscheck, setSelectedItemscheck] = useState([]);
+    const handleCheckbox = (itemID) => {
+        if (selectedItemscheck.includes(itemID)) {
+            setSelectedItemscheck(selectedItemscheck.filter((id) => id !== itemID));
+        } else {
+            setSelectedItemscheck([...selectedItemscheck, itemID]);
+        }
+      };
+      const handleCheckdsave = () => {
+        // Do something with the selectedItems
+        setings['selectedCheck_items']=selectedItemscheck
+        // Set the other state variable based on the selectedItems
+        setSettings(setings => ({
+            ...setings,
+            ['selectedCheck_items']: setings['selectedCheck_items'],
+        }));
+        contentRef.contentWindow.postMessage(setings, "*");
+      };
+
+    const renderData = () => {
         if (Array.isArray(prodataArray)) {
             return prodataArray.map((item) => (
-                (item.image) ?
+               
               
-                <div className='product_data' key={item.value}>
-                   <label htmlFor={item.value}><img  style={{maxWidth: '45%' , height: '94px'}}  src={item.image} /><br></br>{item.label}</label>
-                   <input type="checkbox" id={item.value} />
+                <div className='product_data' key={item.id}>
+                  <div className='product_data_label'><img  style={{maxWidth: '45%' ,width:'100px' , height: '94px'}}  src={item.image} />{item.label}</div>
+                  <Checkbox
+                    key={item.id}
+                    checked={selectedItemscheck.includes(item.id)}
+                    label="Chosse"
+                    onChange={() => handleCheckbox(item.id)}
+                    />  
+   
+        {/* <input type="checkbox" id={item.id} /> <label htmlFor={item.id}>Chosse</label> */}
                 </div>
                
-                    :
-                    <div key={item.id}>{item.title}
-                    <img src="'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALUAAACICAMAAACWaVroAAAAS1BMVEXs7Ox2dnbv7+/S0tJycnL19fXb29vm5uZ7e3uLi4vy8vLKysqFhYVvb2/p6emnp6eZmZm+vr6zs7ORkZFpaWmfn5/ExMRkZGReXl4Oy0w8AAADzElEQVR4nO2ai66jOAxAEzs4wXnwKHT2/790HSht78zObaUdMankoysgNFxO3eAkgDGKoiiKoiiKoiiKoiiKoiiKoih/AHiHvy35FfD0Hr4hccZknX2Nsyny35Y9AB/E2b1GKoVmog0ocQz9a4LUw5asM/mXFMqNWYfujYpd+CBr5vpnPsoa/BBcmg18kjX4JK3ZLetHWfMlb7k6T/A51kC37sf15YOs49FpBv9B1niPdfPWz2Zht85D4+0aCtLdjTHXaOfk27YGc1nsdC9D7Jclj9R45uNVcl1+DEmhENLWaBq25nlL0C4+9I5JTLvWHPMt1dEebea7Z7PWTMt95lK1AaaBjsbSqrWMOh7zrUQMMOQtfWw0ag3QZ/vQDkS17PpbImzVeljsM9tcsSbrvd9p0xrm38zU89hu5uO4/Ld01W7Vmin8TroOQ7omrYHSd3dyljZHT3DJ30hLtOeuQevhe+lNuzXrNL2SriOq1Jh1+OZKvNPcHbO3Uev/hVqfx2daG5Nep70dGf01A1D/pnVP7YTaAL/14A6AG5JWlM8H9kdD+5Ulhfv6tnnbPrae68L96Lo8jj1FGmMsssboa86b5qne7pCdFaoVaNssBgCnORYw4GPtXKguMaLUKTEa2A446ZUAXl0e2MBY7+TNzgUXJpCJjEy/8o9JQsgy1M45EFCd3eQkYlgfJkHMKxcZYstxPoQicwSXc3/Ok3UYQqgma0C+2h49BummCa/hgljDzpMbELGY0Q5Es70URjdU6zBw6VNIbHxKpUs24hzCKR0PDGkIo6nWZhRzw9GOdYZux/3XlljPnXQ75FIH0K0ufrWe3cy7tfPQRflfp1gHHG1ksS5ybtnja/RArPcKNdZExHG7myCluXu2DpQSlT3WXpp83/tzrCOFZMRaIlb3yAq+WNf52MhXCbmUrj9ZWzPZ4W5t/OWUsUm15sHOEnL5uWucfom1Hafpeo91/sm6QLI4HrGmdDkr1iznkljDKJvQXd3afbEWTxkpkU3SurvRIZOTNi/fZreWi/gy7u2aZed6ztUYInRTSAk5hjShNAj62kLcvN2rHOyIONTdnOyMMTmEcgmSwFdJQ2IdrnE46e0cXpernCc4ydcw2exyqGWgpT+s/xk2a79m55ZL/Uoo84ZsZzYlLV7yt3O2dDVd5xHPeROKcGvMWFdc8IpmO69H2j8HfzxuZIpX2jtzkHqFt6NrkRC3BZWz+vQ9Kx9v5z0G+o+++bHxGGjcxh/PR7f3hp+iKIqiKIqiKIqiKIqiKIqiKIqiKIqiKGfxL2hVLtTyZKnGAAAAAElFTkSuQmCC'"/></div>
                   
              
             ));
@@ -1803,11 +1832,32 @@ const handleGiftpackInputFields = (index) => (e) => {
                     </Card>
                 </div>
                 <div className={toggle2 === 9 ?  "show_cont_tog2" : "cont_tog2"}>
-                    <div className='product_data_box'>
+                <div>
+      <Modal
+        activator={activator}
+        open={active}
+        onClose={handleChange}
+        title="Choose products"
+        primaryAction={{
+            content: 'Add',
+            onAction: handleCheckdsave,
+          }}
+      >
+        
+        <Modal.Section>
+          <TextContainer>
+            <p>
+            {renderData()}
+            </p>
+          </TextContainer>
+        </Modal.Section>
+      </Modal>
+    </div>
+                    {/* <div className='product_data_box'>
                     <div className='product_data_row'>
                     {renderData()}
                     </div>
-                    </div>
+                    </div> */}
                 
                     {/* <h2 style={{fontSize :'20px', fontWeight: '700'}} >Products</h2>
                     <span><img  style={{maxWidth: '25%'}} src="https://cdn.shopify.com/s/files/1/0714/2709/6863/files/purepng.com-black-t-shirtclothingblack-t-shirtfashion-dress-shirt-black-cloth-tshirt-631522326927hzzmk.png?v=1688991500]\"/></span> */}

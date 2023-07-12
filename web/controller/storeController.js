@@ -28,6 +28,7 @@ storeController.cart = async function(store){
   }else{
     return {
       "live_mode": false,
+      "selectedCheck_items": [ ],
       "general_settings_status": true,
       "general_settings": {
           "font_family": "Lato",

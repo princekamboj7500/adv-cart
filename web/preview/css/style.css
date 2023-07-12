@@ -299,7 +299,7 @@ div#upsell_mslide {
 
 button.btn-primary {
   width: 97%;
-  height: 42px;
+  padding: 3px 0px;
   line-height: 36px;
   color: var(--white);
   background: var(--red);
@@ -661,12 +661,163 @@ input#upsell_discinp {
 .gift_pack_box .gift_price input { width: 25px; height: 17px; }
 
 .love_product { margin-top: -20px; }
-.love_product_box { width: 82%; background: #D3EDED; padding: 12px 12px; display: flex; margin-bottom: 10px; margin-left: 13px; } .love_product_box .gift_png{width: 20%;} 
+.love_product_box { width: 80%; position: relative; background: #fff; padding: 12px 12px; display: flex; margin-bottom: 10px; margin-left: 13px; } .love_product_box .gift_png{width: 20%;} 
 .love_product_box .gift_png img{max-width: 100%;} 
-.love_product_box .gift_cont{ width: 50%;     padding-left: 10px;} 
-.love_product_box .gift_price { width: 28%; text-align: right; font-size: 13px; font-weight: 800; position: relative; }
+.love_product_box .gift_cont {
+  width: 73%;    padding-top: 4px;
+  position: relative;
+  padding-left: 10px;
+  font-size: 15px;
+  color: #000;
+}
+.love_product_box .gift_price { width: 30%; text-align: right; font-size: 13px; font-weight: 800; position: relative; }
 .love_product_box .gift_price a{color: #000; position: absolute; bottom: 0px; right: 0px;}
 .love_product h3{text-align: center;}
 .love_product_box .gift_cont span{font-size: 16px; font-weight: 800;    line-height: 30px;}
 .love_product_box .gift_price input { width: 25px; height: 17px;  }
 .love_product_box .gift_cont input{width: 22%;  background: #D3EDED; border: none; color: #637381; border: 0.5px solid #637381; }
+.love_product_box .gift_cont a {
+  position: absolute;    font-size: 14px;
+  right: 5px;
+  bottom: 0px;
+  color: #000;
+  font-weight: 600;
+}
+.slider {
+  /* position: relative; */
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: unset;
+}
+
+/*Окно со слайдами*/
+.slider-content {
+  /* position: relative; */
+  /* width: 100%; */
+  position: unset;
+}
+
+/*Контейнер для слайдов (передвигаем)*/
+.slider-content-wrapper {
+	display: flex;
+	height:95px;
+	transition: transform 0.5s ease-in-out;
+}
+
+/*Слайд*/
+.slider-content__item {
+	flex: 1 0 100%;
+	width: 100%; margin-top: -10px;
+	height: 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+	font-size: 100px;
+	color: rgba(0,0,0,0.2);
+	display: flex;
+	align-items: center;
+  background: #D3EDED;
+	justify-content: center;
+}
+
+
+
+/* Блок с контролами */
+.slider-controls {
+	padding:20px;
+	text-align: center; display: none;
+}
+
+/* Блок с контролами внутри окна */
+.slider-content__controls {
+  position: unset;
+	top:0;left:0;
+	width: 100%;
+	height: 100%;
+	z-index:1;
+	/*transform: translateY(-50%);*/
+	/*padding:0 15px;*/
+}
+
+/* Arrows */
+.prev-arrow, .next-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #fff;
+  width: 10px;
+  transition: all 0.3s;
+  background: #269b9a;
+  border-radius: 50%;
+  padding: 4px 7px 1px 7px;
+}
+.prev-arrow { left: -15px;}
+.next-arrow {right: -15px;}
+
+
+
+
+.prev-arrow:hover,
+.next-arrow:hover {
+	cursor: pointer;
+	color:#FFF;
+}
+
+/* Dots */
+.dots {
+	position:absolute;
+	display: flex;
+	left:50%;
+	transform: translateX(-50%);
+	bottom:10%;
+  display: none;
+}
+
+.dot {
+	cursor: pointer;
+	width: 8px;
+	height: 8px;
+	margin-right: 4px;
+	background-color: rgba(0,0,0, 0.3);
+	/*box-shadow: 0 0 5px 0px rgba(0,0,0,0.9);*/
+	border-radius: 50%;
+	transition:all 0.3s;
+}
+
+.dot:last-child {margin-right: 0;}
+.dot:hover {background-color: #fff;}
+.dot--active {background-color: rgba(255,255,255, 0.5);}
+
+/* Buttons */
+button {
+	cursor: pointer;
+	margin-right: 8px;
+	border:none;
+	border-radius: 4px;
+	padding:10px;
+	background-color: #3066BE;
+	color:#FFF;
+	transition: all 0.5s;
+}
+button:last-child {margin-right: 0;}
+button:hover {background-color: #60AFFF;}
+button:focus {outline: none;}
+
+/* Mods */
+.disabled {
+	background-color: #DCCFCF;
+	color:#B0A8A8;
+	cursor: default;
+	pointer-events:none;
+}
+
+.d-none {display: none;}
+.active {opacity: 1;}
+.centered {
+	position:relative;
+	top:50%;
+	left:50%;
+	transform:translate(-50%,-50%);	
+}
